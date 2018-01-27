@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+set -euo pipefail # STRICT MODE
+IFS=$'\n\t'        # http://redsymbol.net/articles/unofficial-bash-strict-mode/
+
+VERSION=$(sed 's/.*"\(.*\)"/\1/' version.sbt)
+
+REPO_SLUG="$1"
+PROJECT=$(sed 's/.*\///' <<< "$REPO_SLUG")
+
+# only publish and tag on ${REPO_SLUG}#master and ${REPO_SLUG}#backport/*
+if [[
+    "$TRAVIS_PULL_REQUEST" == "false"                                &&
+    ("$TRAVIS_BRANCH" == "master" || "$TRAVIS_BRANCH" == backport/*) &&
+    "$TRAVIS_REPO_SLUG"    == "$REPO_SLUG"
+  ]] ; then
+  openssl aes-256-cbc -pass pass:"$ENCRYPTION_PASSWORD" -in secring.pgp.enc -out project/local.secring.pgp -d
+  openssl aes-256-cbc -pass pass:"$ENCRYPTION_PASSWORD" -in pubring.pgp.enc -out project/local.pubring.pgp -d
+  openssl aes-256-cbc -pass pass:"$ENCRYPTION_PASSWORD" -in credentials.sbt.enc -out local.credentials.sbt -d
+
+  # Only publish on oraclejdk8
+  if [[ $JAVA_HOME == *"java-8-oracle" ]]; then
+    sbt ++"$TRAVIS_SCALA_VERSION" publishSigned sonatypeReleaseAll
+  else
+    echo "Travis not running against oraclejdk8, so skipping publish"
+  fi
+
+
+  # Only tag on first travis job
+  if [[ "${TRAVIS_JOB_NUMBER##*.}" == "1" ]]; then
+    HEAD_SHA=$(git rev-parse HEAD)
+    TAG=v$VERSION
+    TAG_MSG="$PROJECT $VERSION"
+
+    TAGS_RESP=$(curl -X POST -d '{
+        "tag": "'"$TAG"'",
+        "object": "'"$HEAD_SHA"'",
+        "message": "'"$TAG_MSG"'",
+        "tagger": {
+          "name": "Travis CI",
+          "email": "builds@travis-ci.com"
+        },
+        "type": "commit"
+      }'                                             \
+      -H "Content-Type: application/json"            \
+      -H "Authorization: token $GITHUB_ACCESS_TOKEN" \
+      "https://api.github.com/repos/${TRAVIS_REPO_SLUG}/git/tags")
+
+    TAG_SHA=$(echo "$TAGS_RESP" | jq .sha)
+
+    curl -X POST -d '{
+        "ref": "refs/tags/'"$TAG"'",
+        "sha": '"$TAG_SHA"'
+      }'                                             \
+      -H "Content-Type: application/json"            \
+      -H "Authorization: token $GITHUB_ACCESS_TOKEN" \
+      "https://api.github.com/repos/${TRAVIS_REPO_SLUG}/git/refs"
+  fi
+else
+  echo "Travis not running in ${REPO_SLUG}#master or ${REPO_SLUG}#backport/*, so skipping publishAndTag"
+fi
