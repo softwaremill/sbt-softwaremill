@@ -18,8 +18,10 @@ lazy val root = Project("root", file("."))
     addSbtPlugin("com.github.gseitz" % "sbt-release"      % BuildInfo.sbtReleaseVersion),
     addSbtPlugin("org.xerial.sbt"    % "sbt-sonatype"     % BuildInfo.sbtSonatypeVersion),
     addSbtPlugin("com.dwijnand"      % "sbt-travisci"     % BuildInfo.sbtTravisCiVersion),
-    addSbtPlugin("com.softwaremill.clippy" % "plugin-sbt" % BuildInfo.sbtClippyVersion),
-    addSbtPlugin("org.wartremover"   % "sbt-wartremover" % "2.2.1"))
+    addSbtPlugin("com.softwaremill.clippy" % "plugin-sbt" % "0.5.3"),
+    addSbtPlugin("org.wartremover"   % "sbt-wartremover"  % "2.2.1"),
+    addSbtPlugin("com.geirsson"      % "sbt-scalafmt"     % "1.4.0")
+  )
   .settings(publishSettings)
 
 lazy val publishSettings = Publish.commonPublishSettings ++ Seq(

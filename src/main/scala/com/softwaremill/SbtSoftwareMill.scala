@@ -98,21 +98,7 @@ object SbtSoftwareMill extends AutoPlugin {
       com.softwaremill.clippy.ClippySbtPlugin.clippyColorsEnabled := true
     )
 
-    lazy val commonBuildSettings = Seq(
-      outputStrategy := Some(StdoutOutput),
-      autoCompilerPlugins := true,
-      autoAPIMappings := true,
-      resolvers ++= Seq(
-        Resolver.sonatypeRepo("releases"),
-        Resolver.sonatypeRepo("snapshots"),
-        "JBoss repository" at "https://repository.jboss.org/nexus/content/repositories/",
-        "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases",
-        "bintray/non" at "http://dl.bintray.com/non/maven"),
-      addCompilerPlugin("org.spire-math"  %% "kind-projector" % "0.9.4"),
-      addCompilerPlugin("org.scalamacros" %  "paradise"       % "2.1.0" cross CrossVersion.patch),
-      scalacOptions ++= scalacOptionsFor(scalaVersion.value),
-      scalacOptions.in(Compile, console) ~= filterConsoleScalacOptions,
-      scalacOptions.in(Test, console) ~= filterConsoleScalacOptions,
+    lazy val wartRemoverSettings = Seq(
       wartremoverWarnings in (Compile, compile) ++= Warts.allBut(
         Wart.NonUnitStatements,
         Wart.Overloading,
@@ -134,6 +120,25 @@ object SbtSoftwareMill extends AutoPlugin {
           case _                             => Seq(Wart.Overloading) // Falsely triggers on 2.10
         })
     )
+
+    lazy val commonBuildSettings = Seq(
+      outputStrategy := Some(StdoutOutput),
+      autoCompilerPlugins := true,
+      autoAPIMappings := true,
+      resolvers ++= Seq(
+        Resolver.sonatypeRepo("releases"),
+        Resolver.sonatypeRepo("snapshots"),
+        "JBoss repository" at "https://repository.jboss.org/nexus/content/repositories/",
+        "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases",
+        "bintray/non" at "http://dl.bintray.com/non/maven"),
+      addCompilerPlugin("org.spire-math"  %% "kind-projector" % "0.9.4"),
+      addCompilerPlugin("org.scalamacros" %  "paradise"       % "2.1.0" cross CrossVersion.patch),
+      scalacOptions ++= scalacOptionsFor(scalaVersion.value),
+      scalacOptions.in(Compile, console) ~= filterConsoleScalacOptions,
+      scalacOptions.in(Test, console) ~= filterConsoleScalacOptions
+    )
+
+    lazy val smlBuildSettings = commonBuildSettings ++ wartRemoverSettings ++ clippyBuildSettings
   }
 
   lazy val transferPublishAndTagResources = {
