@@ -1,19 +1,15 @@
 package com.softwaremill
 
-import sbt._, Keys._
-
+import sbt._
+import Keys._
 import java.io.File
-import java.nio.file.attribute.PosixFilePermission, PosixFilePermission.OWNER_EXECUTE
+import java.nio.file.attribute.PosixFilePermission
+import PosixFilePermission.OWNER_EXECUTE
 import java.nio.file.Files
 import scala.collection.JavaConverters._
-
 import com.typesafe.sbt.SbtPgp.autoImportImpl.PgpKeys
-import de.heikoseeberger.sbtheader.HeaderPlugin.autoImport.{headerCreate, headerLicense, HeaderLicense}
-import sbtrelease.ReleasePlugin.autoImport.{
-  releaseCrossBuild, releasePublishArtifactsAction}
-import wartremover.{wartremoverWarnings, Wart, Warts}
-
-// Inspired by sbt-catalysts
+import sbtrelease.ReleasePlugin.autoImport.{releaseCrossBuild, releasePublishArtifactsAction}
+import wartremover.{Wart, Warts, wartremoverWarnings}
 
 object SbtSoftwareMill extends AutoPlugin {
   override def requires = plugins.JvmPlugin
@@ -22,33 +18,81 @@ object SbtSoftwareMill extends AutoPlugin {
   object autoImport extends Base
 
   class Base extends Publish {
-    val scalacOptions_2_10 = Seq(
-      "-deprecation",
-      "-encoding", "UTF-8",
-      "-feature",
-      "-language:existentials",
-      "-language:higherKinds",
-      "-language:implicitConversions",
-      "-unchecked",
-      "-Xfatal-warnings",
-      "-Xfuture",
-      "-Xlint",
-      "-Yno-adapted-args",
-      "-Yno-imports",
-      "-Ywarn-dead-code",
-      "-Ywarn-numeric-widen",
-      "-Ywarn-value-discard")
+    val commonScalacOptions = Seq(
+      "-deprecation",                   // Emit warning and location for usages of deprecated APIs.
+      "-encoding", "UTF-8",             // Specify character encoding used by source files.
+      "-explaintypes"  ,                // Explain type errors in more detail.
+      "-feature",                       // Emit warning and location for usages of features that should be imported explicitly.
+      "-language:existentials",         // Existential types (besides wildcard types) can be written and inferred
+      "-language:higherKinds",          // Allow higher-kinded types
+      "-language:experimental.macros",  // Allow macro definition (besides implementation and application)
+      "-language:implicitConversions",  // Allow definition of implicit functions called views
+      "-unchecked",                     // Enable additional warnings where generated code depends on assumptions.
+      "-Xcheckinit",                    // Wrap field accessors to throw an exception on uninitialized access.
+      "-Xfuture",                       // Turn on future language features.
+      "-Yno-adapted-args",              // Do not adapt an argument list (either by inserting () or creating a tuple) to match the receiver.
+      "-Ywarn-dead-code",               // Warn when dead code is identified.
+      "-Ywarn-inaccessible",            // Warn about inaccessible types in method signatures.
+      "-Ywarn-nullary-override",        // Warn when non-nullary `def f()' overrides nullary `def f'.
+      "-Ywarn-nullary-unit",            // Warn when nullary methods return Unit.
+      "-Ywarn-numeric-widen",           // Warn when numerics are widened.
+      "-Ywarn-value-discard")           // Warn when non-Unit expression results are unused.
 
-    val scalacOptions_2_11 = Seq(
-      "-Ydelambdafy:method",
-      "-Yliteral-types",
-      "-Ypartial-unification",
-      "-Ywarn-unused-import")
+    val scalacOptionsGte211 = Seq(
+      "-Xlint:adapted-args",               // Warn if an argument list is modified to match the receiver.
+      "-Xlint:by-name-right-associative",  // By-name parameter of right associative operator.
+      "-Xlint:delayedinit-select",         // Selecting member of DelayedInit.
+      "-Xlint:doc-detached",               // A Scaladoc comment appears to be detached from its element.
+      "-Xlint:inaccessible",               // Warn about inaccessible types in method signatures.
+      "-Xlint:infer-any",                  // Warn when a type argument is inferred to be `Any`.
+      "-Xlint:missing-interpolator",       // A string literal appears to be missing an interpolator id.
+      "-Xlint:nullary-override",           // Warn when non-nullary `def f()' overrides nullary `def f'.
+      "-Xlint:nullary-unit",               // Warn when nullary methods return Unit.
+      "-Xlint:option-implicit",            // Option.apply used implicit view.
+      "-Xlint:package-object-classes",     // Class or object defined in package object.
+      "-Xlint:poly-implicit-overload",     // Parameterized overloaded implicit methods are not visible as view bounds.
+      "-Xlint:private-shadow",             // A private field (or class parameter) shadows a superclass field.
+      "-Xlint:stars-align",                // Pattern sequence wildcard must align with sequence component.
+      "-Xlint:type-parameter-shadow",      // A local type parameter shadows a type already in scope.
+      "-Xlint:unsound-match",              // Pattern match may not be typesafe.
+      "-Ywarn-infer-any")                  // Warn when a type argument is inferred to be `Any`.
 
-    val scalacOptions_2_12 = Seq(
-      "-Xstrict-patmat-analysis",
-      "-Yinduction-heuristics",
-      "-Ykind-polymorphism")
+    val scalacOptionsGte212 = Seq(
+      "-Xlint:constant",               // Evaluation of a constant arithmetic expression results in an error.
+      "-Ywarn-unused:implicits",       // Warn if an implicit parameter is unused.
+      "-Ywarn-unused:imports",         // Warn if an import selector is not referenced.
+      "-Ywarn-unused:locals",          // Warn if a local definition is unused.
+      "-Ywarn-unused:params",          // Warn if a value parameter is unused.
+      "-Ywarn-unused:patvars",         // Warn if a variable bound in a pattern is unused.
+      "-Ywarn-unused:privates",        // Warn if a private member is unused.
+      "-Ywarn-extra-implicit")         // Warn when more than one implicit parameter section is defined.
+
+
+    val scalacOptionsEq211 = List(
+      "-Ywarn-unused-import"          // Warn if an import selector is not referenced.
+    )
+
+    val scalacOptionsEq210 = List(
+      "-Xlint"
+    )
+
+    def scalacOptionsFor(version: String): Seq[String] =
+      commonScalacOptions ++ (CrossVersion.partialVersion(version) match {
+        case Some((2, min)) if min >= 12 => scalacOptionsGte212 ++ scalacOptionsGte211
+        case Some((2, min)) if min >= 11 => scalacOptionsGte211 ++ scalacOptionsEq211
+        case _ =>                           scalacOptionsEq210
+      })
+
+    val filterConsoleScalacOptions = { options: Seq[String] =>
+      options.filterNot(Set(
+        "-Ywarn-unused:imports",
+        "-Ywarn-unused-import",
+        "-Ywarn-dead-code",
+        "-Xfatal-warnings"
+      ))
+    }
+
+    import autoImport._
 
     lazy val commonBuildSettings = Seq(
       outputStrategy := Some(StdoutOutput),
@@ -62,18 +106,22 @@ object SbtSoftwareMill extends AutoPlugin {
         "bintray/non" at "http://dl.bintray.com/non/maven"),
       addCompilerPlugin("org.spire-math"  %% "kind-projector" % "0.9.4"),
       addCompilerPlugin("org.scalamacros" %  "paradise"       % "2.1.0" cross CrossVersion.patch),
-
-      scalacOptions := (CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, 12)) => scalacOptions_2_10 ++ scalacOptions_2_11 ++ scalacOptions_2_12
-        case Some((2, 11)) => scalacOptions_2_10 ++ scalacOptions_2_11
-        case _             => scalacOptions_2_10
-      }),
-      scalacOptions in (Test, console) --= Seq(
-        "-Yno-imports",
-        "-Ywarn-unused-import"),
+      scalacOptions ++= scalacOptionsFor(scalaVersion.value),
+      scalacOptions.in(Compile, console) ~= filterConsoleScalacOptions,
+      scalacOptions.in(Test, console) ~= filterConsoleScalacOptions,
       wartremoverWarnings in (Compile, compile) ++= Warts.allBut(
+        Wart.NonUnitStatements,
+        Wart.Overloading,
+        Wart.PublicInference,
+        Wart.Equals,
+        Wart.ImplicitParameter,
         Wart.Any,                   // - see puffnfresh/wartremover#263
         Wart.ExplicitImplicitTypes, // - see puffnfresh/wartremover#226
+        Wart.ImplicitConversion,    // - see mpilquist/simulacrum#35
+        Wart.Nothing),              // - see puffnfresh/wartremover#263
+      wartremoverWarnings in (Test, compile) ++= Warts.allBut(
+        Wart.DefaultArguments,
+        Wart.Overloading,
         Wart.ImplicitConversion,    // - see mpilquist/simulacrum#35
         Wart.Nothing),              // - see puffnfresh/wartremover#263
       wartremoverWarnings in (Compile, compile) --=
