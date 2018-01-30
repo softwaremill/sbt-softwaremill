@@ -94,6 +94,10 @@ object SbtSoftwareMill extends AutoPlugin {
 
     import autoImport._
 
+    lazy val clippyBuildSettings = Seq(
+      com.softwaremill.clippy.ClippySbtPlugin.clippyColorsEnabled := true
+    )
+
     lazy val commonBuildSettings = Seq(
       outputStrategy := Some(StdoutOutput),
       autoCompilerPlugins := true,

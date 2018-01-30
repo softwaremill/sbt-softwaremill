@@ -14,10 +14,11 @@ lazy val root = Project("root", file("."))
       }
     })
   .settings(
-    addSbtPlugin("com.jsuereth"      % "sbt-pgp"         % BuildInfo.sbtPgpVersion),
-    addSbtPlugin("com.github.gseitz" % "sbt-release"     % BuildInfo.sbtReleaseVersion),
-    addSbtPlugin("org.xerial.sbt"    % "sbt-sonatype"    % BuildInfo.sbtSonatypeVersion),
-    addSbtPlugin("com.dwijnand"      % "sbt-travisci"    % BuildInfo.sbtTravisCiVersion),
+    addSbtPlugin("com.jsuereth"      % "sbt-pgp"          % BuildInfo.sbtPgpVersion),
+    addSbtPlugin("com.github.gseitz" % "sbt-release"      % BuildInfo.sbtReleaseVersion),
+    addSbtPlugin("org.xerial.sbt"    % "sbt-sonatype"     % BuildInfo.sbtSonatypeVersion),
+    addSbtPlugin("com.dwijnand"      % "sbt-travisci"     % BuildInfo.sbtTravisCiVersion),
+    addSbtPlugin("com.softwaremill.clippy" % "plugin-sbt" % BuildInfo.sbtClippyVersion),
     addSbtPlugin("org.wartremover"   % "sbt-wartremover" % "2.2.1"))
   .settings(publishSettings)
 
