@@ -7,8 +7,6 @@ import sbtrelease.ReleasePlugin.autoImport.{
   releaseCrossBuild, releasePublishArtifactsAction}
 
 class Publish {
-  lazy val checkHeaders = taskKey[Unit]("Fail the build if createHeaders is not up-to-date")
-
   lazy val commonPublishSettings = Seq(
     licenses := Seq("Apache 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
     publishTo := {

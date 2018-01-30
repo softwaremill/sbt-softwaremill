@@ -18,7 +18,6 @@ lazy val root = Project("root", file("."))
     addSbtPlugin("com.github.gseitz" % "sbt-release"     % BuildInfo.sbtReleaseVersion),
     addSbtPlugin("org.xerial.sbt"    % "sbt-sonatype"    % BuildInfo.sbtSonatypeVersion),
     addSbtPlugin("com.dwijnand"      % "sbt-travisci"    % BuildInfo.sbtTravisCiVersion),
-    addSbtPlugin("de.heikoseeberger" % "sbt-header"      % "3.0.2"),
     addSbtPlugin("org.wartremover"   % "sbt-wartremover" % "2.2.1"))
   .settings(publishSettings)
 
