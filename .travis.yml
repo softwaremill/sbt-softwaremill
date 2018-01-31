@@ -1,13 +1,12 @@
 language: scala
 scala:
 - 2.10.6
-- 2.12.3
+- 2.12.4
 jdk:
 - oraclejdk8
 sudo: false
 script:
 - sbt compile
-- scripts/publishAndTag 'softwaremill/sbt-softwaremill'
 branches:
   except:
   - "/^v\\d+\\.\\d+\\.\\d+$/"
