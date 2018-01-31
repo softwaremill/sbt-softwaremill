@@ -1,12 +1,7 @@
 language: scala
 scala:
-- 2.10.6
 - 2.12.4
 jdk:
 - oraclejdk8
 sudo: false
 script:
-- sbt compile
-branches:
-  except:
-  - "/^v\\d+\\.\\d+\\.\\d+$/"
