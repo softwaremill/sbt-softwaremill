@@ -22,7 +22,8 @@ lazy val root = Project("root", file("."))
     addSbtPlugin("org.wartremover"   % "sbt-wartremover"  % "2.2.1"),
     addSbtPlugin("com.geirsson"      % "sbt-scalafmt"     % "1.4.0"),
     addSbtPlugin("com.timushev.sbt"  % "sbt-updates"      % "0.3.4"),
-    addSbtPlugin("io.spray"          % "sbt-revolver"     % "0.9.1")
+    addSbtPlugin("io.spray"          % "sbt-revolver"     % "0.9.1"),
+    addSbtPlugin("io.get-coursier"   % "sbt-coursier"     % "1.0.0")
   )
   .settings(publishSettings)
 
