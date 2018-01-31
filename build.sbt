@@ -20,7 +20,8 @@ lazy val root = Project("root", file("."))
     addSbtPlugin("com.dwijnand"      % "sbt-travisci"     % BuildInfo.sbtTravisCiVersion),
     addSbtPlugin("com.softwaremill.clippy" % "plugin-sbt" % "0.5.3"),
     addSbtPlugin("org.wartremover"   % "sbt-wartremover"  % "2.2.1"),
-    addSbtPlugin("com.geirsson"      % "sbt-scalafmt"     % "1.4.0")
+    addSbtPlugin("com.geirsson"      % "sbt-scalafmt"     % "1.4.0"),
+    addSbtPlugin("com.timushev.sbt"  % "sbt-updates"      % "0.3.4")
   )
   .settings(publishSettings)
 

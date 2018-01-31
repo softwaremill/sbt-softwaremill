@@ -121,6 +121,26 @@ object SbtSoftwareMill extends AutoPlugin {
         })
     )
 
+    var updatesTaskExecuted = false
+    lazy val startupTransition: State => State = { s: State =>
+      if (!updatesTaskExecuted) {
+        updatesTaskExecuted = true
+        "dependencyUpdates" :: s
+      }
+      else
+        s
+    }
+
+    lazy val dependencyUpdatesSettings = Seq(
+      // onLoad is scoped to Global because there's only one.
+      onLoad in Global := {
+        val old = (onLoad in Global).value
+        // compose the new transition on top of the existing one
+        // in case your plugins are using this hook.
+        startupTransition compose old
+      }
+    )
+
     lazy val commonBuildSettings = Seq(
       outputStrategy := Some(StdoutOutput),
       autoCompilerPlugins := true,
@@ -138,7 +158,11 @@ object SbtSoftwareMill extends AutoPlugin {
       scalacOptions.in(Test, console) ~= filterConsoleScalacOptions
     )
 
-    lazy val smlBuildSettings = commonBuildSettings ++ wartRemoverSettings ++ clippyBuildSettings
+    lazy val smlBuildSettings =
+      commonBuildSettings ++
+      wartRemoverSettings ++
+      clippyBuildSettings ++
+      dependencyUpdatesSettings
   }
 
   lazy val transferPublishAndTagResources = {
