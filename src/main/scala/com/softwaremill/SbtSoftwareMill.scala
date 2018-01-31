@@ -120,24 +120,13 @@ object SbtSoftwareMill extends AutoPlugin {
           case _                             => Seq(Wart.Overloading) // Falsely triggers on 2.10
         })
     )
-
-    var updatesTaskExecuted = false
-    lazy val startupTransition: State => State = { s: State =>
-      if (!updatesTaskExecuted) {
-        updatesTaskExecuted = true
-        "dependencyUpdates" :: s
-      }
-      else
-        s
-    }
-
     lazy val dependencyUpdatesSettings = Seq(
       // onLoad is scoped to Global because there's only one.
       onLoad in Global := {
         val old = (onLoad in Global).value
         // compose the new transition on top of the existing one
         // in case your plugins are using this hook.
-        startupTransition compose old
+        CheckUpdates.startupTransition compose old
       }
     )
 

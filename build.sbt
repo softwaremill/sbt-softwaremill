@@ -7,6 +7,7 @@ lazy val root = Project("root", file("."))
     organization := "com.softwaremill.sbt-softwaremill",
     description  := "Common build configuration for SBT projects",
     sbtPlugin    := true,
+    libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.4.0",
     sbtVersion in Global := {
       scalaBinaryVersion.value match {
         case "2.10" => "0.13.16"
