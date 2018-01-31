@@ -141,7 +141,7 @@ object SbtSoftwareMill extends AutoPlugin {
       }
     )
 
-    lazy val commonBuildSettings = Seq(
+    lazy val commonSmlBuildSettings = Seq(
       outputStrategy := Some(StdoutOutput),
       autoCompilerPlugins := true,
       autoAPIMappings := true,
@@ -159,7 +159,7 @@ object SbtSoftwareMill extends AutoPlugin {
     )
 
     lazy val smlBuildSettings =
-      commonBuildSettings ++
+      commonSmlBuildSettings ++
       wartRemoverSettings ++
       clippyBuildSettings ++
       dependencyUpdatesSettings
