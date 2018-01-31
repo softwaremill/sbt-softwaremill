@@ -164,32 +164,4 @@ object SbtSoftwareMill extends AutoPlugin {
       clippyBuildSettings ++
       dependencyUpdatesSettings
   }
-
-  lazy val transferPublishAndTagResources = {
-    lazy val transferPublishAndTagResources = taskKey[Unit](
-      "Transfers publishAndTag script and associated resources")
-
-    transferPublishAndTagResources := {
-      val log = streams.value.log
-
-      val baseDir = (baseDirectory in ThisBuild).value
-
-      def transfer(src: String, dst: File, permissions: Set[PosixFilePermission] = Set()) = {
-        val srcʹ = getClass.getClassLoader.getResourceAsStream(src)
-
-        log.info(s"transferring $src to $dst")
-
-        IO.transfer(srcʹ, dst)
-
-        Files.setPosixFilePermissions(
-          dst.toPath,
-          (Files.getPosixFilePermissions(dst.toPath).asScala ++ permissions).asJava)
-      }
-
-      transfer("publishAndTag",       baseDir / "scripts" / "publishAndTag", Set(OWNER_EXECUTE))
-      transfer("credentials.sbt.enc", baseDir / "credentials.sbt.enc")
-      transfer("pubring.pgp.enc",     baseDir / "pubring.pgp.enc")
-      transfer("secring.pgp.enc",     baseDir / "secring.pgp.enc")
-    }
-  }
 }

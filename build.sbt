@@ -4,7 +4,7 @@ import com.softwaremill.Publish
 lazy val root = Project("root", file("."))
   .settings(
     name         := "sbt-softwaremill",
-    organization := "com.softwaremill",
+    organization := "com.softwaremill.sbt-softwaremill",
     description  := "Common build configuration for SBT projects",
     sbtPlugin    := true,
     sbtVersion in Global := {
@@ -28,9 +28,22 @@ lazy val root = Project("root", file("."))
 
 lazy val publishSettings = Publish.commonPublishSettings ++ Seq(
   organizationName := "SoftwareMill",
+  licenses := Seq("Apache 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
   organizationHomepage := Some(url("https://softwaremill.com")),
   homepage := Some(url("https://github.com/softwaremill/sbt-softwaremill")),
   scmInfo := Some(
     ScmInfo(
       url("https://github.com/softwaremill/sbt-softwaremill"),
-      "scm:git@github.com:softwaremill/sbt-softwaremill.git")))
+      "scm:git@github.com:softwaremill/sbt-softwaremill.git")),
+  pomExtra := (
+    <scm>
+      <url>git@github.com/softwaremill/sbt-softwaremill.git</url>
+      <connection>scm:git:git@github.com/softwaremill/sbt-softwaremill.git</connection>
+    </scm>
+      <developers>
+        <developer>
+          <id>kciesielski</id>
+          <name>Krzysztof Ciesielski</name>
+        </developer>
+      </developers>
+    ))

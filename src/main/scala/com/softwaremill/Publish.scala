@@ -8,7 +8,6 @@ import sbtrelease.ReleasePlugin.autoImport.{
 
 class Publish {
   lazy val commonPublishSettings = Seq(
-    licenses := Seq("Apache 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
     publishTo := {
       val nexus = "https://oss.sonatype.org/"
       if (isSnapshot.value)
@@ -16,6 +15,7 @@ class Publish {
       else
         Some("releases"  at nexus + "service/local/staging/deploy/maven2")
     },
+    credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
     publishMavenStyle := true,
     publishArtifact in Test := false,
     pomIncludeRepository := { _ => false },
