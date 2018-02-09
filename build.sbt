@@ -11,7 +11,7 @@ lazy val root = Project("root", file("."))
     sbtVersion in Global := {
       scalaBinaryVersion.value match {
         case "2.10" => "0.13.16"
-        case "2.12" => "1.1.0"
+        case "2.12" => "1.1.1"
       }
     })
   .settings(
