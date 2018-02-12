@@ -14,7 +14,6 @@ object CheckUpdates {
   def needsChecking(projectName: String): Boolean = {
     val file = tmpDir / (projectName + "_sml_last_update")
     val now = System.currentTimeMillis()
-    println(s"Checking $file")
     val lastUpdate = Try(file.contentAsString.toLong).getOrElse(0L)
     if (now - lastUpdate > 12 * 3600 * 1000) {
       file.overwrite(now.toString)
