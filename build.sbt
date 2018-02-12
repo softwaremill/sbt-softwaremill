@@ -36,16 +36,4 @@ lazy val publishSettings = Publish.commonPublishSettings ++ Seq(
   scmInfo := Some(
     ScmInfo(
       url("https://github.com/softwaremill/sbt-softwaremill"),
-      "scm:git@github.com:softwaremill/sbt-softwaremill.git")),
-  pomExtra := (
-    <scm>
-      <url>git@github.com/softwaremill/sbt-softwaremill.git</url>
-      <connection>scm:git:git@github.com/softwaremill/sbt-softwaremill.git</connection>
-    </scm>
-      <developers>
-        <developer>
-          <id>kciesielski</id>
-          <name>Krzysztof Ciesielski</name>
-        </developer>
-      </developers>
-    ))
+      "scm:git@github.com:softwaremill/sbt-softwaremill.git")))
