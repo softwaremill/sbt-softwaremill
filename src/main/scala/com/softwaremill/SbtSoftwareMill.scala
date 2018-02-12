@@ -127,7 +127,7 @@ object SbtSoftwareMill extends AutoPlugin {
         val old = (onLoad in Global).value
         // compose the new transition on top of the existing one
         // in case your plugins are using this hook.
-        CheckUpdates.startupTransition compose old
+        CheckUpdates.startupTransition(organization.value + "_" + name.value) compose old
       }
     )
 

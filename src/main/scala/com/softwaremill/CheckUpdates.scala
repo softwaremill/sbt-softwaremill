@@ -9,12 +9,12 @@ import scala.util.Try
 object CheckUpdates {
 
   var updatesTaskExecuted = false
-  val filename = "sml_sbt_last_update_check"
   val tmpDir = new JFile(System.getProperty("java.io.tmpdir")).toScala
 
-  lazy val needsChecking: Boolean = {
-    val file = tmpDir / filename
+  def needsChecking(projectName: String): Boolean = {
+    val file = tmpDir / (projectName + "_sml_last_update")
     val now = System.currentTimeMillis()
+    println(s"Checking $file")
     val lastUpdate = Try(file.contentAsString.toLong).getOrElse(0L)
     if (now - lastUpdate > 12 * 3600 * 1000) {
       file.overwrite(now.toString)
@@ -23,12 +23,14 @@ object CheckUpdates {
     else false
   }
 
-  lazy val startupTransition: State => State = { s: State =>
-    if (!updatesTaskExecuted && needsChecking) {
-      updatesTaskExecuted = true
-      "dependencyUpdates" :: s
+  lazy val startupTransition: String => State => State = { p: String => {
+      s: State =>
+        if (!updatesTaskExecuted && needsChecking(p)) {
+          updatesTaskExecuted = true
+          "dependencyUpdates" :: s
+        }
+        else
+          s
     }
-    else
-      s
   }
 }
