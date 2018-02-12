@@ -27,6 +27,7 @@ object SbtSoftwareMill extends AutoPlugin {
       "-language:higherKinds",          // Allow higher-kinded types
       "-language:experimental.macros",  // Allow macro definition (besides implementation and application)
       "-language:implicitConversions",  // Allow definition of implicit functions called views
+      "-language:postfixOps",           // Allow postfix operators
       "-unchecked",                     // Enable additional warnings where generated code depends on assumptions.
       "-Xcheckinit",                    // Wrap field accessors to throw an exception on uninitialized access.
       "-Xfuture",                       // Turn on future language features.
