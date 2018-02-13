@@ -35,7 +35,6 @@ If you only want to import some settings, you can use any subset of `smlBuildSet
 - sbt-pgp
 - sbt-release
 - sbt-sonatype
-- sbt-travisci
 - scala-clippy
 - sbt-updates
 - sbt-revolver

@@ -18,7 +18,6 @@ lazy val root = Project("root", file("."))
     addSbtPlugin("com.jsuereth"      % "sbt-pgp"          % BuildInfo.sbtPgpVersion),
     addSbtPlugin("com.github.gseitz" % "sbt-release"      % BuildInfo.sbtReleaseVersion),
     addSbtPlugin("org.xerial.sbt"    % "sbt-sonatype"     % BuildInfo.sbtSonatypeVersion),
-    addSbtPlugin("com.dwijnand"      % "sbt-travisci"     % BuildInfo.sbtTravisCiVersion),
     addSbtPlugin("com.softwaremill.clippy" % "plugin-sbt" % "0.5.3"),
     addSbtPlugin("org.wartremover"   % "sbt-wartremover"  % "2.2.1"),
     addSbtPlugin("com.lucidchart"    % "sbt-scalafmt-coursier" % "1.15"),
