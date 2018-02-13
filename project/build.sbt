@@ -7,7 +7,7 @@ lazy val root = project.in(file("."))
   .settings(
     addSbtPlugin("com.jsuereth"      % "sbt-pgp"          % sbtPgpVersion),
     addSbtPlugin("com.github.gseitz" % "sbt-release"      % sbtReleaseVersion),
-    addSbtPlugin("org.xerial.sbt"    % "sbt-sonatype"     % sbtSonatypeVersion)
+    addSbtPlugin("org.xerial.sbt"    % "sbt-sonatype"     % sbtSonatypeVersion),
     buildInfoKeys := Seq[BuildInfoKey](
       "sbtPgpVersion"      -> sbtPgpVersion,
       "sbtReleaseVersion"  -> sbtReleaseVersion,

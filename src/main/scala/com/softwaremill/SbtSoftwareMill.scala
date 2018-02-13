@@ -14,7 +14,7 @@ import wartremover.{Wart, Warts, wartremoverWarnings}
 object SbtSoftwareMill extends AutoPlugin {
   override def requires = plugins.JvmPlugin
   override def trigger = allRequirements
-
+  val acyclicVersion = "0.1.7"
   object autoImport extends Base
 
   class Base extends Publish {
@@ -99,6 +99,13 @@ object SbtSoftwareMill extends AutoPlugin {
       com.softwaremill.clippy.ClippySbtPlugin.clippyColorsEnabled := true
     )
 
+    lazy val acyclicSettings = Seq(
+      libraryDependencies += "com.lihaoyi" %% "acyclic" % acyclicVersion % "provided",
+      autoCompilerPlugins := true,
+      scalacOptions += "-P:acyclic:force",
+      addCompilerPlugin("com.lihaoyi" %% "acyclic" % acyclicVersion)
+    )
+
     lazy val wartRemoverSettings = Seq(
       wartremoverWarnings in (Compile, compile) ++= Warts.allBut(
         Wart.NonUnitStatements,
@@ -152,6 +159,7 @@ object SbtSoftwareMill extends AutoPlugin {
       commonSmlBuildSettings ++
       wartRemoverSettings ++
       clippyBuildSettings ++
+      acyclicSettings ++
       dependencyUpdatesSettings
   }
 }

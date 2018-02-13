@@ -8,7 +8,7 @@ A sane set of common build settings.
 First, add the plugin to your `project/plugins.sbt` file:
 
 ````scala
-addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill" % "1.0")
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill" % "1.1")
 ````
 
 Now you can add `smlBuildSettings` to any set of build settings:
@@ -26,7 +26,8 @@ If you only want to import some settings, you can use any subset of `smlBuildSet
       commonSmlBuildSettings ++ // compiler flags
       wartRemoverSettings ++    // warts
       clippyBuildSettings ++    // enable clippy colors
-      dependencyUpdatesSettings // check dependency updates on startup (max once per 12h) 
+      acyclicSettings ++        // check circular dependencies between packages 
+      dependencyUpdatesSettings // check dependency updates on startup (max once per 12h)
 ````
 
 `sbt-softwaremill` comes with:
@@ -38,3 +39,4 @@ If you only want to import some settings, you can use any subset of `smlBuildSet
 - scala-clippy
 - sbt-updates
 - sbt-revolver
+- acyclic
