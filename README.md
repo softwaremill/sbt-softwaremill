@@ -26,7 +26,8 @@ If you only want to import some settings, you can use any subset of `smlBuildSet
       commonSmlBuildSettings ++ // compiler flags
       wartRemoverSettings ++    // warts
       clippyBuildSettings ++    // enable clippy colors
-      acyclicSettings ++        // check circular dependencies between packages 
+      acyclicSettings ++        // check circular dependencies between packages
+      splainSettings ++         // gives rich output on implicit resolution errors 
       dependencyUpdatesSettings // check dependency updates on startup (max once per 12h)
 ````
 
@@ -38,5 +39,6 @@ If you only want to import some settings, you can use any subset of `smlBuildSet
 - sbt-sonatype
 - scala-clippy
 - sbt-updates
+- splain
 - sbt-revolver
 - acyclic

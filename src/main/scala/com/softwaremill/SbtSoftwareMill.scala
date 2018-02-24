@@ -106,6 +106,11 @@ object SbtSoftwareMill extends AutoPlugin {
       addCompilerPlugin("com.lihaoyi" %% "acyclic" % acyclicVersion)
     )
 
+    lazy val splainSettings = Seq(
+      addCompilerPlugin("io.tryp" % "splain" % "0.2.7" cross CrossVersion.patch),
+      scalacOptions += "-P:splain:all"
+    )
+
     lazy val wartRemoverSettings = Seq(
       wartremoverWarnings in (Compile, compile) ++= Warts.allBut(
         Wart.NonUnitStatements,
@@ -161,6 +166,7 @@ object SbtSoftwareMill extends AutoPlugin {
       wartRemoverSettings ++
       clippyBuildSettings ++
       acyclicSettings ++
+      splainSettings ++
       dependencyUpdatesSettings
   }
 }
