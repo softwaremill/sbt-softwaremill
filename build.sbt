@@ -23,7 +23,8 @@ lazy val root = Project("root", file("."))
     addSbtPlugin("com.lucidchart"    % "sbt-scalafmt-coursier" % "1.15"),
     addSbtPlugin("com.timushev.sbt"  % "sbt-updates"      % "0.3.4"),
     addSbtPlugin("io.spray"          % "sbt-revolver"     % "0.9.1"),
-    addSbtPlugin("io.get-coursier"   % "sbt-coursier"     % "1.0.0-RC13")
+    addSbtPlugin("io.get-coursier"   % "sbt-coursier"     % "1.0.0-RC13"),
+    addSbtPlugin("com.dwijnand"      % "sbt-reloadquick"  % "1.0.0")
   )
   .settings(publishSettings)
 
