@@ -118,6 +118,7 @@ object SbtSoftwareMill extends AutoPlugin {
         Wart.ImplicitConversion,    // - see mpilquist/simulacrum#35
         Wart.Nothing),              // - see puffnfresh/wartremover#263
       wartremoverWarnings in (Test, compile) ++= Warts.allBut(
+        Wart.NonUnitStatements,
         Wart.DefaultArguments,
         Wart.Overloading,
         Wart.ImplicitConversion,    // - see mpilquist/simulacrum#35
