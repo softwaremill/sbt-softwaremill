@@ -167,6 +167,7 @@ object SbtSoftwareMill extends AutoPlugin {
       clippyBuildSettings ++
       acyclicSettings ++
       splainSettings ++
-      dependencyUpdatesSettings
+      dependencyUpdatesSettings ++
+      ossPublishSettings
   }
 }

@@ -26,14 +26,4 @@ lazy val root = Project("root", file("."))
     addSbtPlugin("io.get-coursier"   % "sbt-coursier"     % "1.0.0-RC13"),
     addSbtPlugin("com.dwijnand"      % "sbt-reloadquick"  % "1.0.0")
   )
-  .settings(publishSettings)
-
-lazy val publishSettings = Publish.commonPublishSettings ++ Seq(
-  organizationName := "SoftwareMill",
-  licenses := Seq("Apache 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
-  organizationHomepage := Some(url("https://softwaremill.com")),
-  homepage := Some(url("https://github.com/softwaremill/sbt-softwaremill")),
-  scmInfo := Some(
-    ScmInfo(
-      url("https://github.com/softwaremill/sbt-softwaremill"),
-      "scm:git@github.com:softwaremill/sbt-softwaremill.git")))
+  .settings(Publish.ossPublishSettings)
