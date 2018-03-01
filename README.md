@@ -45,10 +45,10 @@ If you only want to import some settings, you can use any subset of `smlBuildSet
 - sbt-revolver
 - acyclic
 
-## Publishing your library
+## Releasing your library
 
 `sbt-softwaremill` comes with a default configration suitable for releasing open source libraries.
-Just add `smlBuildSettings` or `ossPublishSettings` to your project's settings and you're all set, just run the 'publish' command.
+Just add `smlBuildSettings` or `ossPublishSettings` to your project's settings and you're all set, just run the 'release' command.
 Consider that:
 - You need an [OSS Sonatype account](https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html) and sbt-pgp plugin properly configured with generated and published keys.
 - Your README.md will be parsed for `"groupId" %(%) "artifactId" % "someVersion"` and that version value will be bumped.
