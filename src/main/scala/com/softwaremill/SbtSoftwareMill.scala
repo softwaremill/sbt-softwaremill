@@ -158,7 +158,10 @@ object SbtSoftwareMill extends AutoPlugin {
       addCompilerPlugin("org.scalamacros" %  "paradise"       % "2.1.1" cross CrossVersion.patch),
       scalacOptions ++= scalacOptionsFor(scalaVersion.value),
       scalacOptions.in(Compile, console) ~= filterConsoleScalacOptions,
-      scalacOptions.in(Test, console) ~= filterConsoleScalacOptions
+      scalacOptions.in(Test, console) ~= filterConsoleScalacOptions,
+      // silence transitive eviction warnings
+      evictionWarningOptions in update := EvictionWarningOptions.default
+        .withWarnTransitiveEvictions(false)
     )
 
     lazy val smlBuildSettings =

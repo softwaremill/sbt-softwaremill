@@ -72,20 +72,15 @@ class Publish {
   }
 
   lazy val ossPublishSettings = Seq(
-    publishTo := {
-      val nexus = "https://oss.sonatype.org/"
+    publishTo := Some(
       if (isSnapshot.value)
-        Some("snapshots" at nexus + "content/repositories/snapshots")
+        Opts.resolver.sonatypeSnapshots
       else
-        Some("releases"  at nexus + "service/local/staging/deploy/maven2")
-    },
-    credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
-    publishMavenStyle := true,
+        Opts.resolver.sonatypeStaging
+    ),
     publishArtifact in Test := false,
+    publishMavenStyle := true,
     sonatypeProfileName := "com.softwaremill",
-    pomIncludeRepository := { _ => false },
-    releasePublishArtifactsAction := PgpKeys.publishSigned.value,
-    releaseCrossBuild := true,
     organizationHomepage := Some(url("https://softwaremill.com")),
     homepage := Some(url("http://softwaremill.com/open-source")),
     licenses := Seq("Apache 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
@@ -105,10 +100,7 @@ class Publish {
     releaseCrossBuild := true,
     releasePublishArtifactsAction := PgpKeys.publishSigned.value,
     releaseIgnoreUntrackedFiles := true,
-    releaseProcess := Release.steps(organization.value, name.value),
-    // silence transitive eviction warnings
-    evictionWarningOptions in update := EvictionWarningOptions.default
-      .withWarnTransitiveEvictions(false)
+    releaseProcess := Release.steps(organization.value, name.value)
   )
 
   lazy val noPublishSettings = Seq(

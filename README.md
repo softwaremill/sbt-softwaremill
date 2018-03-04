@@ -14,9 +14,9 @@ addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill" % "1.2")
 Now you can add `smlBuildSettings` to any set of build settings:
 
 ````scala
-lazy val commonSettings = Seq(
+lazy val commonSettings = smlBuildSettings ++ Seq(
   // your settings
-) ++ smlBuildSettings
+) 
 ````
 
 If you only want to import some settings, you can use any subset of `smlBuildSettings`:
