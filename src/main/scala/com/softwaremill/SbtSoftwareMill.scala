@@ -8,6 +8,7 @@ import PosixFilePermission.OWNER_EXECUTE
 import java.nio.file.Files
 import scala.collection.JavaConverters._
 import com.typesafe.sbt.SbtPgp.autoImportImpl.PgpKeys
+import com.lucidchart.sbt.scalafmt.ScalafmtCorePlugin.autoImport._
 import sbtrelease.ReleasePlugin.autoImport.{releaseCrossBuild, releasePublishArtifactsAction}
 import wartremover.{wartremoverWarnings, Wart, Warts}
 
@@ -155,6 +156,7 @@ object SbtSoftwareMill extends AutoPlugin {
       outputStrategy := Some(StdoutOutput),
       autoCompilerPlugins := true,
       autoAPIMappings := true,
+      scalafmtOnCompile := true,
       resolvers ++= Seq(
         Resolver.sonatypeRepo("releases"),
         Resolver.sonatypeRepo("snapshots"),
