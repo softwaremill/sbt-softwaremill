@@ -9,14 +9,15 @@ import java.nio.file.Files
 import scala.collection.JavaConverters._
 import com.typesafe.sbt.SbtPgp.autoImportImpl.PgpKeys
 import sbtrelease.ReleasePlugin.autoImport.{releaseCrossBuild, releasePublishArtifactsAction}
-import wartremover.{Wart, Warts, wartremoverWarnings}
+import wartremover.{wartremoverWarnings, Wart, Warts}
 
 object SbtSoftwareMill extends AutoPlugin {
   override def requires = plugins.JvmPlugin
-  override def trigger = allRequirements
-  val acyclicVersion = "0.1.7"
+  override def trigger  = allRequirements
+  val acyclicVersion    = "0.1.7"
   object autoImport extends Base
 
+  // @formatter:off
   class Base extends Publish {
     val commonScalacOptions = Seq(
       "-deprecation",                   // Emit warning and location for usages of deprecated APIs.
@@ -76,21 +77,24 @@ object SbtSoftwareMill extends AutoPlugin {
     val scalacOptionsEq210 = List(
       "-Xlint"
     )
+    // @formatter:off
 
     def scalacOptionsFor(version: String): Seq[String] =
       commonScalacOptions ++ (CrossVersion.partialVersion(version) match {
         case Some((2, min)) if min >= 12 => scalacOptionsGte212 ++ scalacOptionsGte211
         case Some((2, min)) if min >= 11 => scalacOptionsGte211 ++ scalacOptionsEq211
-        case _ =>                           scalacOptionsEq210
+        case _                           => scalacOptionsEq210
       })
 
     val filterConsoleScalacOptions = { options: Seq[String] =>
-      options.filterNot(Set(
-        "-Ywarn-unused:imports",
-        "-Ywarn-unused-import",
-        "-Ywarn-dead-code",
-        "-Xfatal-warnings"
-      ))
+      options.filterNot(
+        Set(
+          "-Ywarn-unused:imports",
+          "-Ywarn-unused-import",
+          "-Ywarn-dead-code",
+          "-Xfatal-warnings"
+        )
+      )
     }
 
     import autoImport._
@@ -111,6 +115,7 @@ object SbtSoftwareMill extends AutoPlugin {
       scalacOptions += "-P:splain:all"
     )
 
+    // @formatter:off
     lazy val wartRemoverSettings = Seq(
       wartremoverWarnings in (Compile, compile) ++= Warts.allBut(
         Wart.NonUnitStatements,
@@ -134,6 +139,8 @@ object SbtSoftwareMill extends AutoPlugin {
           case _                             => Seq(Wart.Overloading) // Falsely triggers on 2.10
         })
     )
+    // @formatter:off
+
     lazy val dependencyUpdatesSettings = Seq(
       // onLoad is scoped to Global because there's only one.
       onLoad in Global := {
@@ -153,9 +160,10 @@ object SbtSoftwareMill extends AutoPlugin {
         Resolver.sonatypeRepo("snapshots"),
         "JBoss repository" at "https://repository.jboss.org/nexus/content/repositories/",
         "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases",
-        "bintray/non" at "http://dl.bintray.com/non/maven"),
+        "bintray/non" at "http://dl.bintray.com/non/maven"
+      ),
       addCompilerPlugin("org.spire-math"  %% "kind-projector" % "0.9.6"),
-      addCompilerPlugin("org.scalamacros" %  "paradise"       % "2.1.1" cross CrossVersion.patch),
+      addCompilerPlugin("org.scalamacros" % "paradise"        % "2.1.1" cross CrossVersion.patch),
       scalacOptions ++= scalacOptionsFor(scalaVersion.value),
       scalacOptions.in(Compile, console) ~= filterConsoleScalacOptions,
       scalacOptions.in(Test, console) ~= filterConsoleScalacOptions,
@@ -166,11 +174,11 @@ object SbtSoftwareMill extends AutoPlugin {
 
     lazy val smlBuildSettings =
       commonSmlBuildSettings ++
-      wartRemoverSettings ++
-      clippyBuildSettings ++
-      acyclicSettings ++
-      splainSettings ++
-      dependencyUpdatesSettings ++
-      ossPublishSettings
+        wartRemoverSettings ++
+        clippyBuildSettings ++
+        acyclicSettings ++
+        splainSettings ++
+        dependencyUpdatesSettings ++
+        ossPublishSettings
   }
 }

@@ -33,16 +33,16 @@ class Publish {
 
     // based on https://github.com/EECOLOR/sbt-release-custom-steps/blob/master/src/main/scala/org/qirx/sbtrelease/UpdateVersionInFiles.scala
     private def updateVersionInDocs(organization: String, name: String): ReleaseStep = { s: State =>
-      val readmeFile = file("README.md")
-      val readme = IO.read(readmeFile)
-      val regexStr = s""""$organization" %{1,2} "$name" % "([\\w\\.-]+)""""
-      val currentVersionPattern = regexStr.r
+      val readmeFile             = file("README.md")
+      val readme                 = IO.read(readmeFile)
+      val regexStr               = s""""$organization" %{1,2} "$name" % "([\\w\\.-]+)""""
+      val currentVersionPattern  = regexStr.r
       val currentVersionInReadme = currentVersionPattern.findFirstMatchIn(readme).get.group(1)
 
       val releaseVersion = s.get(versions).get._1
 
       val settings = Project.extract(s)
-      val vcs = settings.get(releaseVcs).get
+      val vcs      = settings.get(releaseVcs).get
 
       def replaceInFile(f: File): Unit = {
         s.log.info(s"Replacing $currentVersionInReadme with $releaseVersion in ${f.name}")
@@ -81,12 +81,18 @@ class Publish {
     publishArtifact in Test := false,
     publishMavenStyle := true,
     sonatypeProfileName := "com.softwaremill",
+    pomIncludeRepository := { _ =>
+      false
+    },
     organizationHomepage := Some(url("https://softwaremill.com")),
     homepage := Some(url("http://softwaremill.com/open-source")),
     licenses := Seq("Apache 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
     scmInfo := Some(
-      ScmInfo(url("https://github.com/softwaremill/" + name.value),
-        "scm:git:git@github.com/softwaremill/" + name.value + ".git")),
+      ScmInfo(
+        url("https://github.com/softwaremill/" + name.value),
+        "scm:git:git@github.com/softwaremill/" + name.value + ".git"
+      )
+    ),
     autoAPIMappings := true,
     developers := List(
       Developer(
@@ -100,13 +106,10 @@ class Publish {
     releaseCrossBuild := true,
     releasePublishArtifactsAction := PgpKeys.publishSigned.value,
     releaseIgnoreUntrackedFiles := true,
-    releaseProcess := Release.steps(organization.value, name.value)
+    releaseProcess := Release.steps(organization.value, name.value),
   )
 
-  lazy val noPublishSettings = Seq(
-    publish := {},
-    publishLocal := {},
-    publishArtifact := false)
+  lazy val noPublishSettings = Seq(publish := {}, publishLocal := {}, publishArtifact := false)
 }
 
 object Publish extends Publish
