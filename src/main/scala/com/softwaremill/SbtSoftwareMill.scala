@@ -112,7 +112,7 @@ object SbtSoftwareMill extends AutoPlugin {
     )
 
     lazy val splainSettings = Seq(
-      addCompilerPlugin("io.tryp" % "splain" % "0.2.7" cross CrossVersion.patch),
+      addCompilerPlugin("io.tryp" % "splain" % "0.2.8" cross CrossVersion.patch),
       scalacOptions += "-P:splain:all"
     )
 
