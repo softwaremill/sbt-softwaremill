@@ -124,6 +124,8 @@ object SbtSoftwareMill extends AutoPlugin {
         Wart.PublicInference,
         Wart.Equals,
         Wart.ImplicitParameter,
+        Wart.Serializable,
+        Wart.Product,
         Wart.Any,                   // - see puffnfresh/wartremover#263
         Wart.ExplicitImplicitTypes, // - see puffnfresh/wartremover#226
         Wart.ImplicitConversion,    // - see mpilquist/simulacrum#35
@@ -132,6 +134,8 @@ object SbtSoftwareMill extends AutoPlugin {
         Wart.NonUnitStatements,
         Wart.DefaultArguments,
         Wart.Overloading,
+        Wart.Serializable,
+        Wart.Product,
         Wart.ImplicitConversion,    // - see mpilquist/simulacrum#35
         Wart.Nothing),              // - see puffnfresh/wartremover#263
       wartremoverWarnings in (Compile, compile) --=
