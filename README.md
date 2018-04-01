@@ -5,7 +5,7 @@ A sane set of common build settings.
 
 ## Usage
 
-First, add the plugin to your `project/plugins.sbt` file:
+Add the plugin to your `project/plugins.sbt` file:
 
 ````scala
 addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill" % "1.2.3")
@@ -19,7 +19,7 @@ lazy val commonSettings = smlBuildSettings ++Seq(
 ) 
 ````
 
-If you only want to import some settings, you can use any subset of `smlBuildSettings`:
+If you only want to import a subset of settings, you can select from:
 
 ````scala
     lazy val smlBuildSettings =
@@ -33,22 +33,22 @@ If you only want to import some settings, you can use any subset of `smlBuildSet
 ````
 
 `sbt-softwaremill` comes with:
-- Coursier
-- Scalafmt
-- sbt-pgp
-- sbt-release
-- sbt-sonatype
-- scala-clippy
-- sbt-updates
-- splain
-- sbt-reloadquick
-- sbt-revolver
-- acyclic
+- [Coursier](https://github.com/coursier/coursier)
+- [neo-sbt-scalafmt](https://github.com/lucidsoftware/neo-sbt-scalafmt)
+- [sbt-pgp](https://github.com/sbt/sbt-pgp)
+- [sbt-release](https://github.com/sbt/sbt-release)
+- [sbt-sonatype](https://github.com/xerial/sbt-sonatype)
+- [scala-clippy](https://github.com/softwaremill/scala-clippy)
+- [sbt-updates](https://github.com/rtimush/sbt-updates)
+- [splain](https://github.com/tek/splain)
+- [sbt-reloadquick](https://github.com/dwijnand/sbt-reloadquick)
+- [sbt-revolver](https://github.com/spray/sbt-revolver)
+- [acyclic](https://github.com/lihaoyi/acyclic)
 
 ## Releasing your library
 
-`sbt-softwaremill` comes with a default configration suitable for releasing open source libraries.
-Just add `smlBuildSettings` or `ossPublishSettings` to your project's settings and you're all set, just run the 'release' command.
+`sbt-softwaremill` exposes a default configration suitable for releasing open source libraries.
+Add `smlBuildSettings` or `ossPublishSettings` to your project's settings and you're all set, just run the `release` command.
 Consider that:
 - You need an [OSS Sonatype account](https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html) and sbt-pgp plugin properly configured with generated and published keys.
 - Your README.md will be parsed for `"groupId" %(%) "artifactId" % "someVersion"` and that version value will be bumped.
