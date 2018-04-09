@@ -8,7 +8,7 @@ A sane set of common build settings.
 Add the plugin to your `project/plugins.sbt` file:
 
 ````scala
-addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill" % "1.2.3")
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill" % "1.2.4")
 ````
 
 Now you can add `smlBuildSettings` to any set of build settings:
