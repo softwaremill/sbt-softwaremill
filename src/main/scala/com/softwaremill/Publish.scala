@@ -35,7 +35,7 @@ class Publish {
     private def updateVersionInDocs(organization: String): ReleaseStep = { s: State =>
       val readmeFile             = file("README.md")
       val readme                 = IO.read(readmeFile)
-      val regexStr               = s""""$organization" %{1,2} "\\w+" % "([\\w\\.-]+)""""
+      val regexStr               = s""""$organization" %{1,2} "[\\w\\.-]+" % "([\\w\\.-]+)""""
       val currentVersionPattern  = regexStr.r
       val currentVersionInReadme = currentVersionPattern.findFirstMatchIn(readme).get.group(1)
 
