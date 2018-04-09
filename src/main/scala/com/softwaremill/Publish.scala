@@ -12,7 +12,7 @@ import java.util.regex.Pattern
 
 class Publish {
   object Release {
-    def steps(organization: String, name: String): Seq[ReleaseStep] = Seq(
+    def steps(organization: String): Seq[ReleaseStep] = Seq(
       checkSnapshotDependencies,
       inquireVersions,
       // publishing locally so that the pgp password prompt is displayed early
@@ -21,7 +21,7 @@ class Publish {
       runClean,
       runTest,
       setReleaseVersion,
-      updateVersionInDocs(organization, name),
+      updateVersionInDocs(organization),
       commitReleaseVersion,
       tagRelease,
       publishArtifacts,
@@ -32,10 +32,10 @@ class Publish {
     )
 
     // based on https://github.com/EECOLOR/sbt-release-custom-steps/blob/master/src/main/scala/org/qirx/sbtrelease/UpdateVersionInFiles.scala
-    private def updateVersionInDocs(organization: String, name: String): ReleaseStep = { s: State =>
+    private def updateVersionInDocs(organization: String): ReleaseStep = { s: State =>
       val readmeFile             = file("README.md")
       val readme                 = IO.read(readmeFile)
-      val regexStr               = s""""$organization" %{1,2} "$name" % "([\\w\\.-]+)""""
+      val regexStr               = s""""$organization" %{1,2} "\\w+" % "([\\w\\.-]+)""""
       val currentVersionPattern  = regexStr.r
       val currentVersionInReadme = currentVersionPattern.findFirstMatchIn(readme).get.group(1)
 
@@ -107,7 +107,7 @@ class Publish {
     releaseCrossBuild := true,
     releasePublishArtifactsAction := PgpKeys.publishSigned.value,
     releaseIgnoreUntrackedFiles := true,
-    releaseProcess := Release.steps(organization.value, name.value),
+    releaseProcess := Release.steps(organization.value),
   )
 
   lazy val noPublishSettings = Seq(publish := {}, publishLocal := {}, publishArtifact := false)
