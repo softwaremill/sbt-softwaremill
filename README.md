@@ -78,5 +78,5 @@ lazy val smlGlobalBuildSettings =
 Add `smlBuildSettings` or `ossPublishSettings` to your project's settings and you're all set, just run the `release` command.
 Consider that:
 - You need an [OSS Sonatype account](https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html) and sbt-pgp plugin properly configured with generated and published keys.
-- Your `README.md` will be parsed for `"[organization]" %(%) "artifactId" % "someVersion"` and that version value will be bumped.
+- Your `README.md` and `docs` directory will be parsed for `"[organization]" %(%) "artifactId" % "someVersion"` and that version value will be bumped.
 - If you a have multi-module project, you may need to add `publishArtifact := false` to your root project's settings. 

@@ -54,18 +54,18 @@ class Publish {
         vcs.add(f.getAbsolutePath) !! s.log
       }
 
-      def replaceRstInDirectory(d: File) {
+      def replaceDocsInDirectory(d: File) {
         Option(d.listFiles()).foreach(_.foreach { f =>
           if (f.isDirectory) {
-            replaceRstInDirectory(f)
-          } else if (f.getName.endsWith(".rst")) {
+            replaceDocsInDirectory(f)
+          } else if (f.getName.endsWith(".rst") || f.getName.endsWith(".md")) {
             replaceInFile(f)
           }
         })
       }
 
       replaceInFile(readmeFile)
-      replaceRstInDirectory(file("docs"))
+      replaceDocsInDirectory(file("docs"))
 
       s
     }
