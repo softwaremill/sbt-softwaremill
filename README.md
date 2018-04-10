@@ -29,8 +29,6 @@ lazy val smlBuildSettings =
   commonSmlBuildSettings    ++ // compiler flags
   wartRemoverSettings       ++ // warts
   acyclicSettings           ++ // check circular dependencies between packages
-  splainSettings            ++ // gives rich output on implicit resolution errors 
-  dependencyUpdatesSettings ++ // check dependency updates on startup (max once per 12h)
   ossPublishSettings           // configures common publishing process for all OSS libraries
 ````
 
