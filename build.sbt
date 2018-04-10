@@ -1,7 +1,7 @@
 import sbtsoftwaremill.BuildInfo
 import com.softwaremill.Publish
 
-val commonSettings = Seq(
+val commonSettings = Publish.ossPublishSettings ++ Seq(
   organization := "com.softwaremill.sbt-softwaremill",
   sbtVersion in Global := {
     scalaBinaryVersion.value match {
@@ -35,7 +35,6 @@ lazy val perproject = project.in(file("perproject"))
     addSbtPlugin("io.get-coursier"   % "sbt-coursier"     % "1.0.0-RC13"),
     addSbtPlugin("com.dwijnand"      % "sbt-reloadquick"  % "1.0.0")
   )
-  .settings(Publish.ossPublishSettings)
 
 lazy val global = project.in(file("global"))
   .settings(commonSettings)
@@ -49,4 +48,3 @@ lazy val global = project.in(file("global"))
     addSbtPlugin("com.softwaremill.clippy" % "plugin-sbt" % "0.5.3"),
     addSbtPlugin("com.timushev.sbt"  % "sbt-updates"      % "0.3.4")
   )
-  .settings(Publish.ossPublishSettings)
