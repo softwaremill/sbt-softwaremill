@@ -2,20 +2,13 @@ package com.softwaremill
 
 import sbt._
 import Keys._
-import java.io.File
 import java.nio.file.attribute.PosixFilePermission
-import PosixFilePermission.OWNER_EXECUTE
-import java.nio.file.Files
-import scala.collection.JavaConverters._
-import com.typesafe.sbt.SbtPgp.autoImportImpl.PgpKeys
 import com.lucidchart.sbt.scalafmt.ScalafmtCorePlugin.autoImport._
-import sbtrelease.ReleasePlugin.autoImport.{releaseCrossBuild, releasePublishArtifactsAction}
 import wartremover.{wartremoverWarnings, Wart, Warts}
 
 object SbtSoftwareMill extends AutoPlugin {
   override def requires = plugins.JvmPlugin
   override def trigger  = allRequirements
-  val acyclicVersion    = "0.1.7"
   object autoImport extends Base
 
   // @formatter:off
@@ -101,20 +94,12 @@ object SbtSoftwareMill extends AutoPlugin {
 
     import autoImport._
 
-    lazy val clippyBuildSettings = Seq(
-      com.softwaremill.clippy.ClippySbtPlugin.clippyColorsEnabled := true
-    )
-
+    val acyclicVersion    = "0.1.7"
     lazy val acyclicSettings = Seq(
       libraryDependencies += "com.lihaoyi" %% "acyclic" % acyclicVersion % "provided",
       autoCompilerPlugins := true,
       scalacOptions += "-P:acyclic:force",
       addCompilerPlugin("com.lihaoyi" %% "acyclic" % acyclicVersion)
-    )
-
-    lazy val splainSettings = Seq(
-      addCompilerPlugin("io.tryp" % "splain" % "0.2.10" cross CrossVersion.patch),
-      scalacOptions += "-P:splain:all"
     )
 
     // @formatter:off
@@ -147,16 +132,6 @@ object SbtSoftwareMill extends AutoPlugin {
     )
     // @formatter:off
 
-    lazy val dependencyUpdatesSettings = Seq(
-      // onLoad is scoped to Global because there's only one.
-      onLoad in Global := {
-        val old = (onLoad in Global).value
-        // compose the new transition on top of the existing one
-        // in case your plugins are using this hook.
-        CheckUpdates.startupTransition(organization.value + "_" + name.value) compose old
-      }
-    )
-
     lazy val commonSmlBuildSettings = Seq(
       outputStrategy := Some(StdoutOutput),
       autoCompilerPlugins := true,
@@ -182,10 +157,7 @@ object SbtSoftwareMill extends AutoPlugin {
     lazy val smlBuildSettings =
       commonSmlBuildSettings ++
         wartRemoverSettings ++
-        clippyBuildSettings ++
         acyclicSettings ++
-        splainSettings ++
-        dependencyUpdatesSettings ++
         ossPublishSettings
   }
 }
