@@ -14,7 +14,17 @@ object SbtSoftwareMillGlobal extends AutoPlugin {
     )
 
     lazy val splainSettings = Seq(
-      addCompilerPlugin("io.tryp" % "splain" % "0.2.10" cross CrossVersion.patch),
+      libraryDependencies += {
+        val splainVersion = CrossVersion.partialVersion(scalaVersion.value) match {
+          // splain has dropped support of Scala 2.10 with version 0.3.1
+          // last version supporting Scala 2.10 is splain 0.2.10
+          case Some((2, 11)) | Some((2, 12)) =>
+            "0.3.1"
+          case _ =>
+            "0.2.10"
+        }
+        compilerPlugin("io.tryp" % "splain" % splainVersion cross CrossVersion.patch)
+      },
       scalacOptions += "-P:splain:all"
     )
 
