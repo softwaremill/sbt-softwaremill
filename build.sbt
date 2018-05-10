@@ -3,6 +3,7 @@ import com.softwaremill.Publish
 
 val commonSettings = Publish.ossPublishSettings ++ Seq(
   organization := "com.softwaremill.sbt-softwaremill",
+  scalafmtOnCompile := true,
   sbtVersion in Global := {
     scalaBinaryVersion.value match {
       case "2.10" => "0.13.16"
@@ -30,7 +31,7 @@ lazy val perproject = project.in(file("perproject"))
     addSbtPlugin("com.github.gseitz" % "sbt-release"      % BuildInfo.sbtReleaseVersion),
     addSbtPlugin("org.xerial.sbt"    % "sbt-sonatype"     % BuildInfo.sbtSonatypeVersion),
     addSbtPlugin("org.wartremover"   % "sbt-wartremover"  % "2.2.1"),
-    addSbtPlugin("com.lucidchart"    % "sbt-scalafmt-coursier" % "1.15"),
+    addSbtPlugin("com.geirsson"      % "sbt-scalafmt"     % "1.5.1"),
     addSbtPlugin("io.spray"          % "sbt-revolver"     % "0.9.1"),
     addSbtPlugin("io.get-coursier"   % "sbt-coursier"     % "1.0.0-RC13"),
     addSbtPlugin("com.dwijnand"      % "sbt-reloadquick"  % "1.0.0")
