@@ -3,7 +3,7 @@ package com.softwaremill
 import sbt._
 import Keys._
 import java.nio.file.attribute.PosixFilePermission
-import org.scalafmt.sbt.ScalafmtPlugin.autoImport._
+import com.lucidchart.sbt.scalafmt.ScalafmtCorePlugin.autoImport._
 import wartremover.{wartremoverWarnings, Wart, Warts}
 
 object SbtSoftwareMill extends AutoPlugin {
