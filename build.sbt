@@ -42,7 +42,7 @@ lazy val global = project.in(file("global"))
     name         := "sbt-softwaremill-global",
     description  := "Common build configuration for SBT projects - global",
     sbtPlugin    := true,
-    libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.4.0",
+    libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.5.0",
   )
   .settings(
     addSbtPlugin("com.softwaremill.clippy" % "plugin-sbt" % "0.5.3"),
