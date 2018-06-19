@@ -5,8 +5,8 @@ val commonSettings = Publish.ossPublishSettings ++ Seq(
   organization := "com.softwaremill.sbt-softwaremill",
   sbtVersion in Global := {
     scalaBinaryVersion.value match {
-      case "2.10" => "0.13.16"
-      case "2.12" => "1.1.4"
+      case "2.10" => "0.13.17"
+      case "2.12" => "1.1.6"
     }
   }
 )
