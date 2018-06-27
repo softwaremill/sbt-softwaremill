@@ -136,7 +136,6 @@ object SbtSoftwareMill extends AutoPlugin {
       outputStrategy := Some(StdoutOutput),
       autoCompilerPlugins := true,
       autoAPIMappings := true,
-      scalafmtOnCompile := true,
       resolvers ++= Seq(
         Resolver.sonatypeRepo("releases"),
         Resolver.sonatypeRepo("snapshots"),
