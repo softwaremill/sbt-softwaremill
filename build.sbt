@@ -29,10 +29,10 @@ lazy val perproject = project.in(file("perproject"))
     addSbtPlugin("com.jsuereth"      % "sbt-pgp"          % BuildInfo.sbtPgpVersion),
     addSbtPlugin("com.github.gseitz" % "sbt-release"      % BuildInfo.sbtReleaseVersion),
     addSbtPlugin("org.xerial.sbt"    % "sbt-sonatype"     % BuildInfo.sbtSonatypeVersion),
-    addSbtPlugin("org.wartremover"   % "sbt-wartremover"  % "2.2.1"),
+    addSbtPlugin("org.wartremover"   % "sbt-wartremover"  % "2.3.1"),
     addSbtPlugin("com.lucidchart"    % "sbt-scalafmt-coursier" % "1.15"),
     addSbtPlugin("io.spray"          % "sbt-revolver"     % "0.9.1"),
-    addSbtPlugin("io.get-coursier"   % "sbt-coursier"     % "1.0.0-RC13"),
+    addSbtPlugin("io.get-coursier"   % "sbt-coursier"     % "1.0.3"),
     addSbtPlugin("com.dwijnand"      % "sbt-reloadquick"  % "1.0.0")
   )
 
