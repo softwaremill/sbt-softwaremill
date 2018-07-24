@@ -32,7 +32,7 @@ class Publish {
     )
 
     // based on https://github.com/EECOLOR/sbt-release-custom-steps/blob/master/src/main/scala/org/qirx/sbtrelease/UpdateVersionInFiles.scala
-    private def updateVersionInDocs(organization: String): ReleaseStep = { s: State =>
+    def updateVersionInDocs(organization: String): ReleaseStep = { s: State =>
       val readmeFile             = file("README.md")
       val readme                 = IO.read(readmeFile)
       val regexStr               = s""""$organization" %{1,2} "[\\w\\.-]+" % "([\\w\\.-]+)""""
