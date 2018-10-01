@@ -6,7 +6,7 @@ val commonSettings = Publish.ossPublishSettings ++ Seq(
   sbtVersion in Global := {
     scalaBinaryVersion.value match {
       case "2.10" => "0.13.17"
-      case "2.12" => "1.1.6"
+      case "2.12" => "1.2.1"
     }
   }
 )
@@ -29,7 +29,7 @@ lazy val perproject = project.in(file("perproject"))
     addSbtPlugin("com.jsuereth"      % "sbt-pgp"          % BuildInfo.sbtPgpVersion),
     addSbtPlugin("com.github.gseitz" % "sbt-release"      % BuildInfo.sbtReleaseVersion),
     addSbtPlugin("org.xerial.sbt"    % "sbt-sonatype"     % BuildInfo.sbtSonatypeVersion),
-    addSbtPlugin("org.wartremover"   % "sbt-wartremover"  % "2.3.5"),
+    addSbtPlugin("org.wartremover"   % "sbt-wartremover"  % "2.3.7"),
     addSbtPlugin("com.lucidchart"    % "sbt-scalafmt-coursier" % "1.15"),
     addSbtPlugin("io.spray"          % "sbt-revolver"     % "0.9.1"),
     addSbtPlugin("io.get-coursier"   % "sbt-coursier"     % "1.0.3"),
