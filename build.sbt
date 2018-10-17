@@ -7,7 +7,7 @@ val commonSettings = Publish.ossPublishSettings ++ Seq(
   sbtVersion in Global := {
     scalaBinaryVersion.value match {
       case "2.10" => "0.13.17"
-      case "2.12" => "1.2.3"
+      case "2.12" => "1.2.4"
     }
   }
 )
