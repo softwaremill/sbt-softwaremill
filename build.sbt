@@ -9,7 +9,8 @@ val commonSettings = Publish.ossPublishSettings ++ Seq(
       case "2.10" => "0.13.17"
       case "2.12" => "1.2.4"
     }
-  }
+  },
+  scalafmtVersion := "1.5.1"
 )
 
 lazy val root = project.in(file("."))

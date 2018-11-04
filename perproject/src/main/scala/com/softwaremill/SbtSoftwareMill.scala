@@ -150,7 +150,8 @@ object SbtSoftwareMill extends AutoPlugin {
       scalacOptions.in(Test, console) ~= filterConsoleScalacOptions,
       // silence transitive eviction warnings
       evictionWarningOptions in update := EvictionWarningOptions.default
-        .withWarnTransitiveEvictions(false)
+        .withWarnTransitiveEvictions(false),
+      scalafmtVersion := "1.5.1"
     )
 
     lazy val smlBuildSettings =
