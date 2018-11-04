@@ -11,7 +11,7 @@ There are two plugins: one which should be added to projects, and another for gl
 For each project where you'd like to use the build settings, add the following your `project/plugins.sbt` file:
 
 ````scala
-addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill" % "1.3.15")
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill" % "1.3.16")
 ````
 
 Now you can add `smlBuildSettings` to any set of build settings in your `build.sbt`:
@@ -47,7 +47,7 @@ lazy val smlBuildSettings =
 For the global settings, add to `~/.sbt/1.0/plugins/build.sbt` (or any other `.sbt` file):
 
 ````scala
-addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-global" % "1.3.15")
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-global" % "1.3.16")
 ````
 
 Now you can add `smlGlobalBuildSettings` to `~/.sbt/1.0/build.sbt`:
