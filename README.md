@@ -34,7 +34,7 @@ lazy val smlBuildSettings =
 
 `sbt-softwaremill` comes with:
 - [Coursier](https://github.com/coursier/coursier)
-- [neo-sbt-scalafmt](https://github.com/lucidsoftware/neo-sbt-scalafmt)
+- [sbt-scalafmt](https://scalameta.org/scalafmt/docs/installation.html)
 - [sbt-pgp](https://github.com/sbt/sbt-pgp)
 - [sbt-release](https://github.com/sbt/sbt-release)
 - [sbt-sonatype](https://github.com/xerial/sbt-sonatype)

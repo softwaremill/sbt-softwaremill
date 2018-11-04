@@ -2,8 +2,6 @@ package com.softwaremill
 
 import sbt._
 import Keys._
-import java.nio.file.attribute.PosixFilePermission
-import com.lucidchart.sbt.scalafmt.ScalafmtCorePlugin.autoImport._
 import wartremover.{wartremoverWarnings, Wart, Warts}
 
 object SbtSoftwareMill extends AutoPlugin {
@@ -150,8 +148,7 @@ object SbtSoftwareMill extends AutoPlugin {
       scalacOptions.in(Test, console) ~= filterConsoleScalacOptions,
       // silence transitive eviction warnings
       evictionWarningOptions in update := EvictionWarningOptions.default
-        .withWarnTransitiveEvictions(false),
-      scalafmtVersion := "1.5.1"
+        .withWarnTransitiveEvictions(false)
     )
 
     lazy val smlBuildSettings =
