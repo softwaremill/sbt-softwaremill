@@ -19,7 +19,7 @@ object SbtSoftwareMillGlobal extends AutoPlugin {
           // splain has dropped support of Scala 2.10 with version 0.3.1
           // last version supporting Scala 2.10 is splain 0.2.10
           case Some((2, 11)) | Some((2, 12)) =>
-            "0.3.4"
+            "0.3.5"
           case _ =>
             "0.2.10"
         }
