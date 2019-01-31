@@ -46,6 +46,6 @@ lazy val global = project.in(file("global"))
     libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.6.0",
   )
   .settings(
-    addSbtPlugin("com.softwaremill.clippy" % "plugin-sbt" % "0.5.3"),
+    addSbtPlugin("com.softwaremill.clippy" % "plugin-sbt" % "0.6.0"),
     addSbtPlugin("com.timushev.sbt"  % "sbt-updates"      % "0.3.4")
   )

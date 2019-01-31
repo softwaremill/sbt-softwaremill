@@ -2,6 +2,7 @@ package com.softwaremill
 
 import sbt._
 import Keys._
+import com.softwaremill.clippy.ClippySbtPlugin.autoImport.clippyFatalWarnings
 
 object SbtSoftwareMillGlobal extends AutoPlugin {
   override def requires = plugins.JvmPlugin
@@ -10,7 +11,10 @@ object SbtSoftwareMillGlobal extends AutoPlugin {
 
   class Base {
     lazy val clippyBuildSettings = Seq(
-      com.softwaremill.clippy.ClippySbtPlugin.clippyColorsEnabled := true
+      com.softwaremill.clippy.ClippySbtPlugin.clippyColorsEnabled := true,
+      clippyFatalWarnings ++= List(
+        "match may not be exhaustive[\\s\\S]*"
+      )
     )
 
     lazy val splainSettings = Seq(
