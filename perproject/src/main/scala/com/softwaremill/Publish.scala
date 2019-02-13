@@ -65,6 +65,7 @@ class Publish {
       }
 
       replaceInFile(readmeFile)
+      replaceDocsInDirectory(file("doc"))
       replaceDocsInDirectory(file("docs"))
 
       s
