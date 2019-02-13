@@ -30,7 +30,7 @@ lazy val perproject = project.in(file("perproject"))
     addSbtPlugin("com.jsuereth"      % "sbt-pgp"          % BuildInfo.sbtPgpVersion),
     addSbtPlugin("com.github.gseitz" % "sbt-release"      % BuildInfo.sbtReleaseVersion),
     addSbtPlugin("org.xerial.sbt"    % "sbt-sonatype"     % BuildInfo.sbtSonatypeVersion),
-    addSbtPlugin("org.wartremover"   % "sbt-wartremover"  % "2.3.7"),
+    addSbtPlugin("org.wartremover"   % "sbt-wartremover"  % "2.4.1"),
     addSbtPlugin("com.geirsson"      % "sbt-scalafmt"     % "1.5.1"),
     addSbtPlugin("io.spray"          % "sbt-revolver"     % "0.9.1"),
     addSbtPlugin("io.get-coursier"   % "sbt-coursier"     % "1.0.3"),
@@ -47,5 +47,5 @@ lazy val global = project.in(file("global"))
   )
   .settings(
     addSbtPlugin("com.softwaremill.clippy" % "plugin-sbt" % "0.6.0"),
-    addSbtPlugin("com.timushev.sbt"  % "sbt-updates"      % "0.3.4")
+    addSbtPlugin("com.timushev.sbt"  % "sbt-updates"      % "0.4.0")
   )
