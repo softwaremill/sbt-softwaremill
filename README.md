@@ -53,7 +53,11 @@ lazy val smlBuildSettings =
 ## Releasing your library
 
 `sbt-softwaremill` exposes a default configuration suitable for releasing open source libraries.
-Add `smlBuildSettings` or `ossPublishSettings` to your project's settings and you're all set, just run the `release` command.
+- Add `smlBuildSettings` or `ossPublishSettings` to your project's settings
+- Ensure you have configured your repository credentials, for example you may need to add
+`credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")` to `~/.sbt/1.0/cred.sbt` or
+use other method. 
+- Run the `release` command
 Consider that:
 - You need an [OSS Sonatype account](https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html) and sbt-pgp plugin properly configured with generated and published keys.
 - Your `README.md` and `docs` directory will be parsed for `"[organization]" %(%) "artifactId" % "someVersion"` and that version value will be bumped.
