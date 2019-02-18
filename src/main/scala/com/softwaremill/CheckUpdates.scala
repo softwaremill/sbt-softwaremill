@@ -1,8 +1,8 @@
 package com.softwaremill
 
 import better.files._
-import java.io.{File => JFile}
 import sbt.State
+import java.io.{File => JFile}
 import scala.util.Try
 
 object CheckUpdates {

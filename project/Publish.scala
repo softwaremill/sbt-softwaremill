@@ -1,1 +1,1 @@
-../perproject/src/main/scala/com/softwaremill/Publish.scala
+../src/main/scala/com/softwaremill/Publish.scala

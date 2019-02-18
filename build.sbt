@@ -1,5 +1,8 @@
-import sbtsoftwaremill.BuildInfo
 import com.softwaremill.Publish
+import sbt.addSbtPlugin
+import sbt._
+import Keys._
+import sbtsoftwaremill.BuildInfo
 
 val commonSettings = Publish.ossPublishSettings ++ Seq(
   scalaVersion := "2.12.8",
@@ -7,7 +10,7 @@ val commonSettings = Publish.ossPublishSettings ++ Seq(
   sbtVersion in Global := {
     scalaBinaryVersion.value match {
       case "2.10" => "0.13.17"
-      case "2.12" => "1.2.4"
+      case "2.12" => "1.2.8"
     }
   }
 )
@@ -15,16 +18,10 @@ val commonSettings = Publish.ossPublishSettings ++ Seq(
 lazy val root = project.in(file("."))
   .settings(commonSettings)
   .settings(
-    name            := "sbt-softwaremill",
-    publishArtifact := false)
-  .aggregate(perproject, global)
-
-lazy val perproject = project.in(file("perproject"))
-  .settings(commonSettings)
-  .settings(
     name         := "sbt-softwaremill",
     description  := "Common build configuration for SBT projects",
-    sbtPlugin    := true
+    sbtPlugin    := true,
+    libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.6.0"
   )
   .settings(
     addSbtPlugin("com.jsuereth"      % "sbt-pgp"          % BuildInfo.sbtPgpVersion),
@@ -34,18 +31,7 @@ lazy val perproject = project.in(file("perproject"))
     addSbtPlugin("com.geirsson"      % "sbt-scalafmt"     % "1.5.1"),
     addSbtPlugin("io.spray"          % "sbt-revolver"     % "0.9.1"),
     addSbtPlugin("io.get-coursier"   % "sbt-coursier"     % "1.0.3"),
-    addSbtPlugin("com.dwijnand"      % "sbt-reloadquick"  % "1.0.0")
-  )
-
-lazy val global = project.in(file("global"))
-  .settings(commonSettings)
-  .settings(
-    name         := "sbt-softwaremill-global",
-    description  := "Common build configuration for SBT projects - global",
-    sbtPlugin    := true,
-    libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.6.0",
-  )
-  .settings(
+    addSbtPlugin("com.dwijnand"      % "sbt-reloadquick"  % "1.0.0"),
     addSbtPlugin("com.softwaremill.clippy" % "plugin-sbt" % "0.6.0"),
     addSbtPlugin("com.timushev.sbt"  % "sbt-updates"      % "0.4.0")
   )

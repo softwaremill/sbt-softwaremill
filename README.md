@@ -4,14 +4,16 @@
 
 A sane set of common build settings.
 
-There are two plugins: one which should be added to projects, and another for global settings.
+#### Note: global plugin removed
+Since version 1.5.0 the global plugin has been merged back into the per-project plugin. 
+If you used that dependency, remove it from your .sbt files in `~/.sbt/1.0/plugins/` and `~/.sbt/1.0/`.
 
-## Usage: project settings 
+## Usage
 
 For each project where you'd like to use the build settings, add the following your `project/plugins.sbt` file:
 
 ````scala
-addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill" % "1.4.2")
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill" % "1.5.0")
 ````
 
 Now you can add `smlBuildSettings` to any set of build settings in your `build.sbt`:
@@ -27,6 +29,9 @@ If you only want to import a subset of settings, you can select from:
 ````scala
 lazy val smlBuildSettings =
   commonSmlBuildSettings    ++ // compiler flags
+  clippyBuildSettings       ++ // enable clippy colors
+  splainSettings            ++ // gives rich output on implicit resolution errors 
+  dependencyUpdatesSettings ++ // check dependency updates on startup (max once per 12h)
   wartRemoverSettings       ++ // warts
   acyclicSettings           ++ // check circular dependencies between packages
   ossPublishSettings           // configures common publishing process for all OSS libraries
@@ -41,31 +46,6 @@ lazy val smlBuildSettings =
 - [sbt-reloadquick](https://github.com/dwijnand/sbt-reloadquick)
 - [sbt-revolver](https://github.com/spray/sbt-revolver)
 - [acyclic](https://github.com/lihaoyi/acyclic)
-
-## Usage: global settings
-
-For the global settings, add to `~/.sbt/1.0/plugins/build.sbt` (or any other `.sbt` file):
-
-````scala
-addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-global" % "1.4.2")
-````
-
-Now you can add `smlGlobalBuildSettings` to `~/.sbt/1.0/build.sbt`:
-
-````scala
-smlGlobalBuildSettings
-````
-
-If you only want to import a subset of settings, you can select from:
-
-````scala
-lazy val smlGlobalBuildSettings =
-  clippyBuildSettings       ++ // enable clippy colors
-  splainSettings            ++ // gives rich output on implicit resolution errors 
-  dependencyUpdatesSettings    // check dependency updates on startup (max once per 12h)
-````
-
-`sbt-softwaremill-global` comes with:
 - [scala-clippy](https://github.com/softwaremill/scala-clippy)
 - [splain](https://github.com/tek/splain)
 - [sbt-updates](https://github.com/rtimush/sbt-updates)

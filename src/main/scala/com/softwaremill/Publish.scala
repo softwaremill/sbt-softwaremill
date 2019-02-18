@@ -85,7 +85,6 @@ class Publish {
     pomIncludeRepository := { _ =>
       false
     },
-    credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
     organizationHomepage := Some(url("https://softwaremill.com")),
     homepage := Some(url("http://softwaremill.com/open-source")),
     licenses := Seq("Apache 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
