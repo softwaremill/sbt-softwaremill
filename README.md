@@ -29,7 +29,6 @@ If you only want to import a subset of settings, you can select from:
 ````scala
 lazy val smlBuildSettings =
   commonSmlBuildSettings    ++ // compiler flags
-  clippyBuildSettings       ++ // enable clippy colors
   splainSettings            ++ // gives rich output on implicit resolution errors 
   dependencyUpdatesSettings ++ // check dependency updates on startup (max once per 12h)
   wartRemoverSettings       ++ // warts
@@ -46,7 +45,6 @@ lazy val smlBuildSettings =
 - [sbt-reloadquick](https://github.com/dwijnand/sbt-reloadquick)
 - [sbt-revolver](https://github.com/spray/sbt-revolver)
 - [acyclic](https://github.com/lihaoyi/acyclic)
-- [scala-clippy](https://github.com/softwaremill/scala-clippy)
 - [splain](https://github.com/tek/splain)
 - [sbt-updates](https://github.com/rtimush/sbt-updates)
 

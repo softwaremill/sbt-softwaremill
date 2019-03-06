@@ -3,7 +3,6 @@ package com.softwaremill
 import sbt._
 import Keys._
 import wartremover.{wartremoverWarnings, Wart, Warts}
-import com.softwaremill.clippy.ClippySbtPlugin.autoImport.clippyFatalWarnings
 
 object SbtSoftwareMill extends AutoPlugin {
   override def requires = plugins.JvmPlugin
@@ -152,13 +151,6 @@ object SbtSoftwareMill extends AutoPlugin {
         .withWarnTransitiveEvictions(false)
     )
 
-    lazy val clippyBuildSettings = Seq(
-      com.softwaremill.clippy.ClippySbtPlugin.clippyColorsEnabled := true,
-      clippyFatalWarnings ++= List(
-        "match may not be exhaustive[\\s\\S]*"
-      )
-    )
-
     lazy val splainSettings = Seq(
       libraryDependencies += {
         val splainVersion = CrossVersion.partialVersion(scalaVersion.value) match {
@@ -189,7 +181,6 @@ object SbtSoftwareMill extends AutoPlugin {
         wartRemoverSettings ++
         acyclicSettings ++
         ossPublishSettings ++
-        clippyBuildSettings ++
         splainSettings ++
         dependencyUpdatesSettings
   }
