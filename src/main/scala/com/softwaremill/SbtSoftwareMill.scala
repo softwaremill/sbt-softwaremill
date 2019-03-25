@@ -2,7 +2,7 @@ package com.softwaremill
 
 import sbt._
 import Keys._
-import wartremover.{wartremoverWarnings, Wart, Warts}
+import wartremover.{wartremoverWarnings, Wart}
 
 object SbtSoftwareMill extends AutoPlugin {
   override def requires = plugins.JvmPlugin
@@ -102,7 +102,7 @@ object SbtSoftwareMill extends AutoPlugin {
 
     // @formatter:off
     lazy val wartRemoverSettings = Seq(
-      wartremoverWarnings in (Compile, compile) ++= Warts.allBut(
+      wartremoverWarnings in (Compile, compile) --= Seq(
         Wart.NonUnitStatements,
         Wart.Overloading,
         Wart.PublicInference,
@@ -114,12 +114,17 @@ object SbtSoftwareMill extends AutoPlugin {
         Wart.ExplicitImplicitTypes, // - see puffnfresh/wartremover#226
         Wart.ImplicitConversion,    // - see mpilquist/simulacrum#35
         Wart.Nothing),              // - see puffnfresh/wartremover#263
-      wartremoverWarnings in (Test, compile) ++= Warts.allBut(
+      wartremoverWarnings in (Test, compile) --= Seq(
         Wart.NonUnitStatements,
         Wart.DefaultArguments,
         Wart.Overloading,
         Wart.Serializable,
         Wart.Product,
+        Wart.AsInstanceOf,
+        Wart.IsInstanceOf,
+        Wart.TraversableOps,
+        Wart.Option2Iterable,
+        Wart.JavaSerializable,
         Wart.ImplicitConversion,    // - see mpilquist/simulacrum#35
         Wart.Nothing),              // - see puffnfresh/wartremover#263
       wartremoverWarnings in (Compile, compile) --=
