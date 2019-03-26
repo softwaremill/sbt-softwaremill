@@ -2,7 +2,7 @@ package com.softwaremill
 
 import sbt._
 import Keys._
-import wartremover.{wartremoverWarnings, Wart}
+import wartremover.{wartremoverWarnings, Wart, Warts}
 
 object SbtSoftwareMill extends AutoPlugin {
   override def requires = plugins.JvmPlugin
@@ -100,40 +100,33 @@ object SbtSoftwareMill extends AutoPlugin {
       addCompilerPlugin("com.lihaoyi" %% "acyclic" % acyclicVersion)
     )
 
-    // @formatter:off
-    lazy val wartRemoverSettings = Seq(
-      wartremoverWarnings in (Compile, compile) --= Seq(
-        Wart.NonUnitStatements,
-        Wart.Overloading,
-        Wart.PublicInference,
-        Wart.Equals,
-        Wart.ImplicitParameter,
-        Wart.Serializable,
-        Wart.Product,
-        Wart.Any,                   // - see puffnfresh/wartremover#263
-        Wart.ExplicitImplicitTypes, // - see puffnfresh/wartremover#226
-        Wart.ImplicitConversion,    // - see mpilquist/simulacrum#35
-        Wart.Nothing),              // - see puffnfresh/wartremover#263
-      wartremoverWarnings in (Test, compile) --= Seq(
-        Wart.NonUnitStatements,
-        Wart.DefaultArguments,
-        Wart.Overloading,
-        Wart.Serializable,
-        Wart.Product,
-        Wart.AsInstanceOf,
-        Wart.IsInstanceOf,
-        Wart.TraversableOps,
-        Wart.Option2Iterable,
-        Wart.JavaSerializable,
-        Wart.ImplicitConversion,    // - see mpilquist/simulacrum#35
-        Wart.Nothing),              // - see puffnfresh/wartremover#263
-      wartremoverWarnings in (Compile, compile) --=
-        (CrossVersion.partialVersion(scalaVersion.value) match {
-          case Some((2, 11)) | Some((2, 12)) => Nil
-          case _                             => Seq(Wart.Overloading) // Falsely triggers on 2.10
-        })
+    val smlWartremoverCompileExclusions = Seq(
+      Wart.NonUnitStatements,
+      Wart.Overloading,
+      Wart.PublicInference,
+      Wart.Equals,
+      Wart.ImplicitParameter,
+      Wart.Serializable,
+      Wart.Product,
+      Wart.Any,                   // - see puffnfresh/wartremover#263
+      Wart.ExplicitImplicitTypes, // - see puffnfresh/wartremover#226
+      Wart.ImplicitConversion,    // - see mpilquist/simulacrum#35
+      Wart.Nothing                // - see puffnfresh/wartremover#263
     )
-    // @formatter:off
+
+    val smlWartremoverTestCompileExclusions = smlWartremoverCompileExclusions ++ Seq(
+      Wart.DefaultArguments,
+      Wart.AsInstanceOf,
+      Wart.IsInstanceOf,
+      Wart.TraversableOps,
+      Wart.Option2Iterable,
+      Wart.JavaSerializable
+    )
+
+    lazy val wartRemoverSettings = Seq(
+      wartremoverWarnings in (Compile, compile) := Warts.all.diff(smlWartremoverCompileExclusions),
+      wartremoverWarnings in (Test, compile) := Warts.all.diff(smlWartremoverTestCompileExclusions)
+    )
 
     lazy val commonSmlBuildSettings = Seq(
       outputStrategy := Some(StdoutOutput),
