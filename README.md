@@ -36,6 +36,26 @@ lazy val smlBuildSettings =
   ossPublishSettings           // configures common publishing process for all OSS libraries
 ````
 
+#### Adding more ignored Warts
+If you are annoyed by some Wartremover warnings and you'd like to extend the default set of ignored warnings,
+you can define them like:
+
+```scala
+  .settings(
+      wartremoverWarnings in (Compile, compile) --= Seq(
+        Wart.DefaultArguments,
+        Wart.JavaSerializable
+      ),
+      wartremoverWarnings in (Test, compile) --= Seq(
+        Wart.Var,
+        Wart.MutableDataStructures
+      ),
+      wartremoverWarnings in (IntegrationTest, compile) := Warts.all // custom scope
+        .diff(smlWartremoverTestCompileExclusions) // default set
+        .diff(Seq(Wart.Var, Wart.MutableDataStructures))
+  )
+```  
+
 `sbt-softwaremill` comes with:
 - [Coursier](https://github.com/coursier/coursier)
 - [sbt-scalafmt](https://scalameta.org/scalafmt/docs/installation.html)
