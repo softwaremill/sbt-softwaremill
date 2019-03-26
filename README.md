@@ -5,7 +5,7 @@
 A sane set of common build settings.
 
 #### Note: global plugin removed
-Since version 1.5.2 the global plugin has been merged back into the per-project plugin. 
+Since version 1.5.3 the global plugin has been merged back into the per-project plugin. 
 If you used that dependency, remove it from your .sbt files in `~/.sbt/1.0/plugins/` and `~/.sbt/1.0/`.
 
 ## Usage
@@ -13,7 +13,7 @@ If you used that dependency, remove it from your .sbt files in `~/.sbt/1.0/plugi
 For each project where you'd like to use the build settings, add the following your `project/plugins.sbt` file:
 
 ````scala
-addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill" % "1.5.2")
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill" % "1.5.3")
 ````
 
 Now you can add `smlBuildSettings` to any set of build settings in your `build.sbt`:
