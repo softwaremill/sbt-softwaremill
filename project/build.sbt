@@ -1,6 +1,7 @@
 val sbtPgpVersion      = "1.1.2"
 val sbtReleaseVersion  = "1.0.11"
-val sbtSonatypeVersion = "2.3"
+val sbtSonatypeVersion = "2.5"
+val sbtScalafmtVersion = "2.0.0"
 
 lazy val root = project.in(file("."))
   .enablePlugins(BuildInfoPlugin)
@@ -8,9 +9,10 @@ lazy val root = project.in(file("."))
     addSbtPlugin("com.jsuereth"      % "sbt-pgp"          % sbtPgpVersion),
     addSbtPlugin("com.github.gseitz" % "sbt-release"      % sbtReleaseVersion),
     addSbtPlugin("org.xerial.sbt"    % "sbt-sonatype"     % sbtSonatypeVersion),
-    addSbtPlugin("com.geirsson"      % "sbt-scalafmt"     % "1.5.1"),
+    addSbtPlugin("org.scalameta"     % "sbt-scalafmt"     % sbtScalafmtVersion),
     buildInfoKeys := Seq[BuildInfoKey](
       "sbtPgpVersion"      -> sbtPgpVersion,
       "sbtReleaseVersion"  -> sbtReleaseVersion,
-      "sbtSonatypeVersion" -> sbtSonatypeVersion),
+      "sbtSonatypeVersion" -> sbtSonatypeVersion,
+      "sbtScalafmtVersion" -> sbtScalafmtVersion),
     buildInfoPackage := "sbtsoftwaremill")
