@@ -20,13 +20,14 @@ object CheckUpdates {
     } else false
   }
 
-  lazy val startupTransition: String => State => State = { p: String =>
-    { s: State =>
-      if (!updatesTaskExecuted && needsChecking(p)) {
-        updatesTaskExecuted = true
-        "dependencyUpdates" :: s
-      } else
-        s
-    }
+  lazy val startupTransition: String => State => State = {
+    p: String =>
+      { s: State =>
+        if (!updatesTaskExecuted && needsChecking(p)) {
+          updatesTaskExecuted = true
+          "dependencyUpdates" :: s
+        } else
+          s
+      }
   }
 }

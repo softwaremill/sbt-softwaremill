@@ -107,7 +107,7 @@ class Publish {
     releaseCrossBuild := true,
     releasePublishArtifactsAction := PgpKeys.publishSigned.value,
     releaseIgnoreUntrackedFiles := true,
-    releaseProcess := Release.steps(organization.value),
+    releaseProcess := Release.steps(organization.value)
   )
 
   lazy val noPublishSettings = Seq(publish := {}, publishLocal := {}, publishArtifact := false)
