@@ -92,7 +92,7 @@ object SbtSoftwareMill extends AutoPlugin {
 
     import autoImport._
 
-    val acyclicVersion    = "0.1.8"
+    val acyclicVersion    = "0.1.9"
     lazy val acyclicSettings = Seq(
       libraryDependencies += "com.lihaoyi" %% "acyclic" % acyclicVersion % "provided",
       autoCompilerPlugins := true,
