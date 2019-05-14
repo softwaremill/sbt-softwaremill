@@ -107,6 +107,8 @@ object SbtSoftwareMill extends AutoPlugin {
       Wart.Equals,
       Wart.ImplicitParameter,
       Wart.Serializable,
+      Wart.DefaultArguments,
+      Wart.Var,
       Wart.Product,
       Wart.Any,                   // - see puffnfresh/wartremover#263
       Wart.ExplicitImplicitTypes, // - see puffnfresh/wartremover#226
@@ -116,6 +118,7 @@ object SbtSoftwareMill extends AutoPlugin {
 
     val smlWartremoverTestCompileExclusions = smlWartremoverCompileExclusions ++ Seq(
       Wart.DefaultArguments,
+      Wart.Var,
       Wart.AsInstanceOf,
       Wart.IsInstanceOf,
       Wart.TraversableOps,
