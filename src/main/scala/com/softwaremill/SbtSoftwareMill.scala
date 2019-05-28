@@ -3,6 +3,7 @@ package com.softwaremill
 import sbt._
 import Keys._
 import wartremover.{wartremoverWarnings, Wart, Warts}
+import net.vonbuchholtz.sbt.dependencycheck.DependencyCheckPlugin
 
 object SbtSoftwareMill extends AutoPlugin {
   override def requires = plugins.JvmPlugin
@@ -177,12 +178,20 @@ object SbtSoftwareMill extends AutoPlugin {
       }
     )
 
+    lazy val dependencyCheckSettings = Seq(
+      DependencyCheckPlugin.autoImport.dependencyCheckCveUrl12Modified := Some(new URL("http://nvdmirror.jenkins.k8s.sml.io/")),
+      DependencyCheckPlugin.autoImport.dependencyCheckCveUrl12Base := Some("http://nvdmirror.jenkins.k8s.sml.io/"),
+      DependencyCheckPlugin.autoImport.dependencyCheckAssemblyAnalyzerEnabled := Some(false),
+      DependencyCheckPlugin.autoImport.dependencyCheckFormat := "All",
+    )
+
     lazy val smlBuildSettings =
       commonSmlBuildSettings ++
         wartRemoverSettings ++
         acyclicSettings ++
         ossPublishSettings ++
         splainSettings ++
-        dependencyUpdatesSettings
+        dependencyUpdatesSettings ++
+        dependencyCheckSettings
   }
 }
