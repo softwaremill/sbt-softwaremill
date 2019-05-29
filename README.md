@@ -67,6 +67,7 @@ you can define them like:
 - [acyclic](https://github.com/lihaoyi/acyclic)
 - [splain](https://github.com/tek/splain)
 - [sbt-updates](https://github.com/rtimush/sbt-updates)
+- [sbt-dependency-check](https://github.com/albuch/sbt-dependency-check)
 
 ## Releasing your library
 
