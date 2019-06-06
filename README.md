@@ -5,7 +5,7 @@
 A sane set of common build settings.
 
 #### Note: global plugin removed
-Since version 1.6.4 the global plugin has been merged back into the per-project plugin. 
+Since version 1.6.0 the global plugin has been merged back into the per-project plugin. 
 If you used that dependency, remove it from your .sbt files in `~/.sbt/1.0/plugins/` and `~/.sbt/1.0/`.
 
 ## Usage
