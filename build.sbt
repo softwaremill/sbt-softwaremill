@@ -21,7 +21,7 @@ lazy val root = project.in(file("."))
     name         := "sbt-softwaremill",
     description  := "Common build configuration for SBT projects",
     sbtPlugin    := true,
-    libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.7.1"
+    libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.8.0"
   )
   .settings(
     addSbtPlugin("com.jsuereth"      % "sbt-pgp"          % BuildInfo.sbtPgpVersion),
