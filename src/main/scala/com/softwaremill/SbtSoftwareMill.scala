@@ -182,7 +182,7 @@ object SbtSoftwareMill extends AutoPlugin {
       DependencyCheckPlugin.autoImport.dependencyCheckCveUrl12Modified := Some(new URL("http://nvdmirror.sml.io/")),
       DependencyCheckPlugin.autoImport.dependencyCheckCveUrl12Base := Some("http://nvdmirror.sml.io/"),
       DependencyCheckPlugin.autoImport.dependencyCheckAssemblyAnalyzerEnabled := Some(false),
-      DependencyCheckPlugin.autoImport.dependencyCheckFormat := "All",
+      DependencyCheckPlugin.autoImport.dependencyCheckFormat := "All"
     )
 
     lazy val smlBuildSettings =
