@@ -4,4 +4,3 @@ scala:
 jdk:
 - oraclejdk8
 sudo: false
-script:

@@ -143,7 +143,7 @@ object SbtSoftwareMill extends AutoPlugin {
         "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases",
         "bintray/non" at "http://dl.bintray.com/non/maven"
       ),
-      addCompilerPlugin("org.spire-math"  %% "kind-projector" % "0.9.10"),
+      addCompilerPlugin("org.spire-math"  %% "kind-projector" % "0.10.3"),
       addCompilerPlugin("org.scalamacros" % "paradise"        % "2.1.1" cross CrossVersion.patch),
       scalacOptions ++= scalacOptionsFor(scalaVersion.value),
       scalacOptions.in(Compile, console) ~= filterConsoleScalacOptions,
