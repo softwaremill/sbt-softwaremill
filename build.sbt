@@ -16,11 +16,13 @@ val commonSettings = Publish.ossPublishSettings ++ Seq(
 )
 
 lazy val root = project.in(file("."))
+  .enablePlugins(SbtPlugin)
   .settings(commonSettings)
   .settings(
     name         := "sbt-softwaremill",
     description  := "Common build configuration for SBT projects",
     sbtPlugin    := true,
+    scriptedLaunchOpts += ("-Dplugin.version=" + version.value),
     libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.8.0"
   )
   .settings(
