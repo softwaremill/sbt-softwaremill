@@ -98,7 +98,7 @@ lazy val rootProject = (project in file("."))
 
 The release process is broken into two steps:
 
-1. *local*: `sbt commitRelease`. This sbt command prepares the next release: runs the tests, updated `version.sbt`,
+1. *local*: `sbt commitRelease`. This sbt command prepares the next release: runs the tests, updates `version.sbt`,
 creates the git tag, commits the changes and finally asks the user to push the changes.
 2. *remote*: `sbt publishRelease`. This sbt command should be run on Travis, triggered when a new tag is pushed. It
 publishes the artifacts to sonatype, and invokes repository release.
