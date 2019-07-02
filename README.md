@@ -84,8 +84,8 @@ Consider that:
 
 ## Releasing your library using Travis
 
-To use, you'll need to include `com.softwaremill.PublishTravis.publishTravisSettings` in the settings of your root 
-project. You might need to customise settings such as `sonatypeProfileName`, `scmInfo`, `developers` etc. For
+To use, you'll need to include `com.softwaremill.PublishTravis.publishTravisSettings` in the settings of your 
+projects. You might need to customise settings such as `sonatypeProfileName`, `scmInfo`, `developers` etc. For
 example:
 
 ```scala
