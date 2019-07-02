@@ -23,12 +23,12 @@ object PublishTravis {
     pgpSecretRing := baseDirectory.value / "secring.asc", // unpacked from secrets.tar.enc
     pgpPublicRing := baseDirectory.value / "pubring.asc", // unpacked from secrets.tar.enc
     commands += Command.command("commitRelease") { state =>
-      "set isCommitRelease := true" ::
+      "set com.softwaremill.PublishTravis.isCommitRelease := true" ::
         "release" ::
         state
     },
     commands += Command.command("publishRelease") { state =>
-      "set isCommitRelease := false" ::
+      "set com.softwaremill.PublishTravis.isCommitRelease := false" ::
         "release" ::
         state
     },
