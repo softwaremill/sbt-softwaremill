@@ -85,15 +85,20 @@ Consider that:
 ## Releasing your library using Travis
 
 To use, you'll need to include `com.softwaremill.PublishTravis.publishTravisSettings` in the settings of your 
-projects. You might need to customise settings such as `sonatypeProfileName`, `scmInfo`, `developers` etc. For
-example:
+`root` project *only*:
 
 ```scala
 lazy val rootProject = (project in file("."))
   .settings(publishTravisSettings)
-  .settings(
-    sonatypeProfileName := "com.example"
-  )
+```  
+  
+Moreover, you should include `ossPublishSettings` in the settings of all the projects you'd like to publish. You might 
+need to customise settings such as `sonatypeProfileName`, `scmInfo`, `developers` etc. For example:  
+  
+```scala
+val commonSettings = ossPublishSettings ++ Seq(
+  sonatypeProfileName := "com.example"
+)
 ```
 
 The release process is broken into two steps:

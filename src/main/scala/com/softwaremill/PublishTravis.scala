@@ -17,7 +17,7 @@ object PublishTravis {
   val isCommitRelease =
     settingKey[Boolean]("A hacky way to differentiate between commitRelease and publishRelease invocations.")
 
-  lazy val publishTravisSettings = Publish.ossPublishSettings ++ Seq(
+  lazy val publishTravisSettings = Seq(
     isCommitRelease := true,
     useGpg := false,                                      // use the gpg implementation from the sbt-pgp plugin
     pgpSecretRing := baseDirectory.value / "secring.asc", // unpacked from secrets.tar.enc
