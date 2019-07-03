@@ -161,12 +161,12 @@ before_cache:
   - find $HOME/.coursier/cache -name "*.lock" -type f -delete
 cache:
   directories:
-    - $HOME/.sbt/1.0
-    - $HOME/.sbt/boot/scala*
-    - $HOME/.sbt/cache
-    - $HOME/.sbt/launchers
-    - $HOME/.ivy2/cache
-    - $HOME/.coursier
+    - "$HOME/.sbt/1.0"
+    - "$HOME/.sbt/boot/scala*"
+    - "$HOME/.sbt/cache"
+    - "$HOME/.sbt/launchers"
+    - "$HOME/.ivy2/cache"
+    - "$HOME/.coursier"
 script:
   - sbt ++$TRAVIS_SCALA_VERSION test
 deploy:

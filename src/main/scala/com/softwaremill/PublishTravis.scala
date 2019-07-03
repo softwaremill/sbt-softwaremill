@@ -1,7 +1,7 @@
 package com.softwaremill
 
 import sbt._, Keys._
-import com.typesafe.sbt.SbtPgp.autoImportImpl.PgpKeys._
+import com.typesafe.sbt.SbtPgp.autoImportImpl._
 import com.softwaremill.Publish.Release._
 import sbtrelease.ReleasePlugin.autoImport._
 import sbtrelease.ReleaseStateTransformations._
