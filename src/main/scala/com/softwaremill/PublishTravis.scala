@@ -1,11 +1,12 @@
 package com.softwaremill
 
 import sbt._, Keys._
+import com.typesafe.sbt.SbtPgp.autoImportImpl._
 import com.softwaremill.Publish.Release._
 import sbtrelease.ReleasePlugin.autoImport._
 import sbtrelease.ReleaseStateTransformations._
 
-object TwoStepPublish {
+object PublishTravis {
   // release entry points
 
   val commitRelease  = taskKey[Unit]("Update version.sbt, change docs, create git tag, commit and push changes")
@@ -16,8 +17,11 @@ object TwoStepPublish {
   val isCommitRelease =
     settingKey[Boolean]("A hacky way to differentiate between commitRelease and publishRelease invocations.")
 
-  lazy val twoStepPublishSettings = Publish.ossPublishSettings ++ Seq(
+  lazy val publishTravisSettings = Publish.ossPublishSettings ++ Seq(
     isCommitRelease := true,
+    useGpg := false,                                      // use the gpg implementation from the sbt-pgp plugin
+    pgpSecretRing := baseDirectory.value / "secring.asc", // unpacked from secrets.tar.enc
+    pgpPublicRing := baseDirectory.value / "pubring.asc", // unpacked from secrets.tar.enc
     commands += Command.command("commitRelease") { state =>
       "set com.softwaremill.PublishTravis.isCommitRelease := true" ::
         "release" ::

@@ -82,9 +82,9 @@ Consider that:
 - Your `README.md` and `docs` directory will be parsed for `"[organization]" %(%) "artifactId" % "someVersion"` and that version value will be bumped.
 - If you a have multi-module project, you may need to add `publishArtifact := false` to your root project's settings. 
 
-## Releasing your library using Travis (or another cloud build tool_
+## Releasing your library using Travis
 
-To use, you'll need to include `com.softwaremill.TwoStepPublish.twoStepPublishSettings` in the settings of your 
+To use, you'll need to include `com.softwaremill.PublishTravis.publishTravisSettings` in the settings of your 
 projects. You might need to customise settings such as `sonatypeProfileName`, `scmInfo`, `developers` etc. For
 example:
 
@@ -96,7 +96,7 @@ lazy val rootProject = (project in file("."))
   )
 ```
 
-The release process is broken up into two steps:
+The release process is broken into two steps:
 
 1. *local*: `sbt commitRelease`. This sbt command prepares the next release: runs the tests, updates `version.sbt`,
 creates the git tag, commits the changes and finally asks the user to push the changes.
