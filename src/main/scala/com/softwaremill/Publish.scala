@@ -33,40 +33,47 @@ class Publish {
 
     // based on https://github.com/EECOLOR/sbt-release-custom-steps/blob/master/src/main/scala/org/qirx/sbtrelease/UpdateVersionInFiles.scala
     def updateVersionInDocs(organization: String): ReleaseStep = { s: State =>
-      val readmeFile             = file("README.md")
-      val readme                 = IO.read(readmeFile)
-      val regexStr               = s""""$organization" %{1,2} "[\\w\\.-]+" % "([\\w\\.-]+)""""
-      val currentVersionPattern  = regexStr.r
-      val currentVersionInReadme = currentVersionPattern.findFirstMatchIn(readme).get.group(1)
+      val readmeFile            = file("README.md")
+      val readme                = IO.read(readmeFile)
+      val regexStr              = s""""$organization" %{1,2} "[\\w\\.-]+" % "([\\w\\.-]+)""""
+      val currentVersionPattern = regexStr.r
 
-      val releaseVersion = s.get(versions).get._1
+      currentVersionPattern.findFirstMatchIn(readme) match {
+        case Some(currentVersionInReadmeGroups) =>
+          val currentVersionInReadme = currentVersionInReadmeGroups.group(1)
 
-      val settings = Project.extract(s)
-      val vcs      = settings.get(releaseVcs).get
+          val releaseVersion = s.get(versions).get._1
 
-      def replaceInFile(f: File): Unit = {
-        s.log.info(s"Replacing $currentVersionInReadme with $releaseVersion in ${f.name}")
+          val settings = Project.extract(s)
+          val vcs      = settings.get(releaseVcs).get
 
-        val oldFile = IO.read(f)
-        val newFile = oldFile.replaceAll(Pattern.quote(currentVersionInReadme), releaseVersion)
-        IO.write(f, newFile)
+          def replaceInFile(f: File): Unit = {
+            s.log.info(s"Replacing $currentVersionInReadme with $releaseVersion in ${f.name}")
 
-        vcs.add(f.getAbsolutePath) !! s.log
-      }
+            val oldFile = IO.read(f)
+            val newFile = oldFile.replaceAll(Pattern.quote(currentVersionInReadme), releaseVersion)
+            IO.write(f, newFile)
 
-      def replaceDocsInDirectory(d: File) {
-        Option(d.listFiles()).foreach(_.foreach { f =>
-          if (f.isDirectory) {
-            replaceDocsInDirectory(f)
-          } else if (f.getName.endsWith(".rst") || f.getName.endsWith(".md")) {
-            replaceInFile(f)
+            vcs.add(f.getAbsolutePath) !! s.log
           }
-        })
-      }
 
-      replaceInFile(readmeFile)
-      replaceDocsInDirectory(file("doc"))
-      replaceDocsInDirectory(file("docs"))
+          def replaceDocsInDirectory(d: File) {
+            Option(d.listFiles()).foreach(_.foreach { f =>
+              if (f.isDirectory) {
+                replaceDocsInDirectory(f)
+              } else if (f.getName.endsWith(".rst") || f.getName.endsWith(".md")) {
+                replaceInFile(f)
+              }
+            })
+          }
+
+          replaceInFile(readmeFile)
+          replaceDocsInDirectory(file("doc"))
+          replaceDocsInDirectory(file("docs"))
+
+        case None =>
+          s.log.warn(s"Current version not found in readme, skipping")
+      }
 
       s
     }
