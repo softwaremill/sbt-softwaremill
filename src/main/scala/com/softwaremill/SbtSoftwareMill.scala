@@ -154,8 +154,8 @@ object SbtSoftwareMill extends AutoPlugin {
         Resolver.sonatypeRepo("releases"),
         Resolver.sonatypeRepo("snapshots"),
         "JBoss repository" at "https://repository.jboss.org/nexus/content/repositories/",
-        "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases",
-        "bintray/non" at "http://dl.bintray.com/non/maven"
+        "Scalaz Bintray Repo" at "https://dl.bintray.com/scalaz/releases",
+        "bintray/non" at "https://dl.bintray.com/non/maven"
       ),
       addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3"),
       libraryDependencies ++= {
@@ -202,8 +202,8 @@ object SbtSoftwareMill extends AutoPlugin {
     )
 
     lazy val dependencyCheckSettings = Seq(
-      DependencyCheckPlugin.autoImport.dependencyCheckCveUrl12Modified := Some(new URL("http://nvdmirror.sml.io/")),
-      DependencyCheckPlugin.autoImport.dependencyCheckCveUrl12Base := Some("http://nvdmirror.sml.io/"),
+      DependencyCheckPlugin.autoImport.dependencyCheckCveUrlModified := Some(new URL("http://nvdmirror.sml.io/")),
+      DependencyCheckPlugin.autoImport.dependencyCheckCveUrlBase := Some("http://nvdmirror.sml.io/"),
       DependencyCheckPlugin.autoImport.dependencyCheckAssemblyAnalyzerEnabled := Some(false),
       DependencyCheckPlugin.autoImport.dependencyCheckFormat := "All"
     )

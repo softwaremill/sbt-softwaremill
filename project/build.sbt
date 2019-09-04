@@ -1,7 +1,7 @@
 val sbtPgpVersion      = "1.1.2"
 val sbtReleaseVersion  = "1.0.11"
-val sbtSonatypeVersion = "2.5"
-val sbtScalafmtVersion = "2.0.2"
+val sbtSonatypeVersion = "2.6"
+val sbtScalafmtVersion = "2.0.4"
 
 lazy val root = project
   .in(file("."))
