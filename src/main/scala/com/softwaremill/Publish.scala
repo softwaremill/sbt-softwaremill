@@ -1,6 +1,7 @@
 package com.softwaremill
 
 import sbt._, Keys._
+import xerial.sbt.Sonatype._
 import xerial.sbt.Sonatype.SonatypeKeys._
 import com.typesafe.sbt.SbtPgp.autoImportImpl.PgpKeys
 import sbtrelease.ReleasePlugin.autoImport._
@@ -25,9 +26,9 @@ class Publish {
       commitReleaseVersion,
       tagRelease,
       publishArtifacts,
+      releaseStepCommand("sonatypeBundleRelease"),
       setNextVersion,
       commitNextVersion,
-      releaseStepCommand("sonatypeReleaseAll"),
       pushChanges
     )
 
@@ -80,12 +81,9 @@ class Publish {
   }
 
   lazy val ossPublishSettings = Seq(
-    publishTo := Some(
-      if (isSnapshot.value)
-        Opts.resolver.sonatypeSnapshots
-      else
-        Opts.resolver.sonatypeStaging
-    ),
+    publishTo := {
+      if (isSnapshot.value) Some(Opts.resolver.sonatypeSnapshots) else sonatypePublishToBundle.value
+    },
     publishArtifact in Test := false,
     publishMavenStyle := true,
     sonatypeProfileName := "com.softwaremill",
@@ -95,12 +93,7 @@ class Publish {
     organizationHomepage := Some(url("https://softwaremill.com")),
     homepage := Some(url("http://softwaremill.com/open-source")),
     licenses := Seq("Apache 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
-    scmInfo := Some(
-      ScmInfo(
-        url("https://github.com/softwaremill/" + name.value),
-        "scm:git:git@github.com/softwaremill/" + name.value + ".git"
-      )
-    ),
+    sonatypeProjectHosting := Some(GitHubHosting("softwaremill", name.value, "info@softwaremill.com")),
     autoAPIMappings := true,
     developers := List(
       Developer(
