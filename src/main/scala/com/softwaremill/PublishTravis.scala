@@ -51,7 +51,7 @@ object PublishTravis {
       } else {
         Seq(
           publishArtifacts,
-          releaseStepCommand("sonatypeReleaseAll")
+          releaseStepCommand("sonatypeBundleRelease")
         )
       }
     }
