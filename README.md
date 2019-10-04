@@ -182,3 +182,10 @@ deploy:
       all_branches: true
       condition: $TRAVIS_SCALA_VERSION = "2.12.8" && $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+(\.[0-9]+)?
 ```
+
+## Releasing sbt-softwaremill
+
+Sbt-softwaremill release process is setup on travis. 
+This plugin uses itself to publish binaries to oss-sonatype.
+
+For more details refer to [Releasing your library using Travis](#releasing-your-library-using-travis).
