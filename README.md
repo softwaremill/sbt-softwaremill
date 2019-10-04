@@ -151,7 +151,7 @@ Example `travis.yml` file:
 ```
 language: scala
 scala:
-  - 2.12.8
+  - 2.12.10
   - 2.13.0
 before_install:
   - openssl aes-256-cbc -K $encrypted_f7a2d53f3383_key -iv $encrypted_f7a2d53f3383_iv
