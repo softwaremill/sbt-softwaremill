@@ -1,0 +1,1 @@
+../src/main/scala/com/softwaremill/PublishTravis.scala

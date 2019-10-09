@@ -1,4 +1,5 @@
 import com.softwaremill.Publish
+import com.softwaremill.PublishTravis
 import sbt.addSbtPlugin
 import sbt._
 import Keys._
@@ -37,3 +38,4 @@ lazy val root = project.in(file("."))
     addSbtPlugin("com.timushev.sbt"  % "sbt-updates"      % "0.4.2"),
     addSbtPlugin("net.vonbuchholtz" % "sbt-dependency-check" % "1.3.0")
   )
+  .settings(PublishTravis.publishTravisSettings)
