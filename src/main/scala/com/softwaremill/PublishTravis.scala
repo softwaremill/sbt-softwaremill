@@ -6,7 +6,7 @@ import com.softwaremill.Publish.Release._
 import sbtrelease.ReleasePlugin.autoImport._
 import sbtrelease.ReleaseStateTransformations._
 
-object PublishTravis {
+class PublishTravis {
   // release entry points
 
   val commitRelease  = taskKey[Unit]("Update version.sbt, change docs, create git tag, commit and push changes")
@@ -57,3 +57,5 @@ object PublishTravis {
     }
   )
 }
+
+object PublishTravis extends PublishTravis
