@@ -36,6 +36,6 @@ lazy val root = project.in(file("."))
     addSbtPlugin("io.get-coursier"   % "sbt-coursier"     % "1.0.3"),
     addSbtPlugin("com.dwijnand"      % "sbt-reloadquick"  % "1.0.0"),
     addSbtPlugin("com.timushev.sbt"  % "sbt-updates"      % "0.4.3"),
-    addSbtPlugin("net.vonbuchholtz" % "sbt-dependency-check" % "1.3.0")
+    addSbtPlugin("net.vonbuchholtz" % "sbt-dependency-check" % "1.3.3")
   )
   .settings(PublishTravis.publishTravisSettings)
