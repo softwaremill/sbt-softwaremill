@@ -1,16 +1,17 @@
 import com.softwaremill.Publish
+import com.softwaremill.PublishTravis
 import sbt.addSbtPlugin
 import sbt._
 import Keys._
 import sbtsoftwaremill.BuildInfo
 
 val commonSettings = Publish.ossPublishSettings ++ Seq(
-  scalaVersion := "2.12.8",
+  scalaVersion := "2.12.10",
   organization := "com.softwaremill.sbt-softwaremill",
   sbtVersion in Global := {
     scalaBinaryVersion.value match {
       case "2.10" => "0.13.17"
-      case "2.12" => "1.2.8"
+      case "2.12" => "1.3.2"
     }
   }
 )
@@ -29,11 +30,12 @@ lazy val root = project.in(file("."))
     addSbtPlugin("com.jsuereth"      % "sbt-pgp"          % BuildInfo.sbtPgpVersion),
     addSbtPlugin("com.github.gseitz" % "sbt-release"      % BuildInfo.sbtReleaseVersion),
     addSbtPlugin("org.xerial.sbt"    % "sbt-sonatype"     % BuildInfo.sbtSonatypeVersion),
-    addSbtPlugin("org.wartremover"   % "sbt-wartremover"  % "2.4.2"),
+    addSbtPlugin("org.wartremover"   % "sbt-wartremover"  % "2.4.3"),
     addSbtPlugin("org.scalameta"     % "sbt-scalafmt"     % BuildInfo.sbtScalafmtVersion),
     addSbtPlugin("io.spray"          % "sbt-revolver"     % "0.9.1"),
     addSbtPlugin("io.get-coursier"   % "sbt-coursier"     % "1.0.3"),
     addSbtPlugin("com.dwijnand"      % "sbt-reloadquick"  % "1.0.0"),
-    addSbtPlugin("com.timushev.sbt"  % "sbt-updates"      % "0.4.2"),
-    addSbtPlugin("net.vonbuchholtz" % "sbt-dependency-check" % "1.3.0")
+    addSbtPlugin("com.timushev.sbt"  % "sbt-updates"      % "0.5.0"),
+    addSbtPlugin("net.vonbuchholtz" % "sbt-dependency-check" % "1.3.3")
   )
+  .settings(PublishTravis.publishTravisSettings)

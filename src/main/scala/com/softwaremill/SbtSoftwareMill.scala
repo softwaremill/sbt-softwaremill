@@ -128,7 +128,8 @@ object SbtSoftwareMill extends AutoPlugin {
       Wart.Any,                   // - see puffnfresh/wartremover#263
       Wart.ExplicitImplicitTypes, // - see puffnfresh/wartremover#226
       Wart.ImplicitConversion,    // - see mpilquist/simulacrum#35
-      Wart.Nothing                // - see puffnfresh/wartremover#263
+      Wart.Nothing,               // - see puffnfresh/wartremover#263
+      Wart.FinalCaseClass
     )
 
     val smlWartremoverTestCompileExclusions = smlWartremoverCompileExclusions ++ Seq(
@@ -138,7 +139,8 @@ object SbtSoftwareMill extends AutoPlugin {
       Wart.IsInstanceOf,
       Wart.TraversableOps,
       Wart.Option2Iterable,
-      Wart.JavaSerializable
+      Wart.JavaSerializable,
+      Wart.FinalCaseClass
     )
 
     lazy val wartRemoverSettings = Seq(

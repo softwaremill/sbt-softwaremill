@@ -13,7 +13,7 @@ If you used that dependency, remove it from your .sbt files in `~/.sbt/1.0/plugi
 For each project where you'd like to use the build settings, add the following your `project/plugins.sbt` file:
 
 ````scala
-addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill" % "1.8.3")
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill" % "1.8.4")
 ````
 
 Now you can add `smlBuildSettings` to any set of build settings in your `build.sbt`:
@@ -151,7 +151,7 @@ Example `travis.yml` file:
 ```
 language: scala
 scala:
-  - 2.12.8
+  - 2.12.10
   - 2.13.0
 before_install:
   - openssl aes-256-cbc -K $encrypted_f7a2d53f3383_key -iv $encrypted_f7a2d53f3383_iv
@@ -182,3 +182,10 @@ deploy:
       all_branches: true
       condition: $TRAVIS_SCALA_VERSION = "2.12.8" && $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+(\.[0-9]+)?
 ```
+
+## Releasing sbt-softwaremill
+
+Sbt-softwaremill release process is setup on travis. 
+This plugin uses itself to publish binaries to oss-sonatype.
+
+For more details refer to [Releasing your library using Travis](#releasing-your-library-using-travis).
