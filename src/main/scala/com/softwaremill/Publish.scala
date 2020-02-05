@@ -34,9 +34,9 @@ class Publish {
 
     // based on https://github.com/EECOLOR/sbt-release-custom-steps/blob/master/src/main/scala/org/qirx/sbtrelease/UpdateVersionInFiles.scala
     def updateVersionInDocs(organization: String): ReleaseStep = { s: State =>
-      val readmeFile            = file("README.md")
-      val readme                = IO.read(readmeFile)
-      val regexStr              = s""""$organization" %{1,2} "[\\w\\.-]+" % "([\\w\\.-]+)""""
+      val readmeFile = file("README.md")
+      val readme = IO.read(readmeFile)
+      val regexStr = s""""$organization" %{1,2} "[\\w\\.-]+" % "([\\w\\.-]+)""""
       val currentVersionPattern = regexStr.r
 
       currentVersionPattern.findFirstMatchIn(readme) match {
@@ -46,13 +46,18 @@ class Publish {
           val releaseVersion = s.get(versions).get._1
 
           val settings = Project.extract(s)
-          val vcs      = settings.get(releaseVcs).get
+          val vcs = settings.get(releaseVcs).get
 
           def replaceInFile(f: File): Unit = {
-            s.log.info(s"Replacing $currentVersionInReadme with $releaseVersion in ${f.name}")
+            s.log.info(
+              s"Replacing $currentVersionInReadme with $releaseVersion in ${f.name}"
+            )
 
             val oldFile = IO.read(f)
-            val newFile = oldFile.replaceAll(Pattern.quote(currentVersionInReadme), releaseVersion)
+            val newFile = oldFile.replaceAll(
+              Pattern.quote(currentVersionInReadme),
+              releaseVersion
+            )
             IO.write(f, newFile)
 
             vcs.add(f.getAbsolutePath) !! s.log
@@ -62,7 +67,8 @@ class Publish {
             Option(d.listFiles()).foreach(_.foreach { f =>
               if (f.isDirectory) {
                 replaceDocsInDirectory(f)
-              } else if (f.getName.endsWith(".rst") || f.getName.endsWith(".md")) {
+              } else if (f.getName.endsWith(".rst") || f.getName
+                           .endsWith(".md")) {
                 replaceInFile(f)
               }
             })
@@ -82,7 +88,8 @@ class Publish {
 
   lazy val ossPublishSettings = Seq(
     publishTo := {
-      if (isSnapshot.value) Some(Opts.resolver.sonatypeSnapshots) else sonatypePublishToBundle.value
+      if (isSnapshot.value) Some(Opts.resolver.sonatypeSnapshots)
+      else sonatypePublishToBundle.value
     },
     publishArtifact in Test := false,
     publishMavenStyle := true,
@@ -92,8 +99,12 @@ class Publish {
     },
     organizationHomepage := Some(url("https://softwaremill.com")),
     homepage := Some(url("http://softwaremill.com/open-source")),
-    licenses := Seq("Apache 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
-    sonatypeProjectHosting := Some(GitHubHosting("softwaremill", name.value, "info@softwaremill.com")),
+    licenses := Seq(
+      "Apache 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")
+    ),
+    sonatypeProjectHosting := Some(
+      GitHubHosting("softwaremill", name.value, "info@softwaremill.com")
+    ),
     autoAPIMappings := true,
     developers := List(
       Developer(
@@ -110,7 +121,8 @@ class Publish {
     releaseProcess := Release.steps(organization.value)
   )
 
-  lazy val noPublishSettings = Seq(publish := {}, publishLocal := {}, publishArtifact := false)
+  lazy val noPublishSettings =
+    Seq(publish := {}, publishLocal := {}, publishArtifact := false)
 }
 
 object Publish extends Publish

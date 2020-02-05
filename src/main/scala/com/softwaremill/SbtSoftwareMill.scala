@@ -7,7 +7,7 @@ import net.vonbuchholtz.sbt.dependencycheck.DependencyCheckPlugin
 
 object SbtSoftwareMill extends AutoPlugin {
   override def requires = plugins.JvmPlugin
-  override def trigger  = allRequirements
+  override def trigger = allRequirements
   object autoImport extends Base
 
   // @formatter:off
