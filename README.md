@@ -13,7 +13,7 @@ If you used that dependency, remove it from your .sbt files in `~/.sbt/1.0/plugi
 For each project where you'd like to use the build settings, add the following your `project/plugins.sbt` file:
 
 ````scala
-addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill" % "1.8.5")
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill" % "1.8.6")
 ````
 
 Now you can add `smlBuildSettings` to any set of build settings in your `build.sbt`:
