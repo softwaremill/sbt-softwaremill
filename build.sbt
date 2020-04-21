@@ -17,11 +17,11 @@ val commonSettings = Publish.ossPublishSettings ++ PublishTravis.publishTravisSe
 )
 
 lazy val root = project.in(file("."))
+  .settings(commonSettings)
   .settings(
     name         := "sbt-softwaremill-root",
     description  := "Build configuration for SBT projects",
   )
-  .settings(PublishTravis.publishTravisSettings)
   .settings(Publish.noPublishSettings)
   .aggregate(common, publish, extra)
 
