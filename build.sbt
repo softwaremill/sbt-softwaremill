@@ -5,7 +5,7 @@ import sbt._
 import Keys._
 import sbtsoftwaremill.BuildInfo
 
-val commonSettings = Publish.ossPublishSettings ++ Seq(
+val commonSettings = Publish.ossPublishSettings ++ PublishTravis.publishTravisSettings ++ Seq(
   scalaVersion := "2.12.10",
   organization := "com.softwaremill.sbt-softwaremill",
   sbtVersion in Global := {
