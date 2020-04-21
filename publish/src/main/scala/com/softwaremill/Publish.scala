@@ -11,7 +11,7 @@ import sbtrelease.ReleaseStateTransformations._
 
 import java.util.regex.Pattern
 
-class Publish {
+trait Publish {
   object Release {
     def steps(organization: String): Seq[ReleaseStep] = Seq(
       checkSnapshotDependencies,
@@ -121,8 +121,7 @@ class Publish {
     releaseProcess := Release.steps(organization.value)
   )
 
-  lazy val noPublishSettings =
-    Seq(publish := {}, publishLocal := {}, publishArtifact := false)
+  lazy val noPublishSettings = Seq(publish := {}, publishLocal := {}, publishArtifact := false)
 }
 
 object Publish extends Publish

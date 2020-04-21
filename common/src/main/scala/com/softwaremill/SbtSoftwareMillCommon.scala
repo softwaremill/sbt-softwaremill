@@ -2,16 +2,14 @@ package com.softwaremill
 
 import sbt._
 import Keys._
-import wartremover.{wartremoverWarnings, Wart, Warts}
-import net.vonbuchholtz.sbt.dependencycheck.DependencyCheckPlugin
 
-object SbtSoftwareMill extends AutoPlugin {
+object SbtSoftwareMillCommon extends AutoPlugin {
+  lazy val isDotty = settingKey[Boolean]("Is the scala version dotty.")
+
   override def requires = plugins.JvmPlugin
   override def trigger = allRequirements
-  object autoImport extends Base
-
-  // @formatter:off
-  class Base extends Publish {
+  object autoImport {
+    // @formatter:off
     val commonScalacOptions = Seq(
       "-deprecation",                   // Emit warning and location for usages of deprecated APIs.
       "-encoding", "UTF-8",             // Specify character encoding used by source files.
@@ -72,10 +70,6 @@ object SbtSoftwareMill extends AutoPlugin {
     val scalacOptionsEq211 = List(
       "-Ywarn-unused-import"          // Warn if an import selector is not referenced.
     )
-
-    val scalacOptionsEq210 = List(
-      "-Xlint"
-    )
     // @formatter:off
 
     def scalacOptionsFor(version: String): Seq[String] =
@@ -83,7 +77,7 @@ object SbtSoftwareMill extends AutoPlugin {
         case Some((2, min)) if min >= 13 => scalacOptionsGte212 ++ scalacOptionsGte211
         case Some((2, 12))               => scalacOptionsGte212 ++ scalacOptionsGte211 ++ scalacOptionsLte212
         case Some((2, 11))               => scalacOptionsGte211 ++ scalacOptionsEq211 ++ scalacOptionsLte212
-        case _                           => scalacOptionsEq210 ++ scalacOptionsLte212
+        case _                           => Nil
       })
 
     val filterConsoleScalacOptions = { options: Seq[String] =>
@@ -97,58 +91,8 @@ object SbtSoftwareMill extends AutoPlugin {
       )
     }
 
-    import autoImport._
-
-    val acyclicVersion = Def.setting(
-      CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, v)) if v <= 11 =>
-          // dropped Scala 2.11 support since 0.2.0
-          "0.1.9"
-        case _ =>
-          "0.2.0"
-      }
-    )
-    lazy val acyclicSettings = Seq(
-      libraryDependencies += "com.lihaoyi" %% "acyclic" % acyclicVersion.value % "provided",
-      autoCompilerPlugins := true,
-      scalacOptions += "-P:acyclic:force",
-      libraryDependencies += compilerPlugin("com.lihaoyi" %% "acyclic" % acyclicVersion.value)
-    )
-
-    val smlWartremoverCompileExclusions = Seq(
-      Wart.NonUnitStatements,
-      Wart.Overloading,
-      Wart.PublicInference,
-      Wart.Equals,
-      Wart.ImplicitParameter,
-      Wart.Serializable,
-      Wart.DefaultArguments,
-      Wart.Var,
-      Wart.Product,
-      Wart.Any,                   // - see puffnfresh/wartremover#263
-      Wart.ExplicitImplicitTypes, // - see puffnfresh/wartremover#226
-      Wart.ImplicitConversion,    // - see mpilquist/simulacrum#35
-      Wart.Nothing,               // - see puffnfresh/wartremover#263
-      Wart.FinalCaseClass
-    )
-
-    val smlWartremoverTestCompileExclusions = smlWartremoverCompileExclusions ++ Seq(
-      Wart.DefaultArguments,
-      Wart.Var,
-      Wart.AsInstanceOf,
-      Wart.IsInstanceOf,
-      Wart.TraversableOps,
-      Wart.Option2Iterable,
-      Wart.JavaSerializable,
-      Wart.FinalCaseClass
-    )
-
-    lazy val wartRemoverSettings = Seq(
-      wartremoverWarnings in (Compile, compile) := Warts.all.diff(smlWartremoverCompileExclusions),
-      wartremoverWarnings in (Test, compile) := Warts.all.diff(smlWartremoverTestCompileExclusions)
-    )
-
     lazy val commonSmlBuildSettings = Seq(
+      isDotty := scalaVersion.value.startsWith("0."),
       outputStrategy := Some(StdoutOutput),
       autoCompilerPlugins := true,
       autoAPIMappings := true,
@@ -159,7 +103,9 @@ object SbtSoftwareMill extends AutoPlugin {
         "Scalaz Bintray Repo" at "https://dl.bintray.com/scalaz/releases",
         "bintray/non" at "https://dl.bintray.com/non/maven"
       ),
-      addCompilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3"),
+      libraryDependencies ++= {
+        if (isDotty.value) Nil else Seq(compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3"))
+      },
       libraryDependencies ++= {
         CrossVersion.partialVersion(scalaVersion.value) match {
           case Some((2, v)) if v <= 12 =>
@@ -177,46 +123,5 @@ object SbtSoftwareMill extends AutoPlugin {
       evictionWarningOptions in update := EvictionWarningOptions.default
         .withWarnTransitiveEvictions(false)
     )
-
-    lazy val splainSettings = Seq(
-      libraryDependencies += {
-        val splainVersion = CrossVersion.partialVersion(scalaVersion.value) match {
-          // splain has dropped support of Scala 2.10 with version 0.3.1
-          // last version supporting Scala 2.10 is splain 0.2.10
-          case Some((2, v)) if v >= 11 =>
-            "0.4.1"
-          case _ =>
-            "0.2.10"
-        }
-        compilerPlugin("io.tryp" % "splain" % splainVersion cross CrossVersion.patch)
-      },
-      scalacOptions += "-P:splain:all"
-    )
-
-    lazy val dependencyUpdatesSettings = Seq(
-      // onLoad is scoped to Global because there's only one.
-      onLoad in Global := {
-        val old = (onLoad in Global).value
-        // compose the new transition on top of the existing one
-        // in case your plugins are using this hook.
-        CheckUpdates.startupTransition(organization.value + "_" + name.value) compose old
-      }
-    )
-
-    lazy val dependencyCheckSettings = Seq(
-      DependencyCheckPlugin.autoImport.dependencyCheckCveUrlModified := Some(new URL("http://nvdmirror.sml.io/")),
-      DependencyCheckPlugin.autoImport.dependencyCheckCveUrlBase := Some("http://nvdmirror.sml.io/"),
-      DependencyCheckPlugin.autoImport.dependencyCheckAssemblyAnalyzerEnabled := Some(false),
-      DependencyCheckPlugin.autoImport.dependencyCheckFormat := "All"
-    )
-
-    lazy val smlBuildSettings =
-      commonSmlBuildSettings ++
-        wartRemoverSettings ++
-        acyclicSettings ++
-        ossPublishSettings ++
-        splainSettings ++
-        dependencyUpdatesSettings ++
-        dependencyCheckSettings
   }
 }
