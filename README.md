@@ -14,9 +14,9 @@ For each project where you'd like to use the build settings, add some or all of 
 file:
 
 ````scala
-addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-common" % "1.8.6")
-addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-publish" % "1.8.6")
-addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-extra" % "1.8.6")
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-common" % "1.9.3")
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-publish" % "1.9.3")
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-extra" % "1.9.3")
 ````
 
 Now you can add the appopriate settings in your `build.sbt`, e.g.:
