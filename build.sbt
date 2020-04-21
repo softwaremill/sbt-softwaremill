@@ -30,7 +30,7 @@ lazy val root = project.in(file("."))
     addSbtPlugin("com.jsuereth"      % "sbt-pgp"          % BuildInfo.sbtPgpVersion),
     addSbtPlugin("com.github.gseitz" % "sbt-release"      % BuildInfo.sbtReleaseVersion),
     addSbtPlugin("org.xerial.sbt"    % "sbt-sonatype"     % BuildInfo.sbtSonatypeVersion),
-    addSbtPlugin("org.wartremover"   % "sbt-wartremover"  % "2.4.5"),
+    addSbtPlugin("org.wartremover"   % "sbt-wartremover"  % "2.4.7"),
     addSbtPlugin("org.scalameta"     % "sbt-scalafmt"     % BuildInfo.sbtScalafmtVersion),
     addSbtPlugin("io.spray"          % "sbt-revolver"     % "0.9.1"),
     addSbtPlugin("io.get-coursier"   % "sbt-coursier"     % "1.0.3"),
