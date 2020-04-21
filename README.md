@@ -19,7 +19,7 @@ addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-publish" % 
 addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-extra" % "1.9.3")
 ````
 
-Now you can add the appopriate settings in your `build.sbt`, e.g.:
+Now you can add the appropriate settings in your `build.sbt`, e.g.:
 
 ````scala
 lazy val commonSettings = commonSmlBuildSettings ++ Seq(

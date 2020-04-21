@@ -5,7 +5,7 @@ import sbt._
 import Keys._
 import sbtsoftwaremill.BuildInfo
 
-val commonSettings = Publish.ossPublishSettings ++ PublishTravis.publishTravisSettings ++ Seq(
+val commonSettings = Publish.ossPublishSettings ++ Seq(
   scalaVersion := "2.12.10",
   organization := "com.softwaremill.sbt-softwaremill",
   sbtVersion in Global := {
@@ -23,6 +23,7 @@ lazy val root = project.in(file("."))
     description  := "Build configuration for SBT projects",
   )
   .settings(Publish.noPublishSettings)
+  .settings(PublishTravis.publishTravisSettings)
   .aggregate(common, publish, extra)
 
 lazy val common = project.in(file("common"))
