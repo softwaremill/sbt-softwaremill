@@ -10,17 +10,25 @@ object SbtSoftwareMillCommon extends AutoPlugin {
   override def trigger = allRequirements
   object autoImport {
     // @formatter:off
-    val commonScalacOptions = Seq(
+    val commonScalacDottyOptions = Seq(
       "-deprecation",                   // Emit warning and location for usages of deprecated APIs.
+      "-unchecked",                     // Enable additional warnings where generated code depends on assumptions.
+    )
+
+    val dottyOptions = Seq(
+      "-explain",
+      "-explain-types",
+    )
+
+    val commonScalacOptions = Seq(
       "-encoding", "UTF-8",             // Specify character encoding used by source files.
-      "-explaintypes"  ,                // Explain type errors in more detail.
+      "-explaintypes",                  // Explain type errors in more detail.
       "-feature",                       // Emit warning and location for usages of features that should be imported explicitly.
       "-language:existentials",         // Existential types (besides wildcard types) can be written and inferred
       "-language:higherKinds",          // Allow higher-kinded types
       "-language:experimental.macros",  // Allow macro definition (besides implementation and application)
       "-language:implicitConversions",  // Allow definition of implicit functions called views
       "-language:postfixOps",           // Allow postfix operators
-      "-unchecked",                     // Enable additional warnings where generated code depends on assumptions.
       "-Xcheckinit",                    // Wrap field accessors to throw an exception on uninitialized access.
       "-Ywarn-dead-code",               // Warn when dead code is identified.
       "-Ywarn-numeric-widen",           // Warn when numerics are widened.
@@ -73,11 +81,11 @@ object SbtSoftwareMillCommon extends AutoPlugin {
     // @formatter:off
 
     def scalacOptionsFor(version: String): Seq[String] =
-      commonScalacOptions ++ (CrossVersion.partialVersion(version) match {
-        case Some((2, min)) if min >= 13 => scalacOptionsGte212 ++ scalacOptionsGte211
-        case Some((2, 12))               => scalacOptionsGte212 ++ scalacOptionsGte211 ++ scalacOptionsLte212
-        case Some((2, 11))               => scalacOptionsGte211 ++ scalacOptionsEq211 ++ scalacOptionsLte212
-        case _                           => Nil
+      commonScalacDottyOptions ++ (CrossVersion.partialVersion(version) match {
+        case Some((2, min)) if min >= 13 => commonScalacOptions ++ scalacOptionsGte212 ++ scalacOptionsGte211
+        case Some((2, 12))               => commonScalacOptions ++ scalacOptionsGte212 ++ scalacOptionsGte211 ++ scalacOptionsLte212
+        case Some((2, 11))               => commonScalacOptions ++ scalacOptionsGte211 ++ scalacOptionsEq211 ++ scalacOptionsLte212
+        case _                           => dottyOptions
       })
 
     val filterConsoleScalacOptions = { options: Seq[String] =>
