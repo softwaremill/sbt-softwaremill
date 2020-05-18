@@ -45,7 +45,7 @@ lazy val publish = project.in(file("publish"))
     description  := "Build configuration for SBT projects: publishing",
     sbtPlugin    := true,
     scriptedLaunchOpts += ("-Dplugin.version=" + version.value),
-    libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.9.0"
+    libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.9.1"
   )
   .settings(
     addSbtPlugin("com.jsuereth"      % "sbt-pgp"          % BuildInfo.sbtPgpVersion),
@@ -61,7 +61,7 @@ lazy val extra = project.in(file("extra"))
     description  := "Build configuration for SBT projects: extra",
     sbtPlugin    := true,
     scriptedLaunchOpts += ("-Dplugin.version=" + version.value),
-    libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.9.0"
+    libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.9.1"
   )
   .settings(
     addSbtPlugin("org.wartremover"   % "sbt-wartremover"  % "2.4.7"),
