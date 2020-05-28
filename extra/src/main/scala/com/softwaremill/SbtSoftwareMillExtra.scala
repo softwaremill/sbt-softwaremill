@@ -26,6 +26,8 @@ object SbtSoftwareMillExtra extends AutoPlugin {
       libraryDependencies += "com.lihaoyi" %% "acyclic" % acyclicVersion.value % "provided",
       autoCompilerPlugins := true,
       scalacOptions += "-P:acyclic:force",
+      (scalacOptions in Test) += "-P:acyclic:force",
+      (scalacOptions in IntegrationTest) += "-P:acyclic:force",
       libraryDependencies += compilerPlugin("com.lihaoyi" %% "acyclic" % acyclicVersion.value)
     )
 
