@@ -99,6 +99,16 @@ object SbtSoftwareMillCommon extends AutoPlugin {
       )
     }
 
+    val filterTestCompileScalacOptions = { options: Seq[String] =>
+      options.filterNot(
+        Set(
+          "-Ywarn-value-discard",
+          "-Ywarn-numeric-widen",
+          "-Ywarn-dead-code"
+        )
+      )
+    }
+
     lazy val commonSmlBuildSettings = Seq(
       isDotty := scalaVersion.value.startsWith("0."),
       outputStrategy := Some(StdoutOutput),
@@ -127,6 +137,8 @@ object SbtSoftwareMillCommon extends AutoPlugin {
       scalacOptions ++= scalacOptionsFor(scalaVersion.value),
       scalacOptions.in(Compile, console) ~= filterConsoleScalacOptions,
       scalacOptions.in(Test, console) ~= filterConsoleScalacOptions,
+      scalacOptions.in(Test, compile) ~= filterTestCompileScalacOptions,
+      scalacOptions.in(IntegrationTest, compile) ~= filterTestCompileScalacOptions,
       // silence transitive eviction warnings
       evictionWarningOptions in update := EvictionWarningOptions.default
         .withWarnTransitiveEvictions(false)
