@@ -102,7 +102,6 @@ object SbtSoftwareMillCommon extends AutoPlugin {
     val filterTestCompileScalacOptions = { options: Seq[String] =>
       options.filterNot(
         Set(
-          "-Ywarn-value-discard",
           "-Ywarn-numeric-widen",
           "-Ywarn-dead-code"
         )
