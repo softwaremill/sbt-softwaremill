@@ -64,7 +64,7 @@ lazy val extra = project.in(file("extra"))
     libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.9.1"
   )
   .settings(
-    addSbtPlugin("org.wartremover"   % "sbt-wartremover"  % "2.4.7"),
+    addSbtPlugin("org.wartremover"   % "sbt-wartremover"  % "2.4.8"),
     addSbtPlugin("io.spray"          % "sbt-revolver"     % "0.9.1"),
     addSbtPlugin("com.dwijnand"      % "sbt-reloadquick"  % "1.0.0"),
     addSbtPlugin("com.timushev.sbt"  % "sbt-updates"      % "0.5.0"),

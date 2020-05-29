@@ -2,7 +2,8 @@ package com.softwaremill
 
 import sbt._
 import Keys._
-import wartremover.{wartremoverWarnings, Wart, Warts}
+import wartremover.{Wart, Warts}
+import wartremover.WartRemover.autoImport._
 import net.vonbuchholtz.sbt.dependencycheck.DependencyCheckPlugin
 
 object SbtSoftwareMillExtra extends AutoPlugin {
@@ -25,6 +26,8 @@ object SbtSoftwareMillExtra extends AutoPlugin {
       libraryDependencies += "com.lihaoyi" %% "acyclic" % acyclicVersion.value % "provided",
       autoCompilerPlugins := true,
       scalacOptions += "-P:acyclic:force",
+      (scalacOptions in Test) += "-P:acyclic:force",
+      (scalacOptions in IntegrationTest) += "-P:acyclic:force",
       libraryDependencies += compilerPlugin("com.lihaoyi" %% "acyclic" % acyclicVersion.value)
     )
 
@@ -64,9 +67,7 @@ object SbtSoftwareMillExtra extends AutoPlugin {
     lazy val splainSettings = Seq(
       libraryDependencies ++= {
         val splainVersion = CrossVersion.partialVersion(scalaVersion.value) match {
-          // splain has dropped support of Scala 2.10 with version 0.3.1
-          // last version supporting Scala 2.10 is splain 0.2.10
-          case Some((2, v)) if v >= 11 => Some("0.4.1")
+          case Some((2, v)) if v >= 11 => Some("0.5.6")
           case Some((2, v)) if v == 11 => Some("0.2.10")
           case _ => None // dotty
         }
