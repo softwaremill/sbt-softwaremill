@@ -14,6 +14,9 @@ import java.util.regex.Pattern
 trait Publish {
   object Release {
 
+    val beforeCommitSteps = settingKey[Seq[ReleaseStep]](
+      "List of release steps to execute before committing a new release."
+    )
     def steps(beforeCommitSteps: Seq[ReleaseStep]): Seq[ReleaseStep] =
       Seq(
         checkSnapshotDependencies,
@@ -98,10 +101,6 @@ trait Publish {
     }
   }
 
-  val beforeCommitSteps = settingKey[Seq[ReleaseStep]](
-    "List of release steps to execute before committing a new release."
-  )
-
   lazy val ossPublishSettings = Seq(
     publishTo := {
       if (isSnapshot.value) Some(Opts.resolver.sonatypeSnapshots)
@@ -134,10 +133,10 @@ trait Publish {
     releaseCrossBuild := true,
     releasePublishArtifactsAction := PgpKeys.publishSigned.value,
     releaseIgnoreUntrackedFiles := true,
-    beforeCommitSteps := {
+    Release.beforeCommitSteps := {
       Seq(Release.updateVersionInDocs(organization.value))
     },
-    releaseProcess := Release.steps(beforeCommitSteps.value)
+    releaseProcess := Release.steps(Release.beforeCommitSteps.value)
   )
 
   lazy val noPublishSettings =

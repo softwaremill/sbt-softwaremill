@@ -4,7 +4,7 @@ import sbt._
 import Keys._
 import com.typesafe.sbt.SbtPgp.autoImportImpl._
 import com.softwaremill.Publish.Release._
-import com.softwaremill.PublishTravis.beforeCommitSteps
+import com.softwaremill.Publish.Release.beforeCommitSteps
 import sbtrelease.ReleasePlugin.autoImport._
 import sbtrelease.ReleaseStateTransformations._
 
@@ -19,10 +19,6 @@ trait PublishTravis {
   )
 
   //
-  val beforeCommitSteps = settingKey[Seq[ReleaseStep]](
-    "List of release steps to execute before committing a new release."
-  )
-
   val isCommitRelease =
     settingKey[Boolean](
       "A hacky way to differentiate between commitRelease and publishRelease invocations."
