@@ -11,12 +11,8 @@ import sbtrelease.ReleaseStateTransformations._
 
 import java.util.regex.Pattern
 
-trait Publish {
+trait Publish extends PublishCommon {
   object Release {
-
-    val beforeCommitSteps = settingKey[Seq[ReleaseStep]](
-      "List of release steps to execute before committing a new release."
-    )
     def steps(beforeCommitSteps: Seq[ReleaseStep]): Seq[ReleaseStep] =
       Seq(
         checkSnapshotDependencies,
@@ -133,10 +129,10 @@ trait Publish {
     releaseCrossBuild := true,
     releasePublishArtifactsAction := PgpKeys.publishSigned.value,
     releaseIgnoreUntrackedFiles := true,
-    Release.beforeCommitSteps := {
+    beforeCommitSteps := {
       Seq(Release.updateVersionInDocs(organization.value))
     },
-    releaseProcess := Release.steps(Release.beforeCommitSteps.value)
+    releaseProcess := Release.steps(beforeCommitSteps.value)
   )
 
   lazy val noPublishSettings =

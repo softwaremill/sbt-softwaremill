@@ -4,11 +4,10 @@ import sbt._
 import Keys._
 import com.typesafe.sbt.SbtPgp.autoImportImpl._
 import com.softwaremill.Publish.Release._
-import com.softwaremill.Publish.Release.beforeCommitSteps
 import sbtrelease.ReleasePlugin.autoImport._
 import sbtrelease.ReleaseStateTransformations._
 
-trait PublishTravis {
+trait PublishTravis extends PublishCommon {
   // release entry points
 
   val commitRelease = taskKey[Unit](
