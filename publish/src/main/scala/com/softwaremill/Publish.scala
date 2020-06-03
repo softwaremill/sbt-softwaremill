@@ -11,26 +11,35 @@ import sbtrelease.ReleaseStateTransformations._
 
 import java.util.regex.Pattern
 
-trait Publish {
+trait Publish extends PublishCommon {
   object Release {
-    def steps(organization: String): Seq[ReleaseStep] = Seq(
-      checkSnapshotDependencies,
-      inquireVersions,
-      // publishing locally so that the pgp password prompt is displayed early
-      // in the process
-      releaseStepCommand("publishLocalSigned"),
-      runClean,
-      runTest,
-      setReleaseVersion,
-      updateVersionInDocs(organization),
-      commitReleaseVersion,
-      tagRelease,
-      publishArtifacts,
-      releaseStepCommand("sonatypeBundleRelease"),
-      setNextVersion,
-      commitNextVersion,
-      pushChanges
-    )
+    def steps(beforeCommitSteps: Seq[ReleaseStep]): Seq[ReleaseStep] =
+      Seq(
+        checkSnapshotDependencies,
+        inquireVersions,
+        // publishing locally so that the pgp password prompt is displayed early
+        // in the process
+        ReleaseStep(releaseStepCommand("publishLocalSigned")),
+        runClean,
+        runTest,
+        setReleaseVersion
+      ) ++ beforeCommitSteps ++
+        Seq(
+          commitReleaseVersion,
+          tagRelease,
+          publishArtifacts,
+          ReleaseStep(releaseStepCommand("sonatypeBundleRelease")),
+          setNextVersion,
+          ReleaseStep(commitNextVersion),
+          pushChanges
+        )
+
+    def stageChanges(fileNames: String*): ReleaseStep = { s: State =>
+      val settings = Project.extract(s)
+      val vcs = settings.get(releaseVcs).get
+      fileNames.foreach(f => vcs.add(f) !! s.log)
+      s
+    }
 
     // based on https://github.com/EECOLOR/sbt-release-custom-steps/blob/master/src/main/scala/org/qirx/sbtrelease/UpdateVersionInFiles.scala
     def updateVersionInDocs(organization: String): ReleaseStep = { s: State =>
@@ -67,8 +76,10 @@ trait Publish {
             Option(d.listFiles()).foreach(_.foreach { f =>
               if (f.isDirectory) {
                 replaceDocsInDirectory(f)
-              } else if (f.getName.endsWith(".rst") || f.getName
-                           .endsWith(".md")) {
+              } else if (
+                f.getName.endsWith(".rst") || f.getName
+                  .endsWith(".md")
+              ) {
                 replaceInFile(f)
               }
             })
@@ -118,10 +129,14 @@ trait Publish {
     releaseCrossBuild := true,
     releasePublishArtifactsAction := PgpKeys.publishSigned.value,
     releaseIgnoreUntrackedFiles := true,
-    releaseProcess := Release.steps(organization.value)
+    beforeCommitSteps := {
+      Seq(Release.updateVersionInDocs(organization.value))
+    },
+    releaseProcess := Release.steps(beforeCommitSteps.value)
   )
 
-  lazy val noPublishSettings = Seq(publish := {}, publishLocal := {}, publishArtifact := false)
+  lazy val noPublishSettings =
+    Seq(publish := {}, publishLocal := {}, publishArtifact := false)
 }
 
 object Publish extends Publish
