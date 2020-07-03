@@ -1,17 +1,18 @@
 package com.softwaremill
 
-import sbt._, Keys._
-import xerial.sbt.Sonatype._
-import xerial.sbt.Sonatype.SonatypeKeys._
-import com.typesafe.sbt.SbtPgp.autoImportImpl.PgpKeys
-import sbtrelease.ReleasePlugin.autoImport._
-import sbtrelease.ReleasePlugin.autoImport.ReleaseKeys._
-import sbtrelease.ReleasePlugin.autoImport.ReleaseStep
-import sbtrelease.ReleaseStateTransformations._
-
 import java.util.regex.Pattern
 
+import com.typesafe.sbt.SbtPgp.autoImportImpl.PgpKeys
+import sbt.Keys._
+import sbt._
+import sbtrelease.ReleasePlugin.autoImport.ReleaseKeys._
+import sbtrelease.ReleasePlugin.autoImport.{ReleaseStep, _}
+import sbtrelease.ReleaseStateTransformations._
+import xerial.sbt.Sonatype.SonatypeKeys._
+import xerial.sbt.Sonatype._
+
 trait Publish extends PublishCommon {
+
   object Release {
     def steps(beforeCommitSteps: Seq[ReleaseStep]): Seq[ReleaseStep] =
       Seq(
@@ -41,35 +42,38 @@ trait Publish extends PublishCommon {
       s
     }
 
+    val DefaultFilesForVersionUpdate: Set[File] =
+      Set(file("README.md"), file("doc"), file("docs"))
+
     // based on https://github.com/EECOLOR/sbt-release-custom-steps/blob/master/src/main/scala/org/qirx/sbtrelease/UpdateVersionInFiles.scala
-    def updateVersionInDocs(organization: String): ReleaseStep = { s: State =>
-      val readmeFile = file("README.md")
-      val readme = IO.read(readmeFile)
-      val regexStr = s""""$organization" %{1,2} "[\\w\\.-]+" % "([\\w\\.-]+)""""
-      val currentVersionPattern = regexStr.r
+    def updateVersionInDocs(
+                             organization: String,
+                             filesToUpdate: Set[File] = DefaultFilesForVersionUpdate
+                           ): ReleaseStep = { s: State =>
+      filesToUpdate match {
+        case Set.empty =>
+          s.log.info("Received empty set of files to update. Skipping updating version in docs") //TODO see if it's logged with task name
 
-      currentVersionPattern.findFirstMatchIn(readme) match {
-        case Some(currentVersionInReadmeGroups) =>
-          val currentVersionInReadme = currentVersionInReadmeGroups.group(1)
-
+        case nonEmptyFilesToUpdate =>
+          val regexStr = s""""$organization" %{1,2} "[\\w\\.-]+" % "([\\w\\.-]+)""""
+          val currentVersionPattern = regexStr.r
           val releaseVersion = s.get(versions).get._1
-
           val settings = Project.extract(s)
           val vcs = settings.get(releaseVcs).get
 
+          def findCurrentVersion(oldFile: String): Option[String] = {
+            currentVersionPattern.findFirstMatchIn(oldFile).map(_.group(1))
+          }
+
           def replaceInFile(f: File): Unit = {
-            s.log.info(
-              s"Replacing $currentVersionInReadme with $releaseVersion in ${f.name}"
-            )
-
             val oldFile = IO.read(f)
-            val newFile = oldFile.replaceAll(
-              Pattern.quote(currentVersionInReadme),
-              releaseVersion
-            )
-            IO.write(f, newFile)
+            findCurrentVersion(oldFile).map(currentVersion => {
+              s.log.info(s"Replacing $currentVersion with $releaseVersion in ${f.name}")
+              val newFile = oldFile.replaceAll(Pattern.quote(currentVersion), releaseVersion)
+              IO.write(f, newFile)
 
-            vcs.add(f.getAbsolutePath) !! s.log
+              vcs.add(f.getAbsolutePath) !! s.log
+            })
           }
 
           def replaceDocsInDirectory(d: File) {
@@ -85,12 +89,10 @@ trait Publish extends PublishCommon {
             })
           }
 
-          replaceInFile(readmeFile)
-          replaceDocsInDirectory(file("doc"))
-          replaceDocsInDirectory(file("docs"))
-
-        case None =>
-          s.log.warn(s"Current version not found in readme, skipping")
+          nonEmptyFilesToUpdate.foreach {
+            case file: File if !file.isDirectory => replaceInFile(file)
+            case directory: File => replaceDocsInDirectory(directory)
+          }
       }
 
       s
