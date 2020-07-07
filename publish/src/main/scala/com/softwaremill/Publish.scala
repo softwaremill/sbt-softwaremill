@@ -42,20 +42,23 @@ trait Publish extends PublishCommon {
       s
     }
 
-    val DefaultFilesForVersionUpdate: Set[File] =
-      Set(file("README.md"), file("doc"), file("docs"))
+    val DefaultFilesForVersionUpdate: List[File] =
+      List(file("README.md"), file("doc"), file("docs"))
 
     // based on https://github.com/EECOLOR/sbt-release-custom-steps/blob/master/src/main/scala/org/qirx/sbtrelease/UpdateVersionInFiles.scala
     def updateVersionInDocs(
-                             organization: String,
-                             filesToUpdate: Set[File] = DefaultFilesForVersionUpdate
-                           ): ReleaseStep = { s: State =>
+        organization: String,
+        filesToUpdate: List[File] = DefaultFilesForVersionUpdate
+    ): ReleaseStep = { s: State =>
       filesToUpdate match {
-        case Set.empty =>
-          s.log.info("Received empty set of files to update. Skipping updating version in docs") //TODO see if it's logged with task name
+        case Nil =>
+          s.log.info(
+            "Received empty set of files to update. Skipping updating version in docs"
+          )
 
         case nonEmptyFilesToUpdate =>
-          val regexStr = s""""$organization" %{1,2} "[\\w\\.-]+" % "([\\w\\.-]+)""""
+          val regexStr =
+            s""""$organization" %{1,2} "[\\w\\.-]+" % "([\\w\\.-]+)""""
           val currentVersionPattern = regexStr.r
           val releaseVersion = s.get(versions).get._1
           val settings = Project.extract(s)
@@ -68,8 +71,13 @@ trait Publish extends PublishCommon {
           def replaceInFile(f: File): Unit = {
             val oldFile = IO.read(f)
             findCurrentVersion(oldFile).map(currentVersion => {
-              s.log.info(s"Replacing $currentVersion with $releaseVersion in ${f.name}")
-              val newFile = oldFile.replaceAll(Pattern.quote(currentVersion), releaseVersion)
+              s.log.info(
+                s"Replacing $currentVersion with $releaseVersion in ${f.name}"
+              )
+              val newFile = oldFile.replaceAll(
+                Pattern.quote(currentVersion),
+                releaseVersion
+              )
               IO.write(f, newFile)
 
               vcs.add(f.getAbsolutePath) !! s.log
@@ -91,7 +99,7 @@ trait Publish extends PublishCommon {
 
           nonEmptyFilesToUpdate.foreach {
             case file: File if !file.isDirectory => replaceInFile(file)
-            case directory: File => replaceDocsInDirectory(directory)
+            case directory: File                 => replaceDocsInDirectory(directory)
           }
       }
 
