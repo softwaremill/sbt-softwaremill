@@ -53,7 +53,7 @@ trait Publish extends PublishCommon {
       filesToUpdate match {
         case Nil =>
           s.log.info(
-            "Received empty set of files to update. Skipping updating version in docs"
+            "[updateVersionInDocs] Received empty set of files to update. Skipping updating version in docs"
           )
 
         case nonEmptyFilesToUpdate =>
@@ -72,7 +72,7 @@ trait Publish extends PublishCommon {
             val oldFile = IO.read(f)
             findCurrentVersion(oldFile).map(currentVersion => {
               s.log.info(
-                s"Replacing $currentVersion with $releaseVersion in ${f.name}"
+                s"[updateVersionInDocs] Replacing $currentVersion with $releaseVersion in ${f.name}"
               )
               val newFile = oldFile.replaceAll(
                 Pattern.quote(currentVersion),
@@ -98,8 +98,14 @@ trait Publish extends PublishCommon {
           }
 
           nonEmptyFilesToUpdate.foreach {
-            case file: File if !file.isDirectory => replaceInFile(file)
-            case directory: File                 => replaceDocsInDirectory(directory)
+            case file: File if !file.isDirectory && file.exists() =>
+              replaceInFile(file)
+            case directory: File if directory.exists() =>
+              replaceDocsInDirectory(directory)
+            case notExistingFile =>
+              s.log.warn(
+                s"[updateVersionInDocs] ${notExistingFile.getPath} does not exist, skipping..."
+              )
           }
       }
 
