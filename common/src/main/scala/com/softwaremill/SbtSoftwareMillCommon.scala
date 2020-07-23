@@ -39,6 +39,7 @@ object SbtSoftwareMillCommon extends AutoPlugin {
       "-Xfuture",                          // Turn on future language features.
       "-Xlint:by-name-right-associative",  // By-name parameter of right associative operator.
       "-Xlint:unsound-match",              // Pattern match may not be typesafe.
+      "-Xlint:nullary-override",           // Warn when non-nullary `def f()' overrides nullary `def f'.
       "-Yno-adapted-args",                 // Do not adapt an argument list (either by inserting () or creating a tuple) to match the receiver.
       "-Ypartial-unification",             // Improves type constructor inference with support for partial unification (SI-2712)
       "-Ywarn-inaccessible",               // Warn about inaccessible types in method signatures.
@@ -54,7 +55,6 @@ object SbtSoftwareMillCommon extends AutoPlugin {
       "-Xlint:inaccessible",               // Warn about inaccessible types in method signatures.
       "-Xlint:infer-any",                  // Warn when a type argument is inferred to be `Any`.
       "-Xlint:missing-interpolator",       // A string literal appears to be missing an interpolator id.
-      "-Xlint:nullary-override",           // Warn when non-nullary `def f()' overrides nullary `def f'.
       "-Xlint:nullary-unit",               // Warn when nullary methods return Unit.
       "-Xlint:option-implicit",            // Option.apply used implicit view.
       "-Xlint:package-object-classes",     // Class or object defined in package object.
