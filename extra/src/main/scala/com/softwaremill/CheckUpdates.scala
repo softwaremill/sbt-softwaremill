@@ -8,11 +8,11 @@ import scala.util.Try
 object CheckUpdates {
 
   var updatesTaskExecuted = false
-  val tmpDir              = new JFile(System.getProperty("java.io.tmpdir")).toScala
+  val tmpDir = new JFile(System.getProperty("java.io.tmpdir")).toScala
 
   def needsChecking(projectName: String): Boolean = {
-    val file       = tmpDir / (projectName + "_sml_last_update")
-    val now        = System.currentTimeMillis()
+    val file = tmpDir / (projectName + "_sml_last_update")
+    val now = System.currentTimeMillis()
     val lastUpdate = Try(file.contentAsString.toLong).getOrElse(0L)
     if (now - lastUpdate > 12 * 3600 * 1000) {
       file.overwrite(now.toString)

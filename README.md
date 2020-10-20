@@ -1,39 +1,50 @@
 # sbt-softwaremill
 [![Build Status](https://travis-ci.org/softwaremill/sbt-softwaremill.svg?branch=master)](https://travis-ci.org/softwaremill/sbt-softwaremill)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.softwaremill.sbt-softwaremill/sbt-softwaremill/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.softwaremill.sbt-softwaremill/sbt-softwaremill)  
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.softwaremill.sbt-softwaremill/sbt-softwaremill-common/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.softwaremill.sbt-softwaremill/sbt-softwaremill-common)  
 
 A sane set of common build settings.
 
-#### Note: global plugin removed
-Since version 1.6.0 the global plugin has been merged back into the per-project plugin. 
-If you used that dependency, remove it from your .sbt files in `~/.sbt/1.0/plugins/` and `~/.sbt/1.0/`.
+#### Note: plugin split
+
+Since version 1.9.0 the plugin is now split into three: `common`, `publish` and `extra`.
 
 ## Usage
 
-For each project where you'd like to use the build settings, add the following your `project/plugins.sbt` file:
+For each project where you'd like to use the build settings, add some or all of the following your `project/plugins.sbt`
+file:
 
 ````scala
-addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill" % "1.8.5")
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-common" % "1.9.11")
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-publish" % "1.9.11")
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-extra" % "1.9.11")
 ````
 
-Now you can add `smlBuildSettings` to any set of build settings in your `build.sbt`:
+Now you can add the appropriate settings in your `build.sbt`, e.g.:
 
 ````scala
-lazy val commonSettings = smlBuildSettings ++ Seq(
-  // your settings, which can override some of smlBuildSettings
+lazy val commonSettings = commonSmlBuildSettings ++ Seq(
+  // your settings, which can override some of commonSmlBuildSettings
 ) 
 ````
 
-If you only want to import a subset of settings, you can select from:
+Each dependency provides a choice of settings:
 
 ````scala
-lazy val smlBuildSettings =
-  commonSmlBuildSettings    ++ // compiler flags
-  splainSettings            ++ // gives rich output on implicit resolution errors 
-  dependencyUpdatesSettings ++ // check dependency updates on startup (max once per 12h)
-  wartRemoverSettings       ++ // warts
-  acyclicSettings           ++ // check circular dependencies between packages
-  ossPublishSettings           // configures common publishing process for all OSS libraries
+// common
+commonSmlBuildSettings // compiler flags etc.
+
+// publish
+ossPublishSettings
+publishTravisSettings
+noPublishSettings
+
+// extra - use all or choose
+lazy val extraSmlBuildSettings =
+  wartRemoverSettings ++        // warts
+  acyclicSettings ++            // check circular dependencies between packages
+  splainSettings ++             // gives rich output on implicit resolution errors
+  dependencyUpdatesSettings ++  // check dependency updates on startup (max once per 12h)
+  dependencyCheckSettings
 ````
 
 #### Adding more ignored Warts
@@ -56,12 +67,15 @@ you can define them like:
   )
 ```  
 
-`sbt-softwaremill` comes with:
-- [Coursier](https://github.com/coursier/coursier)
+`sbt-softwaremill-common` comes with:
 - [sbt-scalafmt](https://scalameta.org/scalafmt/docs/installation.html)
+
+`sbt-softwaremill-publish` comes with:
 - [sbt-pgp](https://github.com/sbt/sbt-pgp)
 - [sbt-release](https://github.com/sbt/sbt-release)
 - [sbt-sonatype](https://github.com/xerial/sbt-sonatype)
+
+`sbt-softwaremill-extra` comes with:
 - [sbt-reloadquick](https://github.com/dwijnand/sbt-reloadquick)
 - [sbt-revolver](https://github.com/spray/sbt-revolver)
 - [acyclic](https://github.com/lihaoyi/acyclic)
@@ -71,8 +85,8 @@ you can define them like:
 
 ## Releasing your library
 
-`sbt-softwaremill` exposes a default configuration suitable for releasing open source libraries.
-- Add `smlBuildSettings` or `ossPublishSettings` to your project's settings
+`sbt-softwaremill-publish` exposes a default configuration suitable for releasing open source libraries.
+- Add `commonSmlBuildSettings` or `ossPublishSettings` to your project's settings
 - Ensure you have configured your repository credentials, for example you may need to add
 `credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")` to `~/.sbt/1.0/cred.sbt` or
 use other method. 

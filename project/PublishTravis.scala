@@ -1,1 +1,1 @@
-../src/main/scala/com/softwaremill/PublishTravis.scala
+../publish/src/main/scala/com/softwaremill/PublishTravis.scala
