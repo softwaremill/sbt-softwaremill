@@ -79,5 +79,5 @@ lazy val extra = project
     addSbtPlugin("io.spray" % "sbt-revolver" % "0.9.1"),
     addSbtPlugin("com.dwijnand" % "sbt-reloadquick" % "1.0.0"),
     addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.5.1"),
-    addSbtPlugin("net.vonbuchholtz" % "sbt-dependency-check" % "2.0.0")
+    addSbtPlugin("net.vonbuchholtz" % "sbt-dependency-check" % "2.1.0")
   )
