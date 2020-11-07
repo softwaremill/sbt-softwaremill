@@ -67,7 +67,7 @@ object SbtSoftwareMillExtra extends AutoPlugin {
     lazy val splainSettings = Seq(
       libraryDependencies ++= {
         val splainVersion = CrossVersion.partialVersion(scalaVersion.value) match {
-          case Some((2, v)) if v >= 11 => Some("0.5.6")
+          case Some((2, v)) if v >= 11 => Some("0.5.7")
           case Some((2, v)) if v == 11 => Some("0.2.10")
           case _ => None // dotty
         }
