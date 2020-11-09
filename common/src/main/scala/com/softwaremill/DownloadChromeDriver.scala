@@ -2,7 +2,7 @@ package com.softwaremill
 
 import sbt.{Def, File, Global, IO, Task, TaskKey, URL, taskKey}
 
-class DownloadChromeDriver {
+object DownloadChromeDriver {
   val downloadChromeDriver: TaskKey[Unit] = taskKey[Unit](
     "Download chrome driver corresponding to installed google-chrome version"
   )
