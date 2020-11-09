@@ -32,6 +32,7 @@ Each dependency provides a choice of settings:
 ````scala
 // common
 commonSmlBuildSettings // compiler flags etc.
+DownloadChromeDriver.downloadChromeDriverSettings // downloads the appropriate chrome driver for testing scala.js using scalajs-env-selenium
 
 // publish
 ossPublishSettings

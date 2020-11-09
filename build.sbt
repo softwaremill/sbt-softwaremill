@@ -5,7 +5,7 @@ import Keys._
 import sbtsoftwaremill.BuildInfo
 
 val commonSettings = Publish.ossPublishSettings ++ Seq(
-  scalaVersion := "2.12.10",
+  scalaVersion := "2.12.12",
   organization := "com.softwaremill.sbt-softwaremill",
   sbtVersion in Global := {
     scalaBinaryVersion.value match {
