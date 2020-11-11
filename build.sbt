@@ -24,7 +24,7 @@ lazy val root = project
   )
   .settings(Publish.noPublishSettings)
   .settings(PublishTravis.publishTravisSettings)
-  .aggregate(common, publish, extra)
+  .aggregate(common, publish, extra, browserTestJs)
 
 lazy val common = project
   .in(file("common"))
@@ -80,4 +80,19 @@ lazy val extra = project
     addSbtPlugin("com.dwijnand" % "sbt-reloadquick" % "1.0.0"),
     addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.5.1"),
     addSbtPlugin("net.vonbuchholtz" % "sbt-dependency-check" % "2.1.0")
+  )
+
+lazy val browserTestJs = project
+  .in(file("browser-test-js"))
+  .enablePlugins(SbtPlugin)
+  .settings(commonSettings)
+  .settings(
+    name := "sbt-softwaremill-browser-test-js",
+    description := "Build configuration for SBT projects: browser test JS",
+    sbtPlugin := true,
+    scriptedLaunchOpts += ("-Dplugin.version=" + version.value)
+  )
+  .settings(
+    libraryDependencies += "org.scala-js" %% "scalajs-env-selenium" % "1.1.0",
+    addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.3.0"),
   )

@@ -1,11 +1,15 @@
 package com.softwaremill
 
-import sbt.{Def, File, Global, IO, Task, TaskKey, URL, taskKey}
+import sbt.{Def, Global, Task, TaskKey, taskKey, _}
+import Keys._
+import org.scalajs.jsenv.JSEnv
+import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport.jsEnv
 
-object DownloadChromeDriver {
+object SbtSoftwareMillBrowserTestJS {
   val downloadChromeDriver: TaskKey[Unit] = taskKey[Unit](
     "Download chrome driver corresponding to installed google-chrome version"
   )
+
   val downloadChromeDriverSettings: Seq[Def.Setting[Task[Unit]]] = Seq(
     Global / downloadChromeDriver := {
       if (
@@ -53,5 +57,36 @@ object DownloadChromeDriver {
         println("Detected chromedriver binary file, skipping downloading.")
       }
     }
+  )
+
+  val browserTestSettings: Seq[Def.Setting[_]] = downloadChromeDriverSettings ++ Seq(
+    jsEnv in Test := {
+      val debugging = false // set to true to help debugging
+      System.setProperty("webdriver.chrome.driver", "target/chromedriver")
+      new org.scalajs.jsenv.selenium.SeleniumJSEnv(
+        {
+          val options = new org.openqa.selenium.chrome.ChromeOptions()
+          val args = Seq(
+            "auto-open-devtools-for-tabs", // devtools needs to be open to capture network requests
+            "no-sandbox",
+            "allow-file-access-from-files" // change the origin header from 'null' to 'file'
+          ) ++ (if (debugging) Seq.empty else Seq("headless"))
+          options.addArguments(args: _*)
+          val capabilities =
+            org.openqa.selenium.remote.DesiredCapabilities.chrome()
+          capabilities.setCapability(
+            org.openqa.selenium.chrome.ChromeOptions.CAPABILITY,
+            options
+          )
+          capabilities
+        },
+        org.scalajs.jsenv.selenium.SeleniumJSEnv
+          .Config()
+          .withKeepAlive(debugging)
+      )
+    },
+    test in Test := (test in Test)
+      .dependsOn(downloadChromeDriver)
+      .value
   )
 }
