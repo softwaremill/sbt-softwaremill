@@ -109,7 +109,7 @@ object SbtSoftwareMillCommon extends AutoPlugin {
     }
 
     lazy val commonSmlBuildSettings = Seq(
-      isDotty := scalaVersion.value.startsWith("0."),
+      isDotty := scalaVersion.value.startsWith("0.") || scalaVersion.value.startsWith("3."),
       outputStrategy := Some(StdoutOutput),
       autoCompilerPlugins := true,
       autoAPIMappings := true,

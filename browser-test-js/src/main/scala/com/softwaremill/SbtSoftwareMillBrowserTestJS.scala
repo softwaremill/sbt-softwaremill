@@ -2,7 +2,6 @@ package com.softwaremill
 
 import sbt.{Def, Global, Task, TaskKey, taskKey, _}
 import Keys._
-import org.scalajs.jsenv.JSEnv
 import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport.jsEnv
 
 object SbtSoftwareMillBrowserTestJS {
