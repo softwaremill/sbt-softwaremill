@@ -2,9 +2,11 @@ package com.softwaremill
 
 import sbt.Keys._
 import sbt._
+import xerial.sbt.Sonatype.autoImport.sonatypeProfileName
 
 trait Publish {
   lazy val ossPublishSettings = Seq(
+    sonatypeProfileName := "com.softwaremill",
     organizationHomepage := Some(url("https://softwaremill.com")),
     homepage := Some(url("http://softwaremill.com/open-source")),
     licenses := Seq(
