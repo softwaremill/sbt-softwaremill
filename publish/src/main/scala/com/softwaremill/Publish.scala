@@ -57,14 +57,18 @@ trait Publish {
       case Some(input) => input
     }
 
-  private def addFilesToGit(state: State, fs: Seq[File]): State = fs.foldLeft(state) { case (s, f) =>
-    Command.process(s"git add ${f.getAbsolutePath}", s)
-  }
+  private def addFilesToGit(state: State, fs: Seq[File]): State =
+    fs.foldLeft(state) { case (s, f) =>
+      Command.process(s"git add ${f.getAbsolutePath}", s)
+    }
 
-  private def pushChanges(state: State): State = SimpleReader.readLine("Push changes? [y/n] ") match {
-    case Some("y") => Command.process(s"git push --tags", state)
-    case _         => sys.error("Aborting, not pushing changes"); state
-  }
+  private def pushChanges(state: State): State =
+    SimpleReader.readLine("Push changes? [y/n] ") match {
+      case Some("y") =>
+        val state2 = Command.process(s"git push", state)
+        Command.process(s"git push --tags", state2)
+      case _ => sys.error("Aborting, not pushing changes"); state
+    }
 }
 
 object Publish extends Publish
