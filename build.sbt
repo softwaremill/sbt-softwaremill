@@ -1,5 +1,4 @@
 import com.softwaremill.Publish
-import com.softwaremill.PublishTravis
 import sbt.{addSbtPlugin, _}
 import Keys._
 import sbtsoftwaremill.BuildInfo
@@ -23,7 +22,6 @@ lazy val root = project
     description := "Build configuration for SBT projects"
   )
   .settings(Publish.noPublishSettings)
-  .settings(PublishTravis.publishTravisSettings)
   .aggregate(common, publish, extra, browserTestJs)
 
 lazy val common = project
@@ -54,13 +52,8 @@ lazy val publish = project
     libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.9.1"
   )
   .settings(
-    addSbtPlugin("com.jsuereth" % "sbt-pgp" % BuildInfo.sbtPgpVersion),
-    addSbtPlugin(
-      "com.github.gseitz" % "sbt-release" % BuildInfo.sbtReleaseVersion
-    ),
-    addSbtPlugin(
-      "org.xerial.sbt" % "sbt-sonatype" % BuildInfo.sbtSonatypeVersion
-    )
+    addSbtPlugin("com.github.gseitz" % "sbt-release" % BuildInfo.sbtReleaseVersion),
+    addSbtPlugin("com.geirsson" % "sbt-ci-release" % BuildInfo.sbtCiReleaseVersion)
   )
 
 lazy val extra = project
