@@ -63,13 +63,9 @@ lazy val extra = project
     name := "sbt-softwaremill-extra",
     description := "Build configuration for SBT projects: extra",
     sbtPlugin := true,
-    scriptedLaunchOpts += ("-Dplugin.version=" + version.value),
-    libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.9.1"
+    scriptedLaunchOpts += ("-Dplugin.version=" + version.value)
   )
   .settings(
-    addSbtPlugin("org.wartremover" % "sbt-wartremover" % "2.4.13"),
-    addSbtPlugin("io.spray" % "sbt-revolver" % "0.9.1"),
-    addSbtPlugin("com.dwijnand" % "sbt-reloadquick" % "1.0.0"),
     addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.5.1"),
     addSbtPlugin("net.vonbuchholtz" % "sbt-dependency-check" % "3.0.0")
   )
