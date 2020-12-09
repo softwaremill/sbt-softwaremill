@@ -32,6 +32,8 @@ trait Publish {
     val tag = "v" + version
     val org = Project.extract(s).get(organization)
 
+    s = Command.process(s"""set version in ThisBuild := "$version"""", s)
+
     val files = UpdateVersionInDocs(s, org, version)
     s = addFilesToGit(s, files)
 
