@@ -7,3 +7,4 @@ target/
 .DS_Store
 application.conf
 data/
+.bsp
