@@ -52,7 +52,6 @@ lazy val publish = project
     libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.9.1"
   )
   .settings(
-    addSbtPlugin("com.github.gseitz" % "sbt-release" % BuildInfo.sbtReleaseVersion),
     addSbtPlugin("com.geirsson" % "sbt-ci-release" % BuildInfo.sbtCiReleaseVersion)
   )
 

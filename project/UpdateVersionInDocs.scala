@@ -1,0 +1,1 @@
+../publish/src/main/scala/com/softwaremill/UpdateVersionInDocs.scala

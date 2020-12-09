@@ -2,13 +2,6 @@ package com.softwaremill
 
 import sbt.Keys._
 import sbt._
-import sbtrelease.ReleasePlugin.autoImport._
-import sbtrelease.ReleaseStateTransformations.{
-  checkSnapshotDependencies,
-  inquireVersions,
-  pushChanges,
-  tagRelease
-}
 
 trait Publish {
   lazy val ossPublishSettings = Seq(
@@ -25,18 +18,35 @@ trait Publish {
         url = new URL("https://softwaremill.com")
       )
     ),
-    // sbt-release
-    releaseProcess := Seq(
-      checkSnapshotDependencies,
-      inquireVersions,
-      tagRelease,
-      UpdateVersionInDocs(organization.value),
-      pushChanges
-    )
+    commands += releaseCommand
   )
 
   lazy val noPublishSettings =
     Seq(publish := {}, publishLocal := {}, publishArtifact := false)
+
+  private val releaseCommand = Command.command("release") { state =>
+    val version = readNextVersion()
+    val tag = "v" + version
+    state.log.info(s"Tagging release as: $tag")
+    val state2 = Command.process(s"git tag $tag", state)
+    val files = UpdateVersionInDocs(
+      state2,
+      Project.extract(state).get(organization),
+      version
+    )
+    val state3 = files.foldLeft(state2) { case (s, f) =>
+      Command.process(s"git add ${f.getAbsolutePath}", s)
+    }
+    Command.process(s"git status", state3)
+    state3
+  }
+
+  private def readNextVersion(): String =
+    SimpleReader.readLine("Release version: ") match {
+      case Some("")    => sys.error("Empty version provided!")
+      case None        => sys.error("No version provided!")
+      case Some(input) => input
+    }
 }
 
 object Publish extends Publish

@@ -1,8 +1,6 @@
 package com.softwaremill
 
 import sbt._
-import sbtrelease.ReleasePlugin.autoImport.ReleaseKeys.versions
-import sbtrelease.ReleasePlugin.autoImport.{ReleaseStep, releaseVcs}
 
 import java.util.regex.Pattern
 
@@ -12,12 +10,15 @@ object UpdateVersionInDocs {
 
   // based on https://github.com/EECOLOR/sbt-release-custom-steps/blob/master/src/main/scala/org/qirx/sbtrelease/UpdateVersionInFiles.scala
   def apply(
+      state: State,
       organization: String,
+      version: String,
       filesToUpdate: List[File] = DefaultFilesForVersionUpdate
-  ): ReleaseStep = { s: State =>
+  ): Seq[File] = {
+    var allFiles: Seq[File] = Vector()
     filesToUpdate match {
       case Nil =>
-        s.log.info(
+        state.log.info(
           "[UpdateVersionInDocs] Received empty set of files to update. Skipping updating version in docs"
         )
 
@@ -25,9 +26,6 @@ object UpdateVersionInDocs {
         val regexStr =
           s""""$organization" %{1,2} "[\\w\\.-]+" % "([\\w\\.-]+)""""
         val currentVersionPattern = regexStr.r
-        val releaseVersion = s.get(versions).get._1
-        val settings = Project.extract(s)
-        val vcs = settings.get(releaseVcs).get
 
         def findCurrentVersion(oldFile: String): Option[String] = {
           currentVersionPattern.findFirstMatchIn(oldFile).map(_.group(1))
@@ -35,17 +33,17 @@ object UpdateVersionInDocs {
 
         def replaceInFile(f: File): Unit = {
           val oldFile = IO.read(f)
-          findCurrentVersion(oldFile).map(currentVersion => {
-            s.log.info(
-              s"[UpdateVersionInDocs] Replacing $currentVersion with $releaseVersion in ${f.name}"
+          findCurrentVersion(oldFile).foreach(currentVersion => {
+            state.log.info(
+              s"[UpdateVersionInDocs] Replacing $currentVersion with $version in ${f.name}"
             )
             val newFile = oldFile.replaceAll(
               Pattern.quote(currentVersion),
-              releaseVersion
+              version
             )
             IO.write(f, newFile)
 
-            vcs.add(f.getAbsolutePath) !! s.log
+            allFiles = allFiles :+ f
           })
         }
 
@@ -67,12 +65,11 @@ object UpdateVersionInDocs {
           case directory: File if directory.exists() =>
             replaceDocsInDirectory(directory)
           case notExistingFile =>
-            s.log.warn(
+            state.log.warn(
               s"[UpdateVersionInDocs] ${notExistingFile.getPath} does not exist, skipping..."
             )
         }
     }
-
-    s
+    allFiles
   }
 }
