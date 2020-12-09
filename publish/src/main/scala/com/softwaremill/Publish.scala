@@ -20,21 +20,24 @@ trait Publish {
         url = new URL("https://softwaremill.com")
       )
     ),
+    updateDocs := UpdateVersionInDocs(sLog.value, organization.value, version.value),
     commands += releaseCommand
   )
 
   lazy val noPublishSettings =
     Seq(publish := {}, publishLocal := {}, publishArtifact := false)
 
+  val updateDocs = taskKey[Seq[File]]("Update docs during a release")
+
   private val releaseCommand = Command.command("release") { state =>
     var s = state
     val version = readNextVersion()
     val tag = "v" + version
-    val org = Project.extract(s).get(organization)
 
     s = Command.process(s"""set version in ThisBuild := "$version"""", s)
 
-    val files = UpdateVersionInDocs(s, org, version)
+    val (s2, files) = Project.extract(s).runTask(updateDocs, s)
+    s = s2
     s = addFilesToGit(s, files)
 
     s.log.info(s"\nDocs updated, git status:\n")

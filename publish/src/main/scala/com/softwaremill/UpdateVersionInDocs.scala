@@ -10,7 +10,7 @@ object UpdateVersionInDocs {
 
   // based on https://github.com/EECOLOR/sbt-release-custom-steps/blob/master/src/main/scala/org/qirx/sbtrelease/UpdateVersionInFiles.scala
   def apply(
-      state: State,
+      log: Logger,
       organization: String,
       version: String,
       filesToUpdate: List[File] = DefaultFilesForVersionUpdate
@@ -18,7 +18,7 @@ object UpdateVersionInDocs {
     var allFiles: Seq[File] = Vector()
     filesToUpdate match {
       case Nil =>
-        state.log.info(
+        log.info(
           "[UpdateVersionInDocs] Received empty set of files to update. Skipping updating version in docs"
         )
 
@@ -34,7 +34,7 @@ object UpdateVersionInDocs {
         def replaceInFile(f: File): Unit = {
           val oldFile = IO.read(f)
           findCurrentVersion(oldFile).foreach(currentVersion => {
-            state.log.info(
+            log.info(
               s"[UpdateVersionInDocs] Replacing $currentVersion with $version in ${f.name}"
             )
             val newFile = oldFile.replaceAll(
@@ -65,7 +65,7 @@ object UpdateVersionInDocs {
           case directory: File if directory.exists() =>
             replaceDocsInDirectory(directory)
           case notExistingFile =>
-            state.log.warn(
+            log.warn(
               s"[UpdateVersionInDocs] ${notExistingFile.getPath} does not exist, skipping..."
             )
         }
