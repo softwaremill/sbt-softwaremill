@@ -37,7 +37,8 @@ lazy val common = project
   .settings(
     addSbtPlugin(
       "org.scalameta" % "sbt-scalafmt" % BuildInfo.sbtScalafmtVersion
-    )
+    ),
+    addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.16")
   )
 
 lazy val publish = project
@@ -52,7 +53,9 @@ lazy val publish = project
     libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.9.1"
   )
   .settings(
-    addSbtPlugin("com.geirsson" % "sbt-ci-release" % BuildInfo.sbtCiReleaseVersion)
+    addSbtPlugin(
+      "com.geirsson" % "sbt-ci-release" % BuildInfo.sbtCiReleaseVersion
+    )
   )
 
 lazy val extra = project
@@ -63,7 +66,8 @@ lazy val extra = project
     name := "sbt-softwaremill-extra",
     description := "Build configuration for SBT projects: extra",
     sbtPlugin := true,
-    scriptedLaunchOpts += ("-Dplugin.version=" + version.value)
+    scriptedLaunchOpts += ("-Dplugin.version=" + version.value),
+    libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.9.1"
   )
   .settings(
     addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.5.1"),
@@ -82,5 +86,5 @@ lazy val browserTestJs = project
   )
   .settings(
     libraryDependencies += "org.scala-js" %% "scalajs-env-selenium" % "1.1.0",
-    addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.3.1"),
+    addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.3.1")
   )
