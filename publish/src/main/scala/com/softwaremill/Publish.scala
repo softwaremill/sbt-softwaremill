@@ -40,7 +40,7 @@ trait Publish {
     state.log.info(s"\n")
 
     val state5 = Command.process(
-      s"""git commit -m "Set version in documentation to $version"""",
+      s"""git commit -m "Release $version"""",
       state4
     )
 
