@@ -1,7 +1,7 @@
 name: CI
 on: [push, pull_request]
 jobs:
-  build:
+  ci:
     # run on external PRs, but not on internal PRs since those will be run by push to branch
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-20.04
@@ -20,8 +20,6 @@ jobs:
           ~/.ivy2/cache
           ~/.coursier
         key: sbt-cache-${{ runner.os }}-${{ hashFiles('project/build.properties') }}
-    - name: Compile
-      run: sbt -v compile compileDocumentation
     - name: Test
       run: sbt test
     - name: Publish
