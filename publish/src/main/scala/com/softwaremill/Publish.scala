@@ -62,7 +62,7 @@ trait Publish {
   }
 
   private def pushChanges(state: State): State = SimpleReader.readLine("Push changes? [y/n] ") match {
-    case Some("y") => Command.process(s"git push", state)
+    case Some("y") => Command.process(s"git push --tags", state)
     case _         => sys.error("Aborting, not pushing changes"); state
   }
 }
