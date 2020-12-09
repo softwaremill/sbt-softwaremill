@@ -37,6 +37,7 @@ trait Publish {
 
     state.log.info(s"\nDocs updated, git status:\n")
     val state4 = Command.process(s"git status", state3)
+    state.log.info(s"\n")
 
     val state5 = Command.process(
       s"""git commit -m "Set version in documentation to $version"""",
@@ -58,7 +59,7 @@ trait Publish {
     Command.process(s"git add ${f.getAbsolutePath}", s)
   }
 
-  private def pushChanges(state: State): State = SimpleReader.readLine("Push changes? [y/n]") match {
+  private def pushChanges(state: State): State = SimpleReader.readLine("Push changes? [y/n] ") match {
     case Some("y") => Command.process(s"git push", state)
     case _         => sys.error("Aborting, not pushing changes"); state
   }
