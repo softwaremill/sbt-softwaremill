@@ -27,27 +27,25 @@ trait Publish {
     Seq(publish := {}, publishLocal := {}, publishArtifact := false)
 
   private val releaseCommand = Command.command("release") { state =>
+    var s = state
     val version = readNextVersion()
     val tag = "v" + version
-    val org = Project.extract(state).get(organization)
+    val org = Project.extract(s).get(organization)
 
-    state.log.info(s"Tagging release as: $tag")
-    val state2 = Command.process(s"git tag $tag", state)
+    val files = UpdateVersionInDocs(s, org, version)
+    s = addFilesToGit(s, files)
 
-    val files = UpdateVersionInDocs(state2, org, version)
-    val state3 = addFilesToGit(state2, files)
+    s.log.info(s"\nDocs updated, git status:\n")
+    s = Command.process(s"git status", s)
+    s.log.info(s"\n")
 
-    state.log.info(s"\nDocs updated, git status:\n")
-    val state4 = Command.process(s"git status", state3)
-    state.log.info(s"\n")
+    s = Command.process(s"""git commit -m "Release $version"""", s)
 
-    val state5 = Command.process(
-      s"""git commit -m "Release $version"""",
-      state4
-    )
+    s.log.info(s"Tagging release as: $tag")
+    s = Command.process(s"git tag $tag", s)
 
-    val state6 = pushChanges(state5)
-    state6
+    s = pushChanges(s)
+    s
   }
 
   private def readNextVersion(): String =
