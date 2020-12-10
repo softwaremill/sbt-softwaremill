@@ -15,8 +15,7 @@ object SbtSoftwareMillCommon extends AutoPlugin {
         if (isDotty.value) Nil else Seq(compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3"))
       },
       // silence transitive eviction warnings
-      evictionWarningOptions in update := EvictionWarningOptions.default
-        .withWarnTransitiveEvictions(false),
+      evictionWarningOptions in update := EvictionWarningOptions.empty,
       // use sbt-tpolecat, but without fatal warnings
       scalacOptions ~= (_.filterNot(Set("-Xfatal-warnings")))
     )
