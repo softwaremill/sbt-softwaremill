@@ -17,7 +17,12 @@ object SbtSoftwareMillCommon extends AutoPlugin {
       // silence transitive eviction warnings
       evictionWarningOptions in update := EvictionWarningOptions.empty,
       // use sbt-tpolecat, but without fatal warnings
-      scalacOptions ~= (_.filterNot(Set("-Xfatal-warnings")))
+      scalacOptions ~= (_.filterNot(Set("-Xfatal-warnings"))),
+      // when using 2.13, fail on non-exhaustive matches
+      scalacOptions := {
+        if (scalaVersion.value.startsWith("2.13")) scalacOptions.value :+ "-Wconf:cat=other-match-analysis:error"
+        else scalacOptions.value
+      }
     )
   }
 }
