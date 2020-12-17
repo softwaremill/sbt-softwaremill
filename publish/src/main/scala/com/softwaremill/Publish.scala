@@ -31,6 +31,8 @@ trait Publish {
 
   private val releaseCommand = Command.command("release") { state =>
     var s = state
+    s.log.info("Current version:")
+    s = Command.process("version", s)
     val version = readNextVersion()
     val tag = "v" + version
 
