@@ -12,7 +12,7 @@ object SbtSoftwareMillCommon extends AutoPlugin {
     lazy val commonSmlBuildSettings = Seq(
       isDotty := scalaVersion.value.startsWith("0.") || scalaVersion.value.startsWith("3."),
       libraryDependencies ++= {
-        if (isDotty.value) Nil else Seq(compilerPlugin("org.typelevel" %% "kind-projector" % "0.10.3"))
+        if (isDotty.value) Nil else Seq(compilerPlugin("org.typelevel" %% "kind-projector" % "0.11.3" cross CrossVersion.full))
       },
       // silence transitive eviction warnings
       evictionWarningOptions in update := EvictionWarningOptions.empty,
