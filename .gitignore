@@ -8,3 +8,5 @@ target/
 application.conf
 data/
 .bsp
+.metals
+.vscode

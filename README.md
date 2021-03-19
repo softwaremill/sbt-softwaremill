@@ -81,3 +81,7 @@ val commonSettings = ossPublishSettings ++ Seq(
 ## Releasing sbt-softwaremill
 
 sbt-softwaremill release process is setup on GH Actions. This plugin uses itself to publish binaries to oss-sonatype.
+
+## Note for migrating from sbt-softwaremill 1.x series
+
+You should remove `version.sbt` file as it's no longer used, and it may disrupt the release process. In the 2.x series the version is deduced from git tags and the current state using [https://github.com/dwijnand/sbt-dynver](sbt-dynver).
