@@ -86,4 +86,4 @@ sbt-softwaremill release process is setup on GH Actions. This plugin uses itself
 
 You should remove `version.sbt` file as it's no longer used, and it may disrupt the release process. In the 2.x series the version is deduced from git tags and the current state using [https://github.com/dwijnand/sbt-dynver](sbt-dynver).
 
-Moreover, a number of plugins are removed, which aren't available for Scala3 and would cause build problems
+Moreover, a number of bundled plugins are removed, which aren't available for Scala3 and would cause build problems
