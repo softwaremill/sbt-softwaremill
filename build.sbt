@@ -71,7 +71,7 @@ lazy val extra = project
   )
   .settings(
     addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.5.3"),
-    addSbtPlugin("net.vonbuchholtz" % "sbt-dependency-check" % "3.1.2")
+    addSbtPlugin("net.vonbuchholtz" % "sbt-dependency-check" % "3.1.3")
   )
 
 lazy val browserTestJs = project
