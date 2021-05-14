@@ -12,7 +12,7 @@ object SbtSoftwareMillCommon extends AutoPlugin {
     lazy val commonSmlBuildSettings = Seq(
       isDotty := scalaVersion.value.startsWith("0.") || scalaVersion.value.startsWith("3."),
       libraryDependencies ++= {
-        if (isDotty.value) Nil else Seq(compilerPlugin("org.typelevel" %% "kind-projector" % "0.11.3" cross CrossVersion.full))
+        if (isDotty.value) Nil else Seq(compilerPlugin("org.typelevel" %% "kind-projector" % "0.12.0" cross CrossVersion.full))
       },
       // silence transitive eviction warnings
       evictionWarningOptions in update := EvictionWarningOptions.empty,
@@ -20,8 +20,9 @@ object SbtSoftwareMillCommon extends AutoPlugin {
       scalacOptions ~= (_.filterNot(Set("-Xfatal-warnings"))),
       // when using 2.13, fail on non-exhaustive matches
       scalacOptions := {
-        if (scalaVersion.value.startsWith("2.13")) scalacOptions.value :+ "-Wconf:cat=other-match-analysis:error"
-        else scalacOptions.value
+        val current = scalacOptions.value
+        if (scalaVersion.value.startsWith("2.13")) current :+ "-Wconf:cat=other-match-analysis:error"
+        else current
       }
     )
   }

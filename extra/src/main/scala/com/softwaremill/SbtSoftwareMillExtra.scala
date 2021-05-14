@@ -5,8 +5,6 @@ import Keys._
 import net.vonbuchholtz.sbt.dependencycheck.DependencyCheckPlugin
 
 object SbtSoftwareMillExtra extends AutoPlugin {
-  lazy val isDotty = settingKey[Boolean]("Is the scala version dotty.")
-
   override def requires = plugins.JvmPlugin
   override def trigger = allRequirements
   object autoImport {

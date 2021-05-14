@@ -36,7 +36,7 @@ trait Publish {
     val version = readNextVersion()
     val tag = "v" + version
 
-    s = Command.process(s"""set version in ThisBuild := "$version"""", s)
+    s = Command.process(s"""set ThisBuild/version := "$version"""", s)
 
     val (s2, files) = Project.extract(s).runTask(updateDocs, s)
     s = s2
