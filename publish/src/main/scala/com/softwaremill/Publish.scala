@@ -2,6 +2,7 @@ package com.softwaremill
 
 import sbt.Keys._
 import sbt._
+import sbtdynver.DynVerPlugin.autoImport.dynverTagPrefix
 import xerial.sbt.Sonatype.autoImport.sonatypeProfileName
 
 trait Publish {
@@ -34,7 +35,9 @@ trait Publish {
     s.log.info("Current version:")
     s = Command.process("version", s)
     val version = readNextVersion()
-    val tag = "v" + version
+
+    val tagPrefix = Project.extract(s).getOpt(ThisBuild / dynverTagPrefix).getOrElse("v")
+    val tag = tagPrefix + version
 
     s = Command.process(s"""set ThisBuild/version := "$version"""", s)
 
