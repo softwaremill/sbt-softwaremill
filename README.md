@@ -20,6 +20,8 @@ addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-browser-tes
 Now you can add the appropriate settings in your `build.sbt`, e.g.:
 
 ````scala
+import com.softwaremill.SbtSoftwareMillCommon.commonSmlBuildSettings
+
 lazy val commonSettings = commonSmlBuildSettings ++ Seq(
   // your settings, which can override some of commonSmlBuildSettings
 ) 
@@ -29,9 +31,11 @@ Each dependency provides a choice of settings:
 
 ````scala
 // common - compiler flags
+import com.softwaremill.SbtSoftwareMillCommon.commonSmlBuildSettings
 commonSmlBuildSettings
 
 // publish
+import com.softwaremill.Publish.ossPublishSettings
 ossPublishSettings
 
 // extra - use all or choose
@@ -40,8 +44,9 @@ lazy val extraSmlBuildSettings =
   dependencyCheckSettings
 
 // downloads the appropriate chrome/gecko driver for testing scala.js using scalajs-env-selenium and sets the jsenv
-DownloadChromeDriver.browserChromeTestSettings
-DownloadChromeDriver.browserGeckoTestSettings 
+import com.softwaremill.SbtSoftwareMillBrowserTestJS.{browserChromeTestSettings, browserGeckoTestSettings}
+browserChromeTestSettings
+browserGeckoTestSettings 
 ````
 
 `sbt-softwaremill-common` comes with:
