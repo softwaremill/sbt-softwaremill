@@ -51,9 +51,7 @@ object UpdateVersionInDocs {
           Option(d.listFiles()).foreach(_.foreach { f =>
             if (f.isDirectory) {
               replaceDocsInDirectory(f)
-            } else if (
-              f.getName.endsWith(".rst") || f.getName.endsWith(".md")
-            ) {
+            } else if (f.getName.endsWith(".rst") || f.getName.endsWith(".md")) {
               replaceInFile(f)
             }
           })

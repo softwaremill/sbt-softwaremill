@@ -2,10 +2,7 @@ package com.softwaremill
 
 import sbt.{Def, Global, Task, TaskKey, taskKey, _}
 import Keys._
-import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport.{
-  jsEnv,
-  scalaJSLinkerConfig
-}
+import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport.{jsEnv, scalaJSLinkerConfig}
 
 object SbtSoftwareMillBrowserTestJS {
   val downloadChromeDriver: TaskKey[Unit] = taskKey[Unit](
@@ -21,9 +18,7 @@ object SbtSoftwareMillBrowserTestJS {
 
   val downloadChromeDriverSettings: Seq[Def.Setting[Task[Unit]]] = Seq(
     Global / downloadChromeDriver := {
-      if (
-        java.nio.file.Files.notExists(new File("target", "chromedriver").toPath)
-      ) {
+      if (java.nio.file.Files.notExists(new File("target", "chromedriver").toPath)) {
         println(
           "ChromeDriver binary file not found. Detecting google-chrome version..."
         )
@@ -71,9 +66,7 @@ object SbtSoftwareMillBrowserTestJS {
   val downloadGeckoDriverSettings: Seq[Def.Setting[_]] = Seq(
     Global / geckoDriverVersion := "v0.28.0",
     Global / downloadGeckoDriver := {
-      if (
-        java.nio.file.Files.notExists(new File("target", "geckodriver").toPath)
-      ) {
+      if (java.nio.file.Files.notExists(new File("target", "geckodriver").toPath)) {
         val version = (geckoDriverVersion in Global).value
         println(s"geckodriver binary file not found")
         import sys.process._
