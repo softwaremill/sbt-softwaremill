@@ -11,15 +11,17 @@ For each project where you'd like to use the build settings, add some or all of 
 file:
 
 ````scala
-addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-common" % "2.0.5")
-addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-publish" % "2.0.5")
-addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-extra" % "2.0.5")
-addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-browser-test-js" % "2.0.5")
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-common" % "2.0.7")
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-publish" % "2.0.7")
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-extra" % "2.0.7")
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-browser-test-js" % "2.0.7")
 ````
 
 Now you can add the appropriate settings in your `build.sbt`, e.g.:
 
 ````scala
+import com.softwaremill.SbtSoftwareMillCommon.commonSmlBuildSettings
+
 lazy val commonSettings = commonSmlBuildSettings ++ Seq(
   // your settings, which can override some of commonSmlBuildSettings
 ) 
@@ -29,9 +31,11 @@ Each dependency provides a choice of settings:
 
 ````scala
 // common - compiler flags
+import com.softwaremill.SbtSoftwareMillCommon.commonSmlBuildSettings
 commonSmlBuildSettings
 
 // publish
+import com.softwaremill.Publish.ossPublishSettings
 ossPublishSettings
 
 // extra - use all or choose
@@ -40,8 +44,9 @@ lazy val extraSmlBuildSettings =
   dependencyCheckSettings
 
 // downloads the appropriate chrome/gecko driver for testing scala.js using scalajs-env-selenium and sets the jsenv
-DownloadChromeDriver.browserChromeTestSettings
-DownloadChromeDriver.browserGeckoTestSettings 
+import com.softwaremill.SbtSoftwareMillBrowserTestJS.{browserChromeTestSettings, browserGeckoTestSettings}
+browserChromeTestSettings
+browserGeckoTestSettings 
 ````
 
 `sbt-softwaremill-common` comes with:
@@ -84,6 +89,6 @@ sbt-softwaremill release process is setup on GH Actions. This plugin uses itself
 
 ## Note for migrating from sbt-softwaremill 1.x series
 
-You should remove `version.sbt` file as it's no longer used, and it may disrupt the release process. In the 2.x series the version is deduced from git tags and the current state using [https://github.com/dwijnand/sbt-dynver](sbt-dynver).
+You should remove `version.sbt` file as it's no longer used, and it may disrupt the release process. In the 2.x series the version is deduced from git tags and the current state using [https://github.com/dwijnand/sbt-dynver](https://github.com/dwijnand/sbt-dynver).
 
 Moreover, a number of bundled plugins are removed, which aren't available for Scala3 and would cause build problems
