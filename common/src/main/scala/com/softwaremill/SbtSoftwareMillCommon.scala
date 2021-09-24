@@ -14,7 +14,7 @@ object SbtSoftwareMillCommon extends AutoPlugin {
       .startsWith("3."),
     libraryDependencies ++= {
       if (isDotty.value) Nil
-      else Seq(compilerPlugin("org.typelevel" %% "kind-projector" % "0.13.0" cross CrossVersion.full))
+      else Seq(compilerPlugin("org.typelevel" %% "kind-projector" % "0.13.2" cross CrossVersion.full))
     },
     // silence transitive eviction warnings
     evictionWarningOptions in update := EvictionWarningOptions.empty,

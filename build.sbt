@@ -54,7 +54,7 @@ lazy val publish = project
   )
   .settings(
     addSbtPlugin(
-      "com.geirsson" % "sbt-ci-release" % BuildInfo.sbtCiReleaseVersion
+      "com.github.sbt" % "sbt-ci-release" % BuildInfo.sbtCiReleaseVersion
     )
   )
 
