@@ -22,7 +22,8 @@ trait Publish {
       )
     ),
     updateDocs := UpdateVersionInDocs(sLog.value, organization.value, version.value),
-    commands += releaseCommand
+    commands += releaseCommand,
+    sonatypeCredentialHost := "s01.oss.sonatype.org"
   )
 
   lazy val noPublishSettings =
