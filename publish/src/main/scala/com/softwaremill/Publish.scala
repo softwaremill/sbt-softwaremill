@@ -3,7 +3,7 @@ package com.softwaremill
 import sbt.Keys._
 import sbt._
 import sbtdynver.DynVerPlugin.autoImport.dynverTagPrefix
-import xerial.sbt.Sonatype.autoImport.sonatypeProfileName
+import xerial.sbt.Sonatype.autoImport.{sonatypeProfileName, sonatypeCredentialHost}
 
 trait Publish {
   lazy val ossPublishSettings = Seq(
