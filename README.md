@@ -60,6 +60,16 @@ browserGeckoTestSettings
 - [sbt-updates](https://github.com/rtimush/sbt-updates)
 - [sbt-dependency-check](https://github.com/albuch/sbt-dependency-check)
 
+## Sonatype setup
+
+By default, the plugins use the new `s01.oss.sonatype.org` host for releasing to Sonatype. If your project isn't yet
+[migrated](https://central.sonatype.org/news/20210223_new-users-on-s01/), you'll need to add the following to your
+root project settings:
+
+```scala
+sonatypeCredentialHost := "oss.sonatype.org"
+```
+
 ## Releasing your library
 
 `sbt-softwaremill-publish` exposes a default configuration suitable for releasing open source libraries.
