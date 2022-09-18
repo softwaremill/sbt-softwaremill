@@ -4,7 +4,7 @@ import Keys._
 import sbtsoftwaremill.BuildInfo
 
 val commonSettings = Publish.ossPublishSettings ++ Seq(
-  scalaVersion := "2.12.16",
+  scalaVersion := "2.12.17",
   organization := "com.softwaremill.sbt-softwaremill",
   sbtVersion in Global := {
     scalaBinaryVersion.value match {
@@ -38,7 +38,7 @@ lazy val common = project
     addSbtPlugin(
       "org.scalameta" % "sbt-scalafmt" % BuildInfo.sbtScalafmtVersion
     ),
-    addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.3.3")
+    addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.4.1")
   )
 
 lazy val publish = project
@@ -86,5 +86,5 @@ lazy val browserTestJs = project
   )
   .settings(
     libraryDependencies += "org.scala-js" %% "scalajs-env-selenium" % "1.1.1",
-    addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.10.0")
+    addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.11.0")
   )
