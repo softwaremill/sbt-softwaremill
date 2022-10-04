@@ -70,7 +70,7 @@ lazy val extra = project
     libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.9.1"
   )
   .settings(
-    addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.6.3"),
+    addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.6.4"),
     addSbtPlugin("net.vonbuchholtz" % "sbt-dependency-check" % "4.1.0")
   )
 
