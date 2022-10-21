@@ -1,4 +1,4 @@
-val sbtCiReleaseVersion = "1.5.10"
+val sbtCiReleaseVersion = "1.5.11"
 val sbtScalafmtVersion = "2.4.6"
 
 lazy val root = project
