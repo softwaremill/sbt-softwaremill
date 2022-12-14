@@ -4,16 +4,12 @@ import sbt._
 import Keys._
 
 object SbtSoftwareMillCommon extends AutoPlugin {
-  lazy val isDotty = settingKey[Boolean]("Is the scala version dotty.")
-
   override def requires = plugins.JvmPlugin
   override def trigger = allRequirements
 
   lazy val commonSmlBuildSettings = Seq(
-    isDotty := scalaVersion.value.startsWith("0.") || scalaVersion.value
-      .startsWith("3."),
     libraryDependencies ++= {
-      if (isDotty.value) Nil
+      if (ScalaArtifacts.isScala3(scalaVersion.value)) Nil
       else Seq(compilerPlugin("org.typelevel" %% "kind-projector" % "0.13.2" cross CrossVersion.full))
     },
     // silence transitive eviction warnings
