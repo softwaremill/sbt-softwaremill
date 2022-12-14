@@ -13,7 +13,7 @@ object SbtSoftwareMillCommon extends AutoPlugin {
       else Seq(compilerPlugin("org.typelevel" %% "kind-projector" % "0.13.2" cross CrossVersion.full))
     },
     // silence transitive eviction warnings
-    evictionWarningOptions in update := EvictionWarningOptions.empty,
+    update / evictionWarningOptions := EvictionWarningOptions.empty,
     // use sbt-tpolecat, but without fatal warnings
     scalacOptions ~= (_.filterNot(Set("-Xfatal-warnings"))),
     // when using 2.13, fail on non-exhaustive matches
