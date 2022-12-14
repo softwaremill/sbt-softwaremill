@@ -22,6 +22,12 @@ object SbtSoftwareMillCommon extends AutoPlugin {
       if (scalaVersion.value.startsWith("2.13"))
         current :+ "-Wconf:cat=other-match-analysis:error"
       else current
+    },
+    // scala.js on scala3 needs an additional compiler option
+    scalacOptions ++= {
+      val isScalaJS = libraryDependencies.value.exists(_.organization == "org.scala-js")
+      val isScala3 = ScalaArtifacts.isScala3(scalaVersion.value)
+      if (isScalaJS && isScala3) Seq("-scalajs") else Seq()
     }
   )
 }
