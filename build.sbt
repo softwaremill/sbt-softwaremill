@@ -50,7 +50,7 @@ lazy val publish = project
     description := "Build configuration for SBT projects: publishing",
     sbtPlugin := true,
     scriptedLaunchOpts += ("-Dplugin.version=" + version.value),
-    libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.9.1"
+    libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.9.2"
   )
   .settings(
     addSbtPlugin(
@@ -67,7 +67,7 @@ lazy val extra = project
     description := "Build configuration for SBT projects: extra",
     sbtPlugin := true,
     scriptedLaunchOpts += ("-Dplugin.version=" + version.value),
-    libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.9.1"
+    libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.9.2"
   )
   .settings(
     addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.6.4"),
