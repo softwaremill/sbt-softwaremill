@@ -39,7 +39,7 @@ object SbtSoftwareMillBrowserTestJS {
         val latestVersion =
           IO.readLinesURL(
             new URL(
-              s"https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$withoutLastPart"
+              s"https://chromedriver.storage.googleapis.com/LATEST_RELEASE"
             )
           ).mkString
         val platformDependentName = if (isMac) {
