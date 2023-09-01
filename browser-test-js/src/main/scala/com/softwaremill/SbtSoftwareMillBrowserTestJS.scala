@@ -46,7 +46,7 @@ object SbtSoftwareMillBrowserTestJS {
           new File("target")
         )
         IO.move(
-          new File(new File("target", s"chromedriver-mac-$platformSuffix"), "chromedriver"),
+          new File(new File("target", s"chromedriver-$platformSuffix"), "chromedriver"),
           new File("target", "chromedriver"))
         IO.chmod("rwxrwxr-x", new File("target", "chromedriver"))
       } else {
