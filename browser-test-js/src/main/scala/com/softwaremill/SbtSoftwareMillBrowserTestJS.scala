@@ -45,6 +45,9 @@ object SbtSoftwareMillBrowserTestJS {
           new URL(s"https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$latestVersion/$platformSuffix/chromedriver-$platformSuffix.zip"),
           new File("target")
         )
+        IO.move(
+          new File(new File("target", s"chromedriver-mac-$platformSuffix"), "chromedriver"),
+          new File("target", "chromedriver"))
         IO.chmod("rwxrwxr-x", new File("target", "chromedriver"))
       } else {
         println("Detected chromedriver binary file, skipping downloading.")
