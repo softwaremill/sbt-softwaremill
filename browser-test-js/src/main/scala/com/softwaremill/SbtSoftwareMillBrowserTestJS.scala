@@ -36,24 +36,13 @@ object SbtSoftwareMillBrowserTestJS {
         val withoutLastPart =
           chromeVersion.split('.').dropRight(1).mkString(".")
         println(s"Selected release: $withoutLastPart")
-        val latestVersion =
-          IO.readLinesURL(
-            new URL(
-              s"https://chromedriver.storage.googleapis.com/LATEST_RELEASE"
-            )
-          ).mkString
-        val platformDependentName = if (isMac) {
-          "chromedriver_mac64.zip"
-        } else if (isWin) {
-          "chromedriver_win32.zip"
-        } else {
-          "chromedriver_linux64.zip"
-        }
+        val latestVersion = IO.readLinesURL(new URL(s"https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_STABLE")).mkString
+        val platformSuffix = if (isMac) {
+          if (System.getProperty("os.arch") == "x86_64") "mac-x64" else "mac-arm64"
+        } else if (isWin) { "win32" } else { "linux64" }
         println(s"Downloading chrome driver version $latestVersion for $osName")
         IO.unzipURL(
-          new URL(
-            s"https://chromedriver.storage.googleapis.com/$latestVersion/$platformDependentName"
-          ),
+          new URL(s"https://chromedriver.storage.googleapis.com/$latestVersion/$platformSuffix/chromedriver-$platformSuffix.zip"),
           new File("target")
         )
         IO.chmod("rwxrwxr-x", new File("target", "chromedriver"))
