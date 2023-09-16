@@ -30,13 +30,11 @@ object SbtSoftwareMillBrowserTestJS {
           if (isMac)
             "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
           else "google-chrome"
-        val chromeVersion =
-          Seq(chromeVersionExecutable, "--version").!!.split(' ')(2)
+        val chromeVersion = Seq(chromeVersionExecutable, "--version").!!.split(' ')(2)
         println(s"Detected google-chrome version: $chromeVersion")
-        val withoutLastPart =
-          chromeVersion.split('.').dropRight(1).mkString(".")
+        val withoutLastPart = chromeVersion.split('.').dropRight(1).mkString(".")
         println(s"Selected release: $withoutLastPart")
-        val latestVersion = IO.readLinesURL(new URL(s"https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_STABLE")).mkString
+        val latestVersion = IO.readLinesURL(new URL(s"https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_$withoutLastPart")).mkString
         val platformSuffix = if (isMac) {
           if (System.getProperty("os.arch") == "x86_64") "mac-x64" else "mac-arm64"
         } else if (isWin) { "win32" } else { "linux64" }
