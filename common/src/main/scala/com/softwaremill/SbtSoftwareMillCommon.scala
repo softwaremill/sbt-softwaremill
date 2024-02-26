@@ -30,4 +30,6 @@ object SbtSoftwareMillCommon extends AutoPlugin {
       if (isScalaJS && isScala3) Seq("-scalajs") else Seq()
     }
   )
+
+  object autoImport {}
 }
