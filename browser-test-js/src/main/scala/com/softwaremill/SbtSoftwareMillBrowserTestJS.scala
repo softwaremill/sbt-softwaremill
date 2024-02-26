@@ -40,7 +40,7 @@ object SbtSoftwareMillBrowserTestJS {
         } else if (isWin) { "win32" } else { "linux64" }
         println(s"Downloading chrome driver version $latestVersion for $osName")
         IO.unzipURL(
-          new URL(s"https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/$latestVersion/$platformSuffix/chromedriver-$platformSuffix.zip"),
+          new URL(s"https://storage.googleapis.com/chrome-for-testing-public/$latestVersion/$platformSuffix/chromedriver-$platformSuffix.zip"),
           new File("target")
         )
         IO.move(
