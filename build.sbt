@@ -86,5 +86,5 @@ lazy val browserTestJs = project
   )
   .settings(
     libraryDependencies += "org.scala-js" %% "scalajs-env-selenium" % "1.1.1",
-    addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.15.0")
+    addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.16.0")
   )
