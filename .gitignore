@@ -10,3 +10,5 @@ data/
 .bsp
 .metals
 .vscode
+metals.sbt
+.bloop
