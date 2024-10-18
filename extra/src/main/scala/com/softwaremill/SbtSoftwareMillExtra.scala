@@ -3,6 +3,7 @@ package com.softwaremill
 import sbt._
 import Keys._
 import net.vonbuchholtz.sbt.dependencycheck.DependencyCheckPlugin
+import java.net.URI
 
 object SbtSoftwareMillExtra extends AutoPlugin {
   override def requires = plugins.JvmPlugin
@@ -19,7 +20,7 @@ object SbtSoftwareMillExtra extends AutoPlugin {
   )
 
   lazy val dependencyCheckSettings = Seq(
-    DependencyCheckPlugin.autoImport.dependencyCheckCveUrlModified := Some(new URL("http://nvdmirror.sml.io/")),
+    DependencyCheckPlugin.autoImport.dependencyCheckCveUrlModified := Some(URI.create("http://nvdmirror.sml.io/").toURL()),
     DependencyCheckPlugin.autoImport.dependencyCheckCveUrlBase := Some("http://nvdmirror.sml.io/"),
     DependencyCheckPlugin.autoImport.dependencyCheckAssemblyAnalyzerEnabled := Some(false),
     DependencyCheckPlugin.autoImport.dependencyCheckFormat := "All"
