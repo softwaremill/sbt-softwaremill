@@ -1,5 +1,5 @@
 val sbtCiReleaseVersion = "1.8.0"
-val sbtScalafmtVersion = "2.5.2"
+val sbtScalafmtVersion = "2.5.3"
 
 lazy val root = project
   .in(file("."))
