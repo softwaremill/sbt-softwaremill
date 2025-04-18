@@ -4,6 +4,7 @@ import sbt.Keys._
 import sbt._
 import sbtdynver.DynVerPlugin.autoImport.dynverTagPrefix
 import xerial.sbt.Sonatype.autoImport.{sonatypeProfileName, sonatypeCredentialHost}
+import xerial.sbt.Sonatype.sonatypeCentralHost
 import java.net.URI
 
 trait Publish {
@@ -24,7 +25,7 @@ trait Publish {
     ),
     updateDocs := UpdateVersionInDocs(sLog.value, organization.value, version.value),
     commands += releaseCommand,
-    sonatypeCredentialHost := "s01.oss.sonatype.org"
+    sonatypeCredentialHost := sonatypeCentralHost
   )
 
   lazy val noPublishSettings =
