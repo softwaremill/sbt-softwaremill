@@ -10,10 +10,10 @@ For each project where you'd like to use the build settings, add some or all of 
 file:
 
 ````scala
-addSbtPlugin("com.softwaremill.sbt_softwaremill" % "sbt-softwaremill-common" % "2.0.23")
-addSbtPlugin("com.softwaremill.sbt_softwaremill" % "sbt-softwaremill-publish" % "2.0.23")
-addSbtPlugin("com.softwaremill.sbt_softwaremill" % "sbt-softwaremill-extra" % "2.0.23")
-addSbtPlugin("com.softwaremill.sbt_softwaremill" % "sbt-softwaremill-browser-test-js" % "2.0.23")
+addSbtPlugin("com.softwaremill.sbt_softwaremill" % "sbt-softwaremill-common" % "2.0.24")
+addSbtPlugin("com.softwaremill.sbt_softwaremill" % "sbt-softwaremill-publish" % "2.0.24")
+addSbtPlugin("com.softwaremill.sbt_softwaremill" % "sbt-softwaremill-extra" % "2.0.24")
+addSbtPlugin("com.softwaremill.sbt_softwaremill" % "sbt-softwaremill-browser-test-js" % "2.0.24")
 ````
 
 Now you can add the appropriate settings in your `build.sbt`, e.g.:
