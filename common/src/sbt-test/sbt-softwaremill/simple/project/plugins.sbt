@@ -1,1 +1,1 @@
-addSbtPlugin("com.softwaremill.sbt_softwaremill" % "sbt-softwaremill-common" % System.getProperty("plugin.version"))
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-common" % System.getProperty("plugin.version"))
