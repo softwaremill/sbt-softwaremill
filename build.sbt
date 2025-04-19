@@ -11,7 +11,8 @@ val commonSettings = Publish.ossPublishSettings ++ Seq(
       case "2.10" => "0.13.17"
       case "2.12" => "1.10.2"
     }
-  }
+  },
+  sbtPluginPublishLegacyMavenStyle := false // required by sonatype central
 )
 
 lazy val root = project
