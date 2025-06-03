@@ -3,13 +3,10 @@ package com.softwaremill
 import sbt.Keys._
 import sbt._
 import sbtdynver.DynVerPlugin.autoImport.dynverTagPrefix
-import xerial.sbt.Sonatype.autoImport.{sonatypeProfileName, sonatypeCredentialHost}
-import xerial.sbt.Sonatype.sonatypeCentralHost
 import java.net.URI
 
 trait Publish {
   lazy val ossPublishSettings = Seq(
-    sonatypeProfileName := "com.softwaremill",
     organizationHomepage := Some(url("https://softwaremill.com")),
     homepage := Some(url("http://softwaremill.com/open-source")),
     licenses := Seq(
@@ -24,8 +21,7 @@ trait Publish {
       )
     ),
     updateDocs := UpdateVersionInDocs(sLog.value, organization.value, version.value),
-    commands += releaseCommand,
-    sonatypeCredentialHost := sonatypeCentralHost
+    commands += releaseCommand
   )
 
   lazy val noPublishSettings =
