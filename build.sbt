@@ -85,6 +85,6 @@ lazy val browserTestJs = project
     scriptedLaunchOpts += ("-Dplugin.version=" + version.value)
   )
   .settings(
-    libraryDependencies += "org.scala-js" %% "scalajs-env-selenium" % "1.1.1",
+    libraryDependencies += "io.github.gmkumar2005" %% "scala-js-env-playwright" % "0.1.11",
     addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.19.0")
   )
