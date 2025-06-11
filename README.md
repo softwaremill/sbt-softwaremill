@@ -60,15 +60,10 @@ browserGeckoTestSettings
 - [sbt-updates](https://github.com/rtimush/sbt-updates)
 - [sbt-dependency-check](https://github.com/albuch/sbt-dependency-check)
 
-## Sonatype setup
+## JS testing
 
-By default, the plugins use the new `s01.oss.sonatype.org` host for releasing to Sonatype. If your project isn't yet
-[migrated](https://central.sonatype.org/news/20210223_new-users-on-s01/), you'll need to add the following to your
-root project settings:
-
-```scala
-sonatypeCredentialHost := "oss.sonatype.org"
-```
+The browser-test-js contains a fork of [scala-js-env-playwright](https://github.com/gmkumar2005/scala-js-env-playwright),
+which is built using Java 11.
 
 ## Releasing your library
 
