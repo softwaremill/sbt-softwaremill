@@ -92,6 +92,6 @@ lazy val browserTestJs = project
       "org.scala-js" %% "scalajs-js-envs" % "1.4.0",
       "com.google.jimfs" % "jimfs" % "1.3.0",
       "com.outr" %% "scribe" % "3.15.2",
-      "org.typelevel" %% "cats-effect" % "3.5.7"
+      "org.typelevel" %% "cats-effect" % "3.6.2"
     )
   )
