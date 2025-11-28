@@ -10,7 +10,7 @@ object SbtSoftwareMillCommon extends AutoPlugin {
   lazy val commonSmlBuildSettings = Seq(
     libraryDependencies ++= {
       if (ScalaArtifacts.isScala3(scalaVersion.value)) Nil
-      else Seq(compilerPlugin("org.typelevel" %% "kind-projector" % "0.13.3" cross CrossVersion.full))
+      else Seq(compilerPlugin("org.typelevel" %% "kind-projector" % "0.13.4" cross CrossVersion.full))
     },
     // silence transitive eviction warnings
     update / evictionWarningOptions := EvictionWarningOptions.empty,
