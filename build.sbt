@@ -9,7 +9,7 @@ val commonSettings = Publish.ossPublishSettings ++ Seq(
   sbtVersion in Global := {
     scalaBinaryVersion.value match {
       case "2.10" => "0.13.17"
-      case "2.12" => "1.10.2"
+      case "2.12" => "1.11.7"
     }
   }
 )
@@ -85,13 +85,13 @@ lazy val browserTestJs = project
     scriptedLaunchOpts += ("-Dplugin.version=" + version.value)
   )
   .settings(    
-    addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.19.0"),
+    addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.20.1"),
     // playwright dependencies, copied from https://github.com/gmkumar2005/scala-js-env-playwright/blob/main/build.sbt
     libraryDependencies ++= Seq(
-      "com.microsoft.playwright" % "playwright" % "1.49.0",
-      "org.scala-js" %% "scalajs-js-envs" % "1.4.0",
-      "com.google.jimfs" % "jimfs" % "1.3.0",
+      "com.microsoft.playwright" % "playwright" % "1.56.0",
+      "org.scala-js" %% "scalajs-js-envs" % "1.5.0",
+      "com.google.jimfs" % "jimfs" % "1.3.1",
       "com.outr" %% "scribe" % "3.15.2",
-      "org.typelevel" %% "cats-effect" % "3.5.7"
+      "org.typelevel" %% "cats-effect" % "3.6.3"
     )
   )
