@@ -7,6 +7,7 @@ lazy val root = project
   .settings(
     addSbtPlugin("com.github.sbt" % "sbt-ci-release" % sbtCiReleaseVersion),
     addSbtPlugin("org.scalameta" % "sbt-scalafmt" % sbtScalafmtVersion),
+    addSbtPlugin("com.eed3si9n" % "sbt-salad-days" % "0.2.0"),
     buildInfoKeys := Seq[BuildInfoKey](
       "sbtCiReleaseVersion" -> sbtCiReleaseVersion,
       "sbtScalafmtVersion" -> sbtScalafmtVersion
