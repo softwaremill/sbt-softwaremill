@@ -52,6 +52,7 @@ browserGeckoTestSettings
 `sbt-softwaremill-common` comes with:
 - [sbt-scalafmt](https://scalameta.org/scalafmt/docs/installation.html)
 - [sbt-tpolecat](https://github.com/DavidGregory084/sbt-tpolecat)
+- [sbt-salad-days](https://github.com/sbt/sbt-salad-days)
 
 `sbt-softwaremill-publish` comes with:
 - [sbt-ci-release](https://github.com/olafurpg/sbt-ci-release)
