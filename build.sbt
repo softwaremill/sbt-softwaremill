@@ -39,7 +39,7 @@ lazy val common = project
       "org.scalameta" % "sbt-scalafmt" % BuildInfo.sbtScalafmtVersion
     ),
     addSbtPlugin("org.typelevel" % "sbt-tpolecat" % "0.5.2"),
-    addSbtPlugin("com.eed3si9n" % "sbt-salad-days" % "0.2.0")
+    addSbtPlugin("com.eed3si9n" % "sbt-salad-days" % BuildInfo.sbtSaladDaysVersion)
   )
 
 lazy val publish = project
