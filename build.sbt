@@ -90,7 +90,7 @@ lazy val browserTestJs = project
     // playwright dependencies, copied from https://github.com/gmkumar2005/scala-js-env-playwright/blob/main/build.sbt
     libraryDependencies ++= Seq(
       "com.microsoft.playwright" % "playwright" % "1.56.0",
-      "org.scala-js" %% "scalajs-js-envs" % "1.5.0",
+      "org.scala-js" %% "scalajs-js-envs" % "1.6.0",
       "com.google.jimfs" % "jimfs" % "1.3.1",
       "com.outr" %% "scribe" % "3.15.2",
       "org.typelevel" %% "cats-effect" % "3.6.3"
