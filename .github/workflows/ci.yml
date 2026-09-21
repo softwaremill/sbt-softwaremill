@@ -22,9 +22,9 @@ jobs:
       with:
         distribution: 'temurin'
         cache: 'sbt'
-        java-version: 11
+        java-version: 25
     - name: Test
-      run: sbt test
+      run: sbt "test; scripted"
     - name: Publish
       if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v'))
       run: sbt ci-release

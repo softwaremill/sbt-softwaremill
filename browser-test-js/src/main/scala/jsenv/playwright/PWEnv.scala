@@ -164,7 +164,7 @@ object PWEnv {
 
     abstract class Materialization private ()
     object Materialization {
-      final case object Temp extends Materialization
+      case object Temp extends Materialization
       final case class Server(contentDir: Path, webRoot: URL) extends Materialization {
         require(
           webRoot.getPath.endsWith("/"),

@@ -13,7 +13,7 @@ import org.scalajs.jsenv.RunConfig
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.atomic.AtomicBoolean
 import scala.concurrent.duration.DurationInt
-import scala.jdk.CollectionConverters.seqAsJavaListConverter
+import scala.jdk.CollectionConverters._
 
 trait Runner {
   val browserName: String = "" // or provide actual values
