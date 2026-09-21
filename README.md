@@ -1,6 +1,6 @@
 # sbt-softwaremill
 
-[![Build Status](https://travis-ci.org/softwaremill/sbt-softwaremill.svg?branch=master)](https://travis-ci.org/softwaremill/sbt-softwaremill)
+[![CI](https://github.com/softwaremill/sbt-softwaremill/actions/workflows/ci.yml/badge.svg)](https://github.com/softwaremill/sbt-softwaremill/actions/workflows/ci.yml)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.softwaremill.sbt-softwaremill/sbt-softwaremill-common/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.softwaremill.sbt-softwaremill/sbt-softwaremill-common)  
 
 A sane set of common build settings.
@@ -43,7 +43,7 @@ lazy val extraSmlBuildSettings =
   dependencyUpdatesSettings ++  // check dependency updates on startup (max once per 12h)
   dependencyCheckSettings
 
-// downloads the appropriate chrome/gecko driver for testing scala.js using scalajs-env-selenium and sets the jsenv
+// sets the jsenv to run scala.js tests in a headless chrome/firefox browser, using playwright
 import com.softwaremill.SbtSoftwareMillBrowserTestJS.{browserChromeTestSettings, browserGeckoTestSettings}
 browserChromeTestSettings
 browserGeckoTestSettings 
@@ -55,7 +55,7 @@ browserGeckoTestSettings
 - [sbt-salad-days](https://github.com/sbt/sbt-salad-days)
 
 `sbt-softwaremill-publish` comes with:
-- [sbt-ci-release](https://github.com/olafurpg/sbt-ci-release)
+- [sbt-ci-release](https://github.com/sbt/sbt-ci-release)
 
 `sbt-softwaremill-extra` comes with:
 - [sbt-updates](https://github.com/rtimush/sbt-updates)
@@ -78,7 +78,7 @@ The release process is broken into two steps:
 2. *remote*: `sbt ci-release`. This sbt command should be run on GH actions, triggered when a new tag is pushed. It
    publishes the artifacts to sonatype, and invokes repository release.
    
-To setup the remote part, follow the guide on [sbt-ci-release](https://github.com/olafurpg/sbt-ci-release). You can
+To setup the remote part, follow the guide on [sbt-ci-release](https://github.com/sbt/sbt-ci-release). You can
 also take a look at this project's `.github/workflows/ci.yml`.
 
 You might need to explicitly set the sonatype profile name:

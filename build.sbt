@@ -6,12 +6,7 @@ import sbtsoftwaremill.BuildInfo
 val commonSettings = Publish.ossPublishSettings ++ Seq(
   scalaVersion := "2.12.20",
   organization := "com.softwaremill.sbt-softwaremill",
-  sbtVersion in Global := {
-    scalaBinaryVersion.value match {
-      case "2.10" => "0.13.17"
-      case "2.12" => "1.11.7"
-    }
-  }
+  pluginCrossBuild / sbtVersion := "1.11.7"
 )
 
 lazy val root = project
@@ -85,7 +80,7 @@ lazy val browserTestJs = project
     sbtPlugin := true,
     scriptedLaunchOpts += ("-Dplugin.version=" + version.value)
   )
-  .settings(    
+  .settings(
     addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.20.1"),
     // playwright dependencies, copied from https://github.com/gmkumar2005/scala-js-env-playwright/blob/main/build.sbt
     libraryDependencies ++= Seq(
