@@ -43,7 +43,8 @@ object PageFactory {
       IO {
         scribe.debug(s"Closing browser with ${browser.hashCode()}")
         browser.close()
-      })
+      }
+    )
 
   private def playWrightBuilder: Resource[IO, Playwright] =
     Resource.make(IO {
@@ -53,7 +54,8 @@ object PageFactory {
       IO {
         scribe.debug("Closing playwright")
         pw.close()
-      })
+      }
+    )
 
   def createPage(
       browserName: String,

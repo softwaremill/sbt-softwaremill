@@ -54,9 +54,8 @@ object FileMaterializer {
   }
 }
 
-/**
- * materializes virtual files in a temp directory (uses file:// schema).
- */
+/** materializes virtual files in a temp directory (uses file:// schema).
+  */
 private class TempDirFileMaterializer extends FileMaterializer {
   override def materialize(path: Path): URL = {
     try {
@@ -72,8 +71,7 @@ private class TempDirFileMaterializer extends FileMaterializer {
   protected def toURL(file: Path): URL = file.toUri.toURL
 }
 
-private class ServerDirFileMaterializer(contentDir: Path, webRoot: URL)
-    extends FileMaterializer {
+private class ServerDirFileMaterializer(contentDir: Path, webRoot: URL) extends FileMaterializer {
   Files.createDirectories(contentDir)
 
   protected def createTmp(suffix: String): Path =

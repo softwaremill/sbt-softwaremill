@@ -9,24 +9,23 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import scala.util.control.NonFatal
 
-/**
- * Playwright JS environment
- *
- * @param browserName
- *   browser name, options are "chromium", "chrome", "firefox", "webkit", default is "chromium"
- * @param headless
- *   headless mode, default is true
- * @param showLogs
- *   show logs, default is false
- * @param debug
- *   debug mode, default is false
- * @param pwConfig
- *   Playwright configuration
- * @param launchOptions
- *   override launch options, if not provided default launch options are used
- * @param additionalLaunchOptions
- *   additional launch options (added to (default) launch options)
- */
+/** Playwright JS environment
+  *
+  * @param browserName
+  *   browser name, options are "chromium", "chrome", "firefox", "webkit", default is "chromium"
+  * @param headless
+  *   headless mode, default is true
+  * @param showLogs
+  *   show logs, default is false
+  * @param debug
+  *   debug mode, default is false
+  * @param pwConfig
+  *   Playwright configuration
+  * @param launchOptions
+  *   override launch options, if not provided default launch options are used
+  * @param additionalLaunchOptions
+  *   additional launch options (added to (default) launch options)
+  */
 class PWEnv(
     browserName: String = "chromium",
     headless: Boolean = true,
@@ -47,14 +46,7 @@ class PWEnv(
   override def start(input: Seq[Input], runConfig: RunConfig): JSRun = {
     try {
       validator.validate(runConfig)
-      new CERun(
-        browserName,
-        headless,
-        pwConfig,
-        runConfig,
-        input,
-        launchOptions,
-        additionalLaunchOptions)
+      new CERun(browserName, headless, pwConfig, runConfig, input, launchOptions, additionalLaunchOptions)
     } catch {
       case ve: java.lang.IllegalArgumentException =>
         scribe.error(s"CEEnv.startWithCom failed with throw ve $ve")
@@ -100,59 +92,50 @@ object PWEnv {
   ) {
     import Config.Materialization
 
-    /**
-     * Materializes purely virtual files into a temp directory.
-     *
-     * Materialization is necessary so that virtual files can be referred to by name. If you do
-     * not know/care how your files are referred to, this is a good default choice. It is also
-     * the default of [[PWEnv.Config]].
-     */
+    /** Materializes purely virtual files into a temp directory.
+      *
+      * Materialization is necessary so that virtual files can be referred to by name. If you do not know/care how your files are referred
+      * to, this is a good default choice. It is also the default of [[PWEnv.Config]].
+      */
     def withMaterializeInTemp: Config =
       copy(materialization = Materialization.Temp)
 
-    /**
-     * Materializes files in a static directory of a user configured server.
-     *
-     * This can be used to bypass cross origin access policies.
-     *
-     * @param contentDir
-     *   Static content directory of the server. The files will be put here. Will get created if
-     *   it doesn't exist.
-     * @param webRoot
-     *   URL making `contentDir` accessible thorugh the server. This must have a trailing slash
-     *   to be interpreted as a directory.
-     *
-     * @example
-     *
-     * The following will make the browser fetch files using the http:// schema instead of the
-     * file:// schema. The example assumes a local webserver is running and serving the ".tmp"
-     * directory at http://localhost:8080.
-     *
-     * {{{
-     *  jsSettings(
-     *    jsEnv := new SeleniumJSEnv(
-     *        new org.openqa.selenium.firefox.FirefoxOptions(),
-     *        SeleniumJSEnv.Config()
-     *          .withMaterializeInServer(".tmp", "http://localhost:8080/")
-     *    )
-     *  )
-     * }}}
-     */
+    /** Materializes files in a static directory of a user configured server.
+      *
+      * This can be used to bypass cross origin access policies.
+      *
+      * @param contentDir
+      *   Static content directory of the server. The files will be put here. Will get created if it doesn't exist.
+      * @param webRoot
+      *   URL making `contentDir` accessible thorugh the server. This must have a trailing slash to be interpreted as a directory.
+      *
+      * @example
+      *
+      * The following will make the browser fetch files using the http:// schema instead of the file:// schema. The example assumes a local
+      * webserver is running and serving the ".tmp" directory at http://localhost:8080.
+      *
+      * {{{
+      *  jsSettings(
+      *    jsEnv := new SeleniumJSEnv(
+      *        new org.openqa.selenium.firefox.FirefoxOptions(),
+      *        SeleniumJSEnv.Config()
+      *          .withMaterializeInServer(".tmp", "http://localhost:8080/")
+      *    )
+      *  )
+      * }}}
+      */
     def withMaterializeInServer(contentDir: String, webRoot: String): Config =
       withMaterializeInServer(Paths.get(contentDir), new URI(webRoot).toURL)
 
-    /**
-     * Materializes files in a static directory of a user configured server.
-     *
-     * Version of `withMaterializeInServer` with stronger typing.
-     *
-     * @param contentDir
-     *   Static content directory of the server. The files will be put here. Will get created if
-     *   it doesn't exist.
-     * @param webRoot
-     *   URL making `contentDir` accessible thorugh the server. This must have a trailing slash
-     *   to be interpreted as a directory.
-     */
+    /** Materializes files in a static directory of a user configured server.
+      *
+      * Version of `withMaterializeInServer` with stronger typing.
+      *
+      * @param contentDir
+      *   Static content directory of the server. The files will be put here. Will get created if it doesn't exist.
+      * @param webRoot
+      *   URL making `contentDir` accessible thorugh the server. This must have a trailing slash to be interpreted as a directory.
+      */
     def withMaterializeInServer(contentDir: Path, webRoot: URL): Config =
       copy(materialization = Materialization.Server(contentDir, webRoot))
 
