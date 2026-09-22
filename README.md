@@ -1,9 +1,12 @@
 # sbt-softwaremill
 
-[![Build Status](https://travis-ci.org/softwaremill/sbt-softwaremill.svg?branch=master)](https://travis-ci.org/softwaremill/sbt-softwaremill)
+[![CI](https://github.com/softwaremill/sbt-softwaremill/actions/workflows/ci.yml/badge.svg)](https://github.com/softwaremill/sbt-softwaremill/actions/workflows/ci.yml)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.softwaremill.sbt-softwaremill/sbt-softwaremill-common/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.softwaremill.sbt-softwaremill/sbt-softwaremill-common)  
 
 A sane set of common build settings.
+
+Starting with 3.0.0, the plugins require sbt 2 (2.0.0 or newer) and JDK 17+. Projects still on sbt 1.x should use
+the 2.1.x series.
 
 ## Usage
 
@@ -13,7 +16,6 @@ file:
 ````scala
 addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-common" % "2.1.2")
 addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-publish" % "2.1.2")
-addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-extra" % "2.1.2")
 addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-browser-test-js" % "2.1.2")
 ````
 
@@ -38,12 +40,7 @@ commonSmlBuildSettings
 import com.softwaremill.Publish.ossPublishSettings
 ossPublishSettings
 
-// extra - use all or choose
-lazy val extraSmlBuildSettings =
-  dependencyUpdatesSettings ++  // check dependency updates on startup (max once per 12h)
-  dependencyCheckSettings
-
-// downloads the appropriate chrome/gecko driver for testing scala.js using scalajs-env-selenium and sets the jsenv
+// sets the jsenv to run scala.js tests in a headless chrome/firefox browser, using playwright
 import com.softwaremill.SbtSoftwareMillBrowserTestJS.{browserChromeTestSettings, browserGeckoTestSettings}
 browserChromeTestSettings
 browserGeckoTestSettings 
@@ -55,11 +52,7 @@ browserGeckoTestSettings
 - [sbt-salad-days](https://github.com/sbt/sbt-salad-days)
 
 `sbt-softwaremill-publish` comes with:
-- [sbt-ci-release](https://github.com/olafurpg/sbt-ci-release)
-
-`sbt-softwaremill-extra` comes with:
-- [sbt-updates](https://github.com/rtimush/sbt-updates)
-- [sbt-dependency-check](https://github.com/albuch/sbt-dependency-check)
+- [sbt-ci-release](https://github.com/sbt/sbt-ci-release)
 
 ## JS testing
 
@@ -78,20 +71,19 @@ The release process is broken into two steps:
 2. *remote*: `sbt ci-release`. This sbt command should be run on GH actions, triggered when a new tag is pushed. It
    publishes the artifacts to sonatype, and invokes repository release.
    
-To setup the remote part, follow the guide on [sbt-ci-release](https://github.com/olafurpg/sbt-ci-release). You can
+To setup the remote part, follow the guide on [sbt-ci-release](https://github.com/sbt/sbt-ci-release). You can
 also take a look at this project's `.github/workflows/ci.yml`.
-
-You might need to explicitly set the sonatype profile name:
-
-```scala
-val commonSettings = ossPublishSettings ++ Seq(
-  sonatypeProfileName := "com.example"
-)
-```
 
 ## Releasing sbt-softwaremill
 
 sbt-softwaremill release process is setup on GH Actions. This plugin uses itself to publish binaries to oss-sonatype.
+
+## Note for migrating from sbt-softwaremill 2.x series
+
+The 3.x series supports only sbt 2. Moreover:
+
+- the `sbt-softwaremill-extra` module is removed. Use [Scala Steward](https://github.com/scala-steward-org/scala-steward)
+  for dependency updates; if you need `sbt-updates` or `sbt-dependency-check`, add them to your build directly.
 
 ## Note for migrating from sbt-softwaremill 1.x series
 

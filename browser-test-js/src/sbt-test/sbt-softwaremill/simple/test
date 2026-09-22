@@ -1,0 +1,4 @@
+> Test/compile
+> show Test/jsEnv
+> checkScalaJsFlag
+> Test/fastLinkJS

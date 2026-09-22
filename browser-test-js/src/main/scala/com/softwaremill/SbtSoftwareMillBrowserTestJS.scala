@@ -5,7 +5,7 @@ import Keys._
 import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport.{jsEnv, scalaJSLinkerConfig}
 
 object SbtSoftwareMillBrowserTestJS {
-  val browserCommonTestSetting: Seq[Def.Setting[_]] = Seq(
+  val browserCommonTestSetting: Seq[Def.Setting[?]] = Seq(
     // https://github.com/scalaz/scalaz/pull/1734#issuecomment-385627061
     scalaJSLinkerConfig ~= {
       _.withBatchMode(
@@ -16,21 +16,16 @@ object SbtSoftwareMillBrowserTestJS {
     }
   )
 
-  val browserChromeTestSettings: Seq[Def.Setting[_]] =
+  private def playwrightEnv(browserName: String) =
+    new jsenv.playwright.PWEnv(browserName = browserName, headless = true, showLogs = true)
+
+  val browserChromeTestSettings: Seq[Def.Setting[?]] =
     browserCommonTestSetting ++ Seq(
-      Test / jsEnv := new jsenv.playwright.PWEnv(
-        browserName = "chrome",
-        headless = true,
-        showLogs = true
-      )
+      Test / jsEnv := Def.uncached(playwrightEnv("chrome"))
     )
 
-  val browserGeckoTestSettings: Seq[Def.Setting[_]] =
+  val browserGeckoTestSettings: Seq[Def.Setting[?]] =
     browserCommonTestSetting ++ Seq(
-      Test / jsEnv := new jsenv.playwright.PWEnv(
-        browserName = "firefox",
-        headless = true,
-        showLogs = true
-      )
+      Test / jsEnv := Def.uncached(playwrightEnv("firefox"))
     )
 }

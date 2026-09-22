@@ -19,11 +19,11 @@ object CEUtils {
       materializer: FileMaterializer
   ): String = {
     val tags = fullInput.map {
-      case Input.Script(path) => makeTag(path, "text/javascript", materializer)
+      case Input.Script(path)         => makeTag(path, "text/javascript", materializer)
       case Input.CommonJSModule(path) =>
         makeTag(path, "text/javascript", materializer)
       case Input.ESModule(path) => makeTag(path, "module", materializer)
-      case _ => throw new UnsupportedInputException(fullInput)
+      case _                    => throw new UnsupportedInputException(fullInput)
     }
 
     s"""<html>
@@ -47,9 +47,7 @@ object CEUtils {
   def setupLogger(showLogs: Boolean, debug: Boolean): Unit = {
     val formatter =
       formatter"$dateFull [$threadName] $classNameSimple $level $methodName - $messages$mdc"
-    scribe
-      .Logger
-      .root
+    scribe.Logger.root
       .clearHandlers()
       .withHandler(
         formatter = formatter

@@ -1,0 +1,6 @@
+# Deprecated.scala emits a warning, but it's not fatal
+> + compile
+> scalafmtCheckAll
+# With -Werror re-added, the deprecation warning (enabled by tpolecat) fails compilation
+> set scalacOptions += "-Werror"
+-> compile

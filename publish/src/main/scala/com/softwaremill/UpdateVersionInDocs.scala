@@ -47,7 +47,7 @@ object UpdateVersionInDocs {
           })
         }
 
-        def replaceDocsInDirectory(d: File) {
+        def replaceDocsInDirectory(d: File): Unit = {
           Option(d.listFiles()).foreach(_.foreach { f =>
             if (f.isDirectory) {
               replaceDocsInDirectory(f)

@@ -7,20 +7,18 @@ import java.net.URI
 
 trait Publish {
   lazy val ossPublishSettings = Seq(
-    organizationHomepage := Some(url("https://softwaremill.com")),
-    homepage := Some(url("http://softwaremill.com/open-source")),
-    licenses := Seq(
-      "Apache 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")
-    ),
+    organizationHomepage := Some(uri("https://softwaremill.com")),
+    homepage := Some(uri("http://softwaremill.com/open-source")),
+    licenses := Seq(License.Apache2),
     developers := List(
       Developer(
         id = "softwaremill",
         name = "SoftwareMill",
         email = "info@softwaremill.com",
-        url = URI.create("https://softwaremill.com").toURL()
+        url = URI.create("https://softwaremill.com")
       )
     ),
-    updateDocs := UpdateVersionInDocs(sLog.value, organization.value, version.value),
+    updateDocs := Def.uncached(UpdateVersionInDocs(sLog.value, organization.value, version.value)),
     commands += releaseCommand
   )
 

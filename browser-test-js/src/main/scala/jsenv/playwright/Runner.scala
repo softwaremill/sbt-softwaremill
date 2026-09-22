@@ -13,7 +13,7 @@ import org.scalajs.jsenv.RunConfig
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.atomic.AtomicBoolean
 import scala.concurrent.duration.DurationInt
-import scala.jdk.CollectionConverters.seqAsJavaListConverter
+import scala.jdk.CollectionConverters._
 
 trait Runner {
   val browserName: String = "" // or provide actual values
@@ -91,18 +91,16 @@ trait Runner {
     )
   } yield ()
 
-  /**
-   * Stops the run and releases all the resources.
-   *
-   * This <strong>must</strong> be called to ensure the run's resources are released.
-   *
-   * Whether or not this makes the run fail or not is up to the implementation. However, in the
-   * following cases, calling [[close]] may not fail the run: <ul> <li>[[Future]] is already
-   * completed when [[close]] is called. <li>This is a [[CERun]] and the event loop inside the
-   * VM is empty. </ul>
-   *
-   * Idempotent, async, nothrow.
-   */
+  /** Stops the run and releases all the resources.
+    *
+    * This <strong>must</strong> be called to ensure the run's resources are released.
+    *
+    * Whether or not this makes the run fail or not is up to the implementation. However, in the following cases, calling [[close]] may not
+    * fail the run: <ul> <li>[[Future]] is already completed when [[close]] is called. <li>This is a [[CERun]] and the event loop inside the
+    * VM is empty. </ul>
+    *
+    * Idempotent, async, nothrow.
+    */
 
   def close(): Unit = {
     wantToClose.set(true)
