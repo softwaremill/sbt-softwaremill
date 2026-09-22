@@ -1,2 +1,6 @@
+# Deprecated.scala emits a warning, but it's not fatal
 > + compile
 > scalafmtCheckAll
+# The warning is fatal with default flags added by tpolecat plugin
+> set scalacOptions ++= Seq("-Xfatal-warnings", "-Werror")
+-> compile
