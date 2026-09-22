@@ -2,5 +2,5 @@
 > + compile
 > scalafmtCheckAll
 # The warning is fatal with default flags added by tpolecat plugin
-> set scalacOptions ++= Seq("-Xfatal-warnings", "-Werror")
+> set scalacOptions += "-Werror"
 -> compile
