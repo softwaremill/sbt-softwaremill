@@ -8,7 +8,8 @@ val commonSettings = Publish.ossPublishSettings ++ Seq(
   organization := "com.softwaremill.sbt-softwaremill",
   pluginCrossBuild / sbtVersion := "2.0.0",
   javacOptions ++= Seq("--release", "17"),
-  scalacOptions ++= Seq("-release", "17")
+  scalacOptions ++= Seq("-release", "17"),
+  scriptedBufferLog := false
 )
 
 lazy val root = project
