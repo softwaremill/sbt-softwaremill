@@ -2,6 +2,7 @@ package com.softwaremill
 
 import sbt.Keys._
 import sbt._
+import sbt.softwaremill.TerminalReader
 import sbtdynver.DynVerPlugin.autoImport.dynverTagPrefix
 import java.net.URI
 
@@ -56,7 +57,7 @@ trait Publish {
   }
 
   private def readNextVersion(): String =
-    SimpleReader.readLine("Release version: ") match {
+    TerminalReader.readLine("Release version: ") match {
       case Some("")    => sys.error("Aborting, empty version provided!")
       case None        => sys.error("Aborting, no version provided!")
       case Some(input) => input
@@ -68,7 +69,7 @@ trait Publish {
     }
 
   private def pushChanges(state: State): State =
-    SimpleReader.readLine("Push changes? [y/n] ") match {
+    TerminalReader.readLine("Push changes? [y/n] ") match {
       case Some("y") =>
         val state2 = processCommandOrThrow(s"git push", state)
         processCommandOrThrow(s"git push --tags", state2)

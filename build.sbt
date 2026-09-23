@@ -53,7 +53,8 @@ lazy val publish = project
   .settings(
     addSbtPlugin(
       "com.github.sbt" % "sbt-ci-release" % BuildInfo.sbtCiReleaseVersion
-    )
+    ),
+    addSbtPlugin("com.github.sbt" % "sbt-git" % BuildInfo.sbtGitVersion)
   )
 
 lazy val browserTestJs = project
