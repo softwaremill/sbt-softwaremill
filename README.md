@@ -5,18 +5,15 @@
 
 A sane set of common build settings.
 
-Starting with 3.0.0, the plugins require sbt 2 (2.0.0 or newer) and JDK 17+. Projects still on sbt 1.x should use
-the 2.1.x series.
-
 ## Usage
 
 For each project where you'd like to use the build settings, add some or all of the following your `project/plugins.sbt`
 file:
 
 ````scala
-addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-common" % "2.1.2")
-addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-publish" % "2.1.2")
-addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-browser-test-js" % "2.1.2")
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-common" % "3.0.0")
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-publish" % "3.0.0")
+addSbtPlugin("com.softwaremill.sbt-softwaremill" % "sbt-softwaremill-browser-test-js" % "3.0.0")
 ````
 
 Now you can add the appropriate settings in your `build.sbt`, e.g.:
